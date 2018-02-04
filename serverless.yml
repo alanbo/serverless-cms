@@ -1,0 +1,20 @@
+service:
+  name: serverless-cms
+
+# Add the serverless-webpack plugin
+plugins:
+  - serverless-webpack
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+
+functions:
+  first:
+    handler: functions/first.hello
+  second:
+    handler: functions/second.hello
+    events:
+      - http:
+          method: get
+          path: second
