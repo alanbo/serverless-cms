@@ -1,5 +1,5 @@
 service:
-  name: serverless-cms
+  name: serverless-cms-dev
 
 # Add the serverless-webpack plugin
 plugins:
@@ -9,12 +9,42 @@ provider:
   name: aws
   runtime: nodejs6.10
 
+  stage: dev
+  region: us-west-2
+
 functions:
-  first:
-    handler: functions/first.hello
-  second:
-    handler: functions/second.hello
+  resize:
+    handler: functions/resize-images.resizeImages
+
+    role: resizeRole
+
     events:
-      - http:
-          method: get
-          path: second
+      - s3:
+          bucket: ${self:service}
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: images/temp/
+            - suffix: .jpg
+
+    environment:
+      BUCKET: ${self:service},
+      IMG_TABLE: ${self:service}-images
+
+  createPage:
+    handler: functions/create-page.createPage
+    role: createPageRole
+    environment:
+      BUCKET: ${self:service}
+      IMG_TABLE: ${self:service}-images
+      PAGES_TABLE: ${self:service}-pages
+      MENUS_TABLE: ${self:service}-menus
+
+
+resources:
+  Resources:
+    resizeRole: ${file(./settings/roles/resizeRole.yml)}
+    createPageRole: ${file(./settings/roles/createPageRole.yml)}
+
+    imagesTable: ${file(./settings/tables.yml):imagesTable}
+    pagesTable: ${file(./settings/tables.yml):pagesTable}
+    menusTable: ${file(./settings/tables.yml):menusTable}
