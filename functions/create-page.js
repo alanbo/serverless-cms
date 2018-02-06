@@ -1,3 +1,5 @@
+import aws from 'aws-sdk';
+
 // eslint-disable-next-line import/prefer-default-export
 export const hello = (event, context, cb) => {
   const p = new Promise((resolve) => {
