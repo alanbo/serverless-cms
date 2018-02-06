@@ -8,9 +8,13 @@ module.exports = {
   module: {
     loaders: [{
       test: /\.js$/,
-      loaders: ['babel-loader'],
+      loader: 'babel-loader',
       include: __dirname,
       exclude: /node_modules/,
+      query: {
+        plugins: ['transform-runtime'],
+        presets: ['babel-preset-env'],
+      }
     }],
   },
   output: {
