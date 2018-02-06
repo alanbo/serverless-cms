@@ -7,15 +7,19 @@
     "sls": "./node_modules/serverless/bin/serverless"
   },
   "devDependencies": {
+    "async-to-generator": "^1.1.0",
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.1",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-polyfill": "^6.23.0",
-    "babel-preset-env": "^1.6.0",
+    "babel-preset-env": "^1.6.1",
     "serverless": "^1.26.0",
     "serverless-webpack": "^3.1.1",
     "webpack": "^3.3.0"
   },
   "author": "The serverless webpack authors (https://github.com/elastic-coders/serverless-webpack)",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "gm": "^1.23.1"
+  }
 }
