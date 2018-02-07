@@ -2,6 +2,7 @@ import AWS from 'aws-sdk';
 import getImage from './resize-images/get-image';
 import transformImages from './resize-images/transform-images';
 import uploadImages from './resize-images/upload-images';
+import storeImageData from './resize-images/storeImageData';
 
 // eslint-disable-next-line import/prefer-default-export
 export const resizeImages = async function(event, context, callback) {
@@ -17,7 +18,8 @@ export const resizeImages = async function(event, context, callback) {
     const images = await transformImages(buffer);
     const upload_data = { images, buffer, metadata, bucket, filename, content_type };
 
-    const stored_images = await uploadImages(upload_data);
+    await uploadImages(upload_data);
+    await storeImageData(metadata, filename, stored_images);
 
   } catch(e) {
     console.log(e);
