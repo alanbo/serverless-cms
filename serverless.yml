@@ -13,6 +13,17 @@ provider:
   region: us-west-2
 
 functions:
+  update_data:
+    handler: functions/update-data.updateData
+    role: updateDbRole
+    events:
+      - http: PUT fragment
+      - http: PATCH fragment
+      - http: DELETE fragment
+      
+    environment:
+      FRAGMENTS_TABLE: ${self:service}-fragments
+
   resize:
     handler: functions/resize-images.resizeImages
 
@@ -29,6 +40,7 @@ functions:
     environment:
       BUCKET: ${self:service},
       IMG_TABLE: ${self:service}-images
+      FRAGMENTS_TABLE: ${self:service}-fragments
 
   createPage:
     handler: functions/create-page.createPage
@@ -44,7 +56,9 @@ resources:
   Resources:
     resizeRole: ${file(./settings/roles/resizeRole.yml)}
     createPageRole: ${file(./settings/roles/createPageRole.yml)}
+    updateDbRole: ${file(./settings/roles/updateDbRole.yml)}
 
     imagesTable: ${file(./settings/tables.yml):imagesTable}
     pagesTable: ${file(./settings/tables.yml):pagesTable}
     menusTable: ${file(./settings/tables.yml):menusTable}
+    fragmentsTable: ${file(./settings/tables.yml):fragmentsTable}
