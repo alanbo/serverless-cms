@@ -50,3 +50,19 @@ menusTable:
     ProvisionedThroughput:
       ReadCapacityUnits: 1
       WriteCapacityUnits: 1
+
+fragmentsTable:
+  Type: AWS::DynamoDB::Table
+  Properties:
+    TableName: ${self:service}-fragments
+    AttributeDefinitions:
+      - AttributeName: id
+        AttributeType: S
+
+    KeySchema:
+      - AttributeName: id
+        KeyType: HASH
+
+    ProvisionedThroughput:
+      ReadCapacityUnits: 1
+      WriteCapacityUnits: 1
