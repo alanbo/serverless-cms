@@ -18,9 +18,9 @@ functions:
     role: updateDbRole
     events:
       - http: PUT fragment
-      - http: PATCH fragment
-      - http: DELETE fragment
-      
+      - http: PATCH fragment/{id}
+      - http: DELETE fragment/{id}
+
     environment:
       FRAGMENTS_TABLE: ${self:service}-fragments
 
