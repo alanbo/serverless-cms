@@ -62,3 +62,4 @@ resources:
     pagesTable: ${file(./settings/tables.yml):pagesTable}
     menusTable: ${file(./settings/tables.yml):menusTable}
     fragmentsTable: ${file(./settings/tables.yml):fragmentsTable}
+    userPool:  ${file(./settings/cognito.yml)}
