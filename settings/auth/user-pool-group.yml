@@ -1,0 +1,8 @@
+Type: "AWS::Cognito::UserPoolGroup"
+Properties:
+  Description: Allows to use api endpoint to edit data
+  GroupName: dataEditor
+  RoleArn:
+    Fn::GetAtt: ["updateDbRole", "Arn"]
+  UserPoolId:
+    Ref: userPool
