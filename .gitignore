@@ -7,3 +7,8 @@ jspm_packages
 
 # Webpack directories
 .webpack
+
+package-lock.json
+
+user-data.yml
+stack.yml

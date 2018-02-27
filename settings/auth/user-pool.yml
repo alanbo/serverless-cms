@@ -1,0 +1,25 @@
+Type: "AWS::Cognito::UserPool"
+Properties:
+  AdminCreateUserConfig:
+    AllowAdminCreateUserOnly: True
+    InviteMessageTemplate:
+      EmailMessage: |
+        Welcome to ${self:service}.
+        Username: {username}.
+        Password: {####}
+      EmailSubject: ${self:service}
+    UnusedAccountValidityDays: 30
+  MfaConfiguration: OFF
+  AliasAttributes:
+    - email
+    - preferred_username
+  AutoVerifiedAttributes:
+    - email
+  Policies:
+    PasswordPolicy:
+      MinimumLength: 8
+      RequireLowercase: true
+      RequireNumbers: true
+      RequireSymbols: true
+      RequireUppercase: true
+  UserPoolName: ${self:service}-user-pool
