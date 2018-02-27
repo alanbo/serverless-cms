@@ -1,0 +1,7 @@
+Type: "AWS::Cognito::UserPoolClient"
+Properties:
+  ClientName: serverless-cms-admin
+  GenerateSecret: False
+  RefreshTokenValidity: 30
+  UserPoolId:
+    Ref: userPool

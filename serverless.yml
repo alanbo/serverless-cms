@@ -4,6 +4,10 @@ service:
 # Add the serverless-webpack plugin
 plugins:
   - serverless-webpack
+  - serverless-stack-output
+custom:
+  output:
+    file: ./stack.yml
 
 provider:
   name: aws
@@ -17,9 +21,24 @@ functions:
     handler: functions/update-data.updateData
     role: updateDbRole
     events:
-      - http: PUT fragment
-      - http: PATCH fragment/{id}
-      - http: DELETE fragment/{id}
+      - http:
+          method: put
+          path: fragment
+          authorizer:
+            arn:
+              ${file(./user-data.yml):cognito_arn}
+      - http:
+          method: patch
+          path: fragment/{id}
+          authorizer:
+            arn:
+              ${file(./user-data.yml):cognito_arn}
+      - http:
+          method: delete
+          path: fragment/{id}
+          authorizer:
+            arn:
+              ${file(./user-data.yml):cognito_arn}
 
     environment:
       FRAGMENTS_TABLE: ${self:service}-fragments
@@ -62,4 +81,14 @@ resources:
     pagesTable: ${file(./settings/tables.yml):pagesTable}
     menusTable: ${file(./settings/tables.yml):menusTable}
     fragmentsTable: ${file(./settings/tables.yml):fragmentsTable}
-    userPool:  ${file(./settings/cognito.yml)}
+    userPool:  ${file(./settings/auth/user-pool.yml)}
+    userPoolGroup: ${file(./settings/auth/user-pool-group.yml)}
+    userPoolClient: ${file(./settings/auth/user-pool-client.yml)}
+
+  Outputs:
+    CognitoARN:
+      Value:
+        Fn::GetAtt: ["userPool", "Arn"]
+    UserPoolClientID:
+      Value:
+        Ref: userPoolClient
