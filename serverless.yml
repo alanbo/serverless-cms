@@ -8,6 +8,7 @@ plugins:
 custom:
   output:
     file: ./stack.yml
+    handler: scripts/client.handler
 
 provider:
   name: aws
@@ -24,21 +25,21 @@ functions:
       - http:
           method: put
           path: fragment
-          authorizer:
-            arn:
-              ${file(./user-data.yml):cognito_arn}
+          # authorizer:
+          #   arn:
+          #     ${file(./user-data.yml):cognito_arn}
       - http:
           method: patch
           path: fragment/{id}
-          authorizer:
-            arn:
-              ${file(./user-data.yml):cognito_arn}
+          # authorizer:
+          #   arn:
+          #     ${file(./user-data.yml):cognito_arn}
       - http:
           method: delete
           path: fragment/{id}
-          authorizer:
-            arn:
-              ${file(./user-data.yml):cognito_arn}
+          # authorizer:
+          #   arn:
+          #     ${file(./user-data.yml):cognito_arn}
 
     environment:
       FRAGMENTS_TABLE: ${self:service}-fragments
