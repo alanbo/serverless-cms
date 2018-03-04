@@ -13,4 +13,4 @@ package-lock.json
 user-data.yml
 stack.yml
 
-public/admin/cognito.js
+public/admin/src/cognito.js
