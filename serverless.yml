@@ -8,6 +8,7 @@ plugins:
 custom:
   output:
     file: ./stack.yml
+    handler: scripts/client.handler
 
 provider:
   name: aws
@@ -86,9 +87,15 @@ resources:
     userPoolClient: ${file(./settings/auth/user-pool-client.yml)}
 
   Outputs:
+    region:
+      Value:
+        Ref: "AWS::Region"
     CognitoARN:
       Value:
         Fn::GetAtt: ["userPool", "Arn"]
-    UserPoolClientID:
+    userPoolId:
+      Value:
+        Ref: userPool
+    userPoolWebClientId:
       Value:
         Ref: userPoolClient
