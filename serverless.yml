@@ -25,21 +25,18 @@ functions:
       - http:
           method: put
           path: fragment
-          authorizer:
-            arn:
-              ${file(./user-data.yml):cognito_arn}
+          authorizer: aws_iam
+          cors: true
       - http:
           method: patch
           path: fragment/{id}
-          authorizer:
-            arn:
-              ${file(./user-data.yml):cognito_arn}
+          authorizer: aws_iam
+          cors: true
       - http:
           method: delete
           path: fragment/{id}
-          authorizer:
-            arn:
-              ${file(./user-data.yml):cognito_arn}
+          authorizer: aws_iam
+          cors: true
 
     environment:
       FRAGMENTS_TABLE: ${self:service}-fragments
