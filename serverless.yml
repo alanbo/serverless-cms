@@ -26,14 +26,17 @@ functions:
           method: put
           path: fragment
           authorizer: aws_iam
+          cors: true
       - http:
           method: patch
           path: fragment/{id}
           authorizer: aws_iam
+          cors: true
       - http:
           method: delete
           path: fragment/{id}
           authorizer: aws_iam
+          cors: true
 
     environment:
       FRAGMENTS_TABLE: ${self:service}-fragments
