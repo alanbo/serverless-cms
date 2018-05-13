@@ -85,6 +85,7 @@ resources:
     userPoolClient: ${file(./settings/auth/user-pool-client.yml)}
 
     graphQLApi: ${file(./settings/graphql-api/graphql.yml)}
+    graphQLKey: ${file(./settings/graphql-api/graphql-key.yml)}
 
 
 
@@ -111,3 +112,6 @@ resources:
     GraphQLApiId:
       Value:
         Fn::GetAtt: ["graphQLApi", "ApiId"]
+    GraphQLApiKey:
+      Value:
+        Fn::GetAtt: ["graphQLKey", "ApiKey"]

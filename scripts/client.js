@@ -8,7 +8,8 @@ function handler ({
   ServiceEndpoint,
   GraphQLUrl,
   GraphQLARN,
-  GraphQLApiId
+  GraphQLApiId,
+  GraphQLApiKey
 }, serverless, options) {
   const client_data = { region, userPoolId, userPoolWebClientId };
   const client_vars = { endpoint: ServiceEndpoint, graphqlApiId: GraphQLApiId };
@@ -22,7 +23,7 @@ function handler ({
     "graphqlEndpoint": GraphQLUrl,
     "region": region,
     "authenticationType": "AMAZON_COGNITO_USER_POOLS",
-    "apiKey": "null"
+    "apiKey": GraphQLApiKey
   }
 
   const app_sync = `export default ${JSON.stringify(app_sync_obj, null, '  ')}`;
