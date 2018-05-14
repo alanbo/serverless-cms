@@ -1,0 +1,12 @@
+Type: "AWS::AppSync::DataSource"
+Properties:
+  Type: AMAZON_DYNAMODB
+  Description: Database storing all the fragments of the website.
+  ServiceRoleArn:
+    Fn::GetAtt: ["updateDbRole", "Arn"]
+  ApiId:
+    Fn::GetAtt: ["graphQLApi", "ApiId"]
+  Name: fragments_database
+  DynamoDBConfig:
+    TableName: ${self:service}-fragments
+    AwsRegion: ${self:provider.region}
