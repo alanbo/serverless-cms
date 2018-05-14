@@ -1,4 +1,3 @@
 module.exports = () => {
-  const currentDatePlusYear = new Date();
-  return currentDatePlusYear.setFullYear(currentDatePlusYear.getFullYear() + 1) - 86400000;
+  return Math.round((new Date()).getTime() / 1000) + 31449600;
 }
