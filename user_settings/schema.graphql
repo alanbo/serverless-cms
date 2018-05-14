@@ -1,0 +1,17 @@
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Query {
+    getText(id: ID!): Text
+}
+
+type Mutation {
+    putText(id: ID!, title: String!): Text
+}
+
+type Text {
+    id: ID!
+    text: String!
+}
