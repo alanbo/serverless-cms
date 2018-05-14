@@ -87,6 +87,7 @@ resources:
     graphQLApi: ${file(./settings/graphql-api/graphql.yml)}
     graphQLKey: ${file(./settings/graphql-api/graphql-key.yml)}
     graphQLData: ${file(./settings/graphql-api/graphql-datasource.yml)}
+    graphQLSchema: ${file(./settings/graphql-api/graphql-schema.yml)}
 
 
   Outputs:
