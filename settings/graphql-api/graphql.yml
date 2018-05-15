@@ -4,6 +4,6 @@ Properties:
     UserPoolId:
       Ref: userPool
     AwsRegion: ${self:provider.region}
-    DefaultAction: DENY
+    DefaultAction: ALLOW
   Name: ${self:service}-graphql-api
   AuthenticationType: AMAZON_COGNITO_USER_POOLS
