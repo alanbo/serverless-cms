@@ -15,3 +15,4 @@ stack.yml
 
 public/admin/src/cognito.js
 public/admin/src/aws-stack-vars.js
+public/admin/src/AppSync.js

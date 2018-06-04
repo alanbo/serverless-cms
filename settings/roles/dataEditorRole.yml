@@ -1,0 +1,27 @@
+Type: AWS::IAM::Role
+Properties:
+  RoleName: ${self:service}--dataEditor
+  AssumeRolePolicyDocument:
+    Version: '2012-10-17'
+    Statement:
+      - Effect: Allow
+        Principal:
+          Federated:
+            - cognito-identity.amazonaws.com
+        Action: sts:AssumeRole
+  Policies:
+    - PolicyName: ${self:service}--dataEditor
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Action: appsync:GraphQL
+          Resource:
+            Fn::GetAtt: ["graphQLApi", "Arn"]
+        - Effect: Allow
+          Action: appsync:GraphQL
+          Resource:
+            Fn::Join:
+              - ''
+              - - Fn::GetAtt: ["graphQLApi", "Arn"]
+                - /types/*/fields/*

@@ -7,7 +7,7 @@ function storeImageData(metadata, filename, paths) {
     TableName: IMG_TABLE,
     Item: {
       filename: filename,
-      timestamp: (new Date().toJSON()).toString(),
+      createdAt: (new Date()).getTime(),
       gallery: metadata.gallery || 'general',
       metadata,
       paths

@@ -79,9 +79,26 @@ resources:
     pagesTable: ${file(./settings/tables.yml):pagesTable}
     menusTable: ${file(./settings/tables.yml):menusTable}
     fragmentsTable: ${file(./settings/tables.yml):fragmentsTable}
+
     userPool:  ${file(./settings/auth/user-pool.yml)}
     userPoolGroup: ${file(./settings/auth/user-pool-group.yml)}
     userPoolClient: ${file(./settings/auth/user-pool-client.yml)}
+
+    graphQLApi: ${file(./settings/graphql-api/graphql.yml)}
+    graphQLKey: ${file(./settings/graphql-api/graphql-key.yml)}
+    graphQLData: ${file(./settings/graphql-api/graphql-datasource.yml)}
+    graphQLDataImg: ${file(./settings/graphql-api/graphql-datasource-img.yml)}
+    graphQLSchema: ${file(./settings/graphql-api/graphql-schema.yml)}
+
+    putMenu: ${file(./settings/graphql-api/resolvers/putMenu.yml)}
+    putText: ${file(./settings/graphql-api/resolvers/putText.yml)}
+
+    getText: ${file(./settings/graphql-api/resolvers/getText.yml)}
+    getMenu: ${file(./settings/graphql-api/resolvers/getMenu.yml)}
+    getImage: ${file(./settings/graphql-api/resolvers/getImage.yml)}
+    getGallery: ${file(./settings/graphql-api/resolvers/getGallery.yml)}
+
+
 
   Outputs:
     region:
@@ -96,3 +113,16 @@ resources:
     userPoolWebClientId:
       Value:
         Ref: userPoolClient
+
+    GraphQLUrl:
+      Value:
+        Fn::GetAtt: ["graphQLApi", "GraphQLUrl"]
+    GraphQLARN:
+      Value:
+        Fn::GetAtt: ["graphQLApi", "Arn"]
+    GraphQLApiId:
+      Value:
+        Fn::GetAtt: ["graphQLApi", "ApiId"]
+    GraphQLApiKey:
+      Value:
+        Fn::GetAtt: ["graphQLKey", "ApiKey"]
