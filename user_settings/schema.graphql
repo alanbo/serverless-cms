@@ -1,17 +1,76 @@
-schema {
-    query: Query
-    mutation: Mutation
+interface Fragment {
+	id: ID!
+	author: String
+	createdAt: Int!
+	lastUpdated: Int
 }
 
-type Query {
-    getText(id: ID!): Text
+type Image implements Fragment {
+	id: ID!
+	author: String
+	createdAt: Int!
+	lastUpdated: Int
+	gallery: String!
+	paths: [ImagePath!]!
+	filename: String!
+}
+
+type ImagePath {
+	path: String!
+	type: String!
+}
+
+type Menu {
+	id: ID!
+	sections: [MenuSection!]!
+}
+
+input MenuInput {
+	sections: [MenuSectionInput]
+}
+
+type MenuLink {
+	href: String
+	text: String
+}
+
+input MenuLinkInput {
+	href: String
+	text: String
+}
+
+type MenuSection {
+	links: [MenuLink]
+	name: String
+}
+
+input MenuSectionInput {
+	links: [MenuLinkInput!]!
+	name: String!
 }
 
 type Mutation {
-    putText(id: ID!, title: String!): Text
+	putText(text: String): Text
+	putMenu(input: MenuInput): Menu
+	updateMenu(input: MenuInput): Menu
 }
 
-type Text {
-    id: ID!
-    text: String!
+type Query {
+	getText(id: ID!): Text
+	getImage(gallery: String!, filename: String!): Image
+	getMenu(id: ID!): Menu
+	getGallery(gallery: String!): [Image]
+}
+
+type Text implements Fragment {
+	id: ID!
+	author: String
+	createdAt: Int!
+	lastUpdated: Int
+	text: String!
+}
+
+schema {
+	query: Query
+	mutation: Mutation
 }
