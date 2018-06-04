@@ -1,0 +1,8 @@
+{
+    "version": "2017-02-28",
+    "operation": "GetItem",
+    "key": {
+        "gallery": $util.dynamodb.toDynamoDBJson($ctx.args.gallery),
+        "filename": $util.dynamodb.toDynamoDBJson($ctx.args.filename),
+    }
+}

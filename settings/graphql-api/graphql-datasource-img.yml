@@ -1,0 +1,12 @@
+Type: "AWS::AppSync::DataSource"
+Properties:
+  Type: AMAZON_DYNAMODB
+  Description: Database storing all the images of the website.
+  ServiceRoleArn:
+    Fn::GetAtt: ["updateDbRole", "Arn"]
+  ApiId:
+    Fn::GetAtt: ["graphQLApi", "ApiId"]
+  Name: images_database
+  DynamoDBConfig:
+    TableName: ${self:service}-images
+    AwsRegion: ${self:provider.region}
