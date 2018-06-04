@@ -87,7 +87,17 @@ resources:
     graphQLApi: ${file(./settings/graphql-api/graphql.yml)}
     graphQLKey: ${file(./settings/graphql-api/graphql-key.yml)}
     graphQLData: ${file(./settings/graphql-api/graphql-datasource.yml)}
+    graphQLDataImg: ${file(./settings/graphql-api/graphql-datasource-img.yml)}
     graphQLSchema: ${file(./settings/graphql-api/graphql-schema.yml)}
+
+    putMenu: ${file(./settings/graphql-api/resolvers/putMenu.yml)}
+    putText: ${file(./settings/graphql-api/resolvers/putText.yml)}
+
+    getText: ${file(./settings/graphql-api/resolvers/getText.yml)}
+    getMenu: ${file(./settings/graphql-api/resolvers/getMenu.yml)}
+    getImage: ${file(./settings/graphql-api/resolvers/getImage.yml)}
+    getGallery: ${file(./settings/graphql-api/resolvers/getGallery.yml)}
+
 
 
   Outputs:

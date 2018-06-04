@@ -18,7 +18,7 @@ export const resizeImages = async function(event, context, callback) {
     const images = await transformImages(buffer);
     const upload_data = { images, buffer, metadata, bucket, filename, content_type };
 
-    await uploadImages(upload_data);
+    const stored_images = await uploadImages(upload_data);
     await storeImageData(metadata, filename, stored_images);
 
   } catch(e) {
