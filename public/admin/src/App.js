@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 
 import ButtonBar from './components/ButtonBar';
+import Main from './Main'
+import { Switch, Route } from 'react-router-dom'
 
 import Amplify, { Auth } from 'aws-amplify';
 import { withAuthenticator } from 'aws-amplify-react';
@@ -32,9 +34,7 @@ class App extends Component {
     return (
       <div className="App">
         <ButtonBar signOut={ this.signOut }>
-          <p className="App-intro">
-            Hello { this.state.user }
-          </p>
+          <Main />
         </ButtonBar>
         {/* <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
