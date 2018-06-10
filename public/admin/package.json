@@ -3,10 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "aws-amplify": "^0.2.9",
-    "aws-amplify-react": "^0.1.34",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
+    "@material-ui/core": "^1.2.0",
+    "@material-ui/icons": "^1.1.0",
+    "aws-amplify": "^0.4.4",
+    "aws-amplify-react": "^0.1.50",
+    "material-ui-icons": "^1.0.0-beta.36",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
+    "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.1"
   },
   "scripts": {
