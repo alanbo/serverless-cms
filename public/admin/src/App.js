@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import ButtonBar from './components/ButtonBar';
-import Main from './Main'
+import NavigationFrame from './components/NavigationFrame';
+import Main from './components/Main'
 import { Switch, Route } from 'react-router-dom'
 
 import Amplify, { Auth } from 'aws-amplify';
@@ -33,14 +33,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <ButtonBar signOut={ this.signOut }>
+        <NavigationFrame signOut={ this.signOut }>
           <Main />
-        </ButtonBar>
-        {/* <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Serverless CMS Admin Dashboard</h1>
-          <a onClick={ this.signOut }>Sign Out</a>
-        </header> */}
+        </NavigationFrame>
       </div>
     );
   }
