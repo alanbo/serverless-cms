@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import ButtonBar from './components/ButtonBar';
+
 import Amplify, { Auth } from 'aws-amplify';
 import { withAuthenticator } from 'aws-amplify-react';
 import aws_exports from './cognito';
@@ -29,17 +31,21 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
+        <ButtonBar signOut={ this.signOut }>
+          <p className="App-intro">
+            Hello { this.state.user }
+          </p>
+        </ButtonBar>
+        {/* <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Serverless CMS Admin Dashboard</h1>
           <a onClick={ this.signOut }>Sign Out</a>
-        </header>
-        <p className="App-intro">
-          Hello { this.state.user }
-        </p>
+        </header> */}
       </div>
     );
   }
 }
+
+// export default App;
 
 export default withAuthenticator(App);
