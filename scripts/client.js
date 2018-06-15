@@ -15,9 +15,9 @@ function handler ({
   const client_vars = { endpoint: ServiceEndpoint, graphqlApiId: GraphQLApiId };
   const file_content = `export default ${JSON.stringify(client_data, null, '  ')}`;
   const file_vars = `export default ${JSON.stringify(client_vars, null, '  ')}`;
-  const file_path = path.join(__dirname, '../public/admin/src', 'cognito.js');
-  const file_path_vars = path.join(__dirname, '../public/admin/src', 'aws-stack-vars.js');
-  const file_path_appsync = path.join(__dirname, '../public/admin/src', 'AppSync.js');
+  const file_path = path.join(__dirname, '../admin/src', 'cognito.js');
+  const file_path_vars = path.join(__dirname, '../admin/src', 'aws-stack-vars.js');
+  const file_path_appsync = path.join(__dirname, '../admin/src', 'AppSync.js');
 
   const app_sync_obj = {
     "graphqlEndpoint": GraphQLUrl,

@@ -6,7 +6,7 @@ import NavigationFrame from './components/NavigationFrame';
 import Main from './components/Main'
 import { Switch, Route } from 'react-router-dom'
 
-import Amplify, { Auth } from 'aws-amplify';
+import Amplify, { Auth, Storage } from 'aws-amplify';
 import { withAuthenticator } from 'aws-amplify-react';
 import aws_exports from './cognito';
 
