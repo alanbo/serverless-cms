@@ -5,7 +5,8 @@ Properties:
       - ResizeLambdaFunction
       - Arn
   Principal: "s3.amazonaws.com"
-  Action: "lambda:InvokeFunction"
+  Action: "lambda:*"
   SourceAccount:
     Ref: AWS::AccountId
-  SourceArn: "arn:aws:s3:::my-custom-bucket-name"
+  SourceArn:
+    Fn::GetAtt: ["S3BucketPublicsite", "Arn"]
