@@ -13,6 +13,6 @@ package-lock.json
 user-data.yml
 stack.yml
 
-public/admin/src/cognito.js
-public/admin/src/aws-stack-vars.js
-public/admin/src/AppSync.js
+admin/src/cognito.js
+admin/src/aws-stack-vars.js
+admin/src/AppSync.js

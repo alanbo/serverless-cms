@@ -10,7 +10,10 @@ import Amplify, { Auth, Storage } from 'aws-amplify';
 import { withAuthenticator } from 'aws-amplify-react';
 import aws_exports from './cognito';
 
-Amplify.configure(aws_exports);
+Amplify.configure({
+  Auth: aws_exports,
+  Storage: 'serverless-testing-site-public'
+});
 
 class App extends Component {
   state = {

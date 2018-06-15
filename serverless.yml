@@ -45,14 +45,11 @@ functions:
     handler: functions/resize-images.resizeImages
 
     role: resizeRole
+    #https://aws.amazon.com/premiumsupport/knowledge-center/unable-validate-destination-s3/
+    # needs to be commented out on first deploy
 
     events:
-      - s3:
-          bucket: publicsite
-          event: s3:ObjectCreated:*
-          rules:
-            - prefix: images/temp/
-            - suffix: .jpg
+      - s3: publicsite
 
     environment:
       BUCKET: ${self:service},
@@ -92,13 +89,13 @@ resources:
     graphQLData: ${file(./settings/graphql-api/graphql-datasource.yml)}
     graphQLDataImg: ${file(./settings/graphql-api/graphql-datasource-img.yml)}
 
-    # putMenu: ${file(./settings/graphql-api/resolvers/putMenu.yml)}
-    # putText: ${file(./settings/graphql-api/resolvers/putText.yml)}
-    #
-    # getText: ${file(./settings/graphql-api/resolvers/getText.yml)}
-    # getMenu: ${file(./settings/graphql-api/resolvers/getMenu.yml)}
-    # getImage: ${file(./settings/graphql-api/resolvers/getImage.yml)}
-    # getGallery: ${file(./settings/graphql-api/resolvers/getGallery.yml)}
+    putMenu: ${file(./settings/graphql-api/resolvers/putMenu.yml)}
+    putText: ${file(./settings/graphql-api/resolvers/putText.yml)}
+
+    getText: ${file(./settings/graphql-api/resolvers/getText.yml)}
+    getMenu: ${file(./settings/graphql-api/resolvers/getMenu.yml)}
+    getImage: ${file(./settings/graphql-api/resolvers/getImage.yml)}
+    getGallery: ${file(./settings/graphql-api/resolvers/getGallery.yml)}
 
 
 
