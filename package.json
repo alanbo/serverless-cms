@@ -4,7 +4,8 @@
   "description": "Serverless webpack example using ecma script",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "sls": "./node_modules/serverless/bin/serverless"
+    "sls": "./node_modules/serverless/bin/serverless",
+    "admin": "cd admin; npm run start"
   },
   "devDependencies": {
     "async-to-generator": "^1.1.0",
@@ -13,7 +14,7 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-polyfill": "^6.23.0",
     "babel-preset-env": "^1.6.1",
-    "serverless": "^1.26.0",
+    "serverless": "^1.27.3",
     "serverless-stack-output": "^0.2.3",
     "serverless-webpack": "^3.1.1",
     "webpack": "^3.3.0"
