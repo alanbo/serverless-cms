@@ -83,6 +83,8 @@ resources:
     userPoolGroup: ${file(./settings/auth/user-pool-group.yml)}
     userPoolClient: ${file(./settings/auth/user-pool-client.yml)}
 
+    identityPool:  ${file(./settings/auth/identity-pool.yml)}
+
     graphQLApi: ${file(./settings/graphql-api/graphql.yml)}
     graphQLSchema: ${file(./settings/graphql-api/graphql-schema.yml)}
     graphQLKey: ${file(./settings/graphql-api/graphql-key.yml)}
@@ -113,6 +115,10 @@ resources:
       Value:
         Ref: userPoolClient
 
+    identityPoolId:
+      Value:
+        Ref: identityPool
+
     GraphQLUrl:
       Value:
         Fn::GetAtt: ["graphQLApi", "GraphQLUrl"]
@@ -125,3 +131,5 @@ resources:
     GraphQLApiKey:
       Value:
         Fn::GetAtt: ["graphQLKey", "ApiKey"]
+    BucketName:
+      Value: ${self:service}-public

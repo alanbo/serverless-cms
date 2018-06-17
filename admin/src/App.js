@@ -12,8 +12,21 @@ import aws_exports from './cognito';
 
 Amplify.configure({
   Auth: aws_exports,
-  Storage: 'serverless-testing-site-public'
+  Storage: {
+    bucket: 'serverless-testing-site-public',
+    region: 'us-west-2'
+  }
 });
+
+Storage.configure({
+    bucket: 'serverless-testing-site-public',
+    region: 'us-west-2',
+    identityPoolId: aws_exports.identityPoolId//Specify your identityPoolId for Auth and Unauth access to your bucket;
+});
+
+
+
+
 
 class App extends Component {
   state = {
@@ -24,6 +37,21 @@ class App extends Component {
     Auth.currentAuthenticatedUser()
     // .then(data => console.log(data))
     .then(data => this.setState({ user: data.username }))
+    .catch(err => console.log(err));
+
+    Storage.put('test.txt', 'Protected Content', {
+    level: 'public',
+    contentType: 'text/plain'
+    })
+    .then (result => console.log(result))
+    .catch(err => console.log(err));
+
+    Storage.get('Udemy22.png', { level: 'public' })
+      .then(result => console.log(JSON.stringify(result)))
+      .catch(err => console.log(err));
+
+    Storage.list('/', { level: 'public' })
+    .then(result => console.log(result))
     .catch(err => console.log(err));
   }
 
