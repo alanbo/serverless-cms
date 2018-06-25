@@ -68,11 +68,15 @@ functions:
 
 resources:
   Resources:
-    S3BucketPublicsite: ${file(./settings/s3/s3bucket.yml)}        # add additional custom bucket configuration here
+    S3BucketPublicsite: ${file(./settings/s3/s3bucket.yml)}
+    S3BucketPolicy: ${file(./settings/s3/s3bucketPolicy.yml)}
     ResizeLambdaPermissionPhotosS3: ${file(./settings/s3/s3permission.yml)}
     resizeRole: ${file(./settings/roles/resizeRole.yml)}
     createPageRole: ${file(./settings/roles/createPageRole.yml)}
     updateDbRole: ${file(./settings/roles/updateDbRole.yml)}
+    adminGroupRole: ${file(./settings/roles/adminGroupRole.yml)}
+    dataEditorRole: ${file(./settings/roles/dataEditorRole.yml)}
+    identityPoolRoleAttachment:  ${file(./settings/auth/identity-pool-role-attachment.yml)}
 
     imagesTable: ${file(./settings/tables.yml):imagesTable}
     pagesTable: ${file(./settings/tables.yml):pagesTable}
@@ -91,6 +95,7 @@ resources:
     graphQLData: ${file(./settings/graphql-api/graphql-datasource.yml)}
     graphQLDataImg: ${file(./settings/graphql-api/graphql-datasource-img.yml)}
 
+    # needs to be commented out on first deploy
     putMenu: ${file(./settings/graphql-api/resolvers/putMenu.yml)}
     putText: ${file(./settings/graphql-api/resolvers/putText.yml)}
 
