@@ -9,19 +9,17 @@ Properties:
   # needs to be commented out on first deploy
   NotificationConfiguration:
     LambdaConfigurations:
-      Event: s3:ObjectCreated:*
-      Filter:
-        S3Key:
-          Rules:
-            - Name: prefix
-              Value: images/temp/
-            - Name: suffix
-              Value: .jpg
+      - Event: s3:ObjectCreated:*
+        Filter:
+          S3Key:
+            Rules:
+              - Name: prefix
+                Value: images/temp/
+              - Name: suffix
+                Value: .jpg
 
-      Function:
-        "Fn::GetAtt":
-          - ResizeLambdaFunction
-          - Arn
+        Function:
+          Fn::GetAtt: ["ResizeLambdaFunction", "Arn"]
 
   CorsConfiguration:
     CorsRules:
