@@ -30,17 +30,17 @@ Properties:
             Action:
               - s3:GetObject
             Resource:
-              - arn:aws:s3:::${self:service}/images/*
+              - arn:aws:s3:::${self:service}-public/images/*
           - Effect: Allow
             Action:
               - s3:PutObjectAcl
               - s3:PutObject
             Resource:
-              - arn:aws:s3:::${self:service}/images/thumbs/*
-              - arn:aws:s3:::${self:service}/images/mobile/*
-              - arn:aws:s3:::${self:service}/images/desktop/*
-              - arn:aws:s3:::${self:service}/images/retina/*
-              - arn:aws:s3:::${self:service}/images/*
+              - arn:aws:s3:::${self:service}-public/images/thumbs/*
+              - arn:aws:s3:::${self:service}-public/images/mobile/*
+              - arn:aws:s3:::${self:service}-public/images/desktop/*
+              - arn:aws:s3:::${self:service}-public/images/retina/*
+              - arn:aws:s3:::${self:service}-public/images/*
           - Effect: Allow
             Action:
               - dynamodb:PutItem

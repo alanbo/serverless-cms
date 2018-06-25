@@ -4,11 +4,18 @@ Properties:
   AssumeRolePolicyDocument:
     Version: '2012-10-17'
     Statement:
-      - Effect: Allow
-        Principal:
-          Federated:
-            - cognito-identity.amazonaws.com
-        Action: sts:AssumeRole
+    - Effect: Allow
+      Principal:
+        Federated: cognito-identity.amazonaws.com
+      Action: sts:AssumeRoleWithWebIdentity
+      Condition:
+        StringEquals:
+          cognito-identity.amazonaws.com:aud:
+            Ref: identityPool
+        ForAnyValue:StringLike:
+          cognito-identity.amazonaws.com:amr: authenticated
+
+
   Policies:
     - PolicyName: ${self:service}--dataEditor
       PolicyDocument:
@@ -25,3 +32,22 @@ Properties:
               - ''
               - - Fn::GetAtt: ["graphQLApi", "Arn"]
                 - /types/*/fields/*
+
+        - Effect: Allow
+          Action:
+            - s3:PutObjectAcl
+            - s3:PutObject
+            - s3:GetObjectAcl
+            - s3:DeleteObject
+            - s3:ListBucket
+
+          Resource:
+            - arn:aws:s3:::${self:service}-public/*
+
+        - Effect: Allow
+          Action:
+            - mobileanalytics:PutEvents
+            - cognito-sync:*
+            - cognito-identity:*
+          Resource:
+            - "*"

@@ -7,3 +7,9 @@ body {
 a {
   text-decoration: none;
 }
+
+img {
+  width: 30%;
+  height: 100px;
+  float: left;
+}
