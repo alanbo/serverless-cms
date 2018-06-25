@@ -10,9 +10,14 @@ import Amplify, { Auth, Storage } from 'aws-amplify';
 import { withAuthenticator } from 'aws-amplify-react';
 import aws_exports from './cognito';
 
+// window.LOG_LEVEL = 'DEBUG';
+
 Amplify.configure({
   Auth: aws_exports,
-  Storage: 'serverless-testing-site-public'
+  Storage: {
+    bucket: 'serverless-testing-site-public',
+    region: 'us-west-2'
+  }
 });
 
 class App extends Component {
@@ -22,7 +27,6 @@ class App extends Component {
 
   componentDidMount() {
     Auth.currentAuthenticatedUser()
-    // .then(data => console.log(data))
     .then(data => this.setState({ user: data.username }))
     .catch(err => console.log(err));
   }

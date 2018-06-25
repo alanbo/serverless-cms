@@ -3,6 +3,6 @@ Properties:
   Description: Allows to use api endpoint to edit data
   GroupName: dataEditor
   RoleArn:
-    Fn::GetAtt: ["updateDbRole", "Arn"]
+    Fn::GetAtt: ["dataEditorRole", "Arn"]
   UserPoolId:
     Ref: userPool

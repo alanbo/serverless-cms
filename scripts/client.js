@@ -5,14 +5,21 @@ function handler ({
   region,
   userPoolId,
   userPoolWebClientId,
+  identityPoolId,
   ServiceEndpoint,
   GraphQLUrl,
   GraphQLARN,
   GraphQLApiId,
-  GraphQLApiKey
+  GraphQLApiKey,
+  BucketName
 }, serverless, options) {
-  const client_data = { region, userPoolId, userPoolWebClientId };
-  const client_vars = { endpoint: ServiceEndpoint, graphqlApiId: GraphQLApiId };
+
+  const client_data = { region, userPoolId, userPoolWebClientId, identityPoolId };
+  const client_vars = {
+    endpoint: ServiceEndpoint,
+    graphqlApiId: GraphQLApiId,
+    bucket: BucketName
+  };
   const file_content = `export default ${JSON.stringify(client_data, null, '  ')}`;
   const file_vars = `export default ${JSON.stringify(client_vars, null, '  ')}`;
   const file_path = path.join(__dirname, '../admin/src', 'cognito.js');
