@@ -1,0 +1,9 @@
+Type: "AWS::Cognito::IdentityPool"
+Properties:
+  IdentityPoolName: serverlesscmspool
+  AllowUnauthenticatedIdentities: False
+  CognitoIdentityProviders:
+    - ClientId:
+        Ref: userPoolClient
+      ProviderName:
+        Fn::GetAtt: ["userPool", "ProviderName"]

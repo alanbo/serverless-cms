@@ -29,18 +29,21 @@ Properties:
           - Effect: Allow
             Action:
               - s3:GetObject
+              - s3:GetObjectAcl
+              - s3:ListBucket
             Resource:
-              - arn:aws:s3:::${self:service}/images/*
+              - arn:aws:s3:::${self:service}-public/*
+              - arn:aws:s3:::${self:service}-public
           - Effect: Allow
             Action:
               - s3:PutObjectAcl
               - s3:PutObject
             Resource:
-              - arn:aws:s3:::${self:service}/images/thumbs/*
-              - arn:aws:s3:::${self:service}/images/mobile/*
-              - arn:aws:s3:::${self:service}/images/desktop/*
-              - arn:aws:s3:::${self:service}/images/retina/*
-              - arn:aws:s3:::${self:service}/images/*
+              - arn:aws:s3:::${self:service}-public/public/images/thumbs/*
+              - arn:aws:s3:::${self:service}-public/public/images/mobile/*
+              - arn:aws:s3:::${self:service}-public/public/images/desktop/*
+              - arn:aws:s3:::${self:service}-public/public/images/retina/*
+              - arn:aws:s3:::${self:service}-public/public/images/*
           - Effect: Allow
             Action:
               - dynamodb:PutItem

@@ -4,7 +4,7 @@ const s3 = new AWS.S3();
 
 function uploadOne(bucket, content_type, metadata, filename, { buffer, key }) {
   const gallery = metadata.gallery || 'general';
-  const path = `images/${gallery}/${key}/${filename}`;
+  const path = `public/images/${gallery}/${key}/${filename}`;
 
   return new Promise((resolve, reject) => {
     s3.putObject({
