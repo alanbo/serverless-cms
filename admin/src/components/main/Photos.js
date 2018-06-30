@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Icon from '@material-ui/core/Icon';
 import FormDialog from './photos/FormDialog';
+import FolderTable from './photos/FolderTable';
 
 const styles = theme => ({
   button: {
@@ -28,13 +29,23 @@ class Photos extends Component {
   listGalleries = () => {
     return Storage.list('images/')
       .then(result => {
+        console.log(result);
         const galleries = _.uniq(result.map(path => {
           return path.key.split('/')[1];
         }));
 
+        return Promise.all(galleries.map(name => {
+          return Storage.list(`images/${name}/thumbnail`).then(subresult => {
+            return {
+              name,
+              files: subresult
+            }
+          });
+        }))
+      })
+      .then(galleries => {
         this.setState({ galleries });
-
-        console.log(galleries);
+        console.log(this.state.galleries);
       })
       .catch(err => console.log(err));
   }
@@ -44,9 +55,20 @@ class Photos extends Component {
   }
 
   listFolders() {
-    return this.state.galleries.map(gallery => {
-      return <p key={ gallery }>{ gallery }</p>
-    })
+    // return this.state.galleries.map(gallery => {
+    //   return <p key={ gallery }>{ gallery }</p>
+    // })
+
+    const data = this.state.galleries.map(({ name, files }) => {
+      return {
+        name,
+        files: files.length
+      }
+    });
+
+    console.log(data);
+
+    return <FolderTable data={ data } />
   }
 
   addFolderDialog() {
@@ -82,6 +104,8 @@ class Photos extends Component {
           ? <FormDialog onClose={ this.addFolder.bind(this) }/>
           : ''
         }
+
+        {/* <FolderTable /> */}
 
       </div>
     );
