@@ -7,6 +7,9 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Icon from '@material-ui/core/Icon';
 
 const styles = theme => ({
   root: {
@@ -30,6 +33,7 @@ function FolderTable(props) {
           <TableRow>
             <TableCell>Name</TableCell>
             <TableCell numeric>Number of files</TableCell>
+            <TableCell>Delete</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -40,6 +44,11 @@ function FolderTable(props) {
                   {n.name}
                 </TableCell>
                 <TableCell numeric>{n.files}</TableCell>
+                <TableCell>
+                  <IconButton aria-label="Delete" onClick={ () => props.onDelete(n.name)}>
+                    <DeleteIcon />
+                  </IconButton>
+                </TableCell>
               </TableRow>
             );
           })}
