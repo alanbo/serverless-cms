@@ -27,6 +27,7 @@ class Photos extends Component {
   }
 
   listGalleries = () => {
+    console.log('listing');
     return Storage.list('images/')
       .then(result => {
         console.log(result);
@@ -68,7 +69,22 @@ class Photos extends Component {
 
     console.log(data);
 
-    return <FolderTable data={ data } />
+    return <FolderTable data={ data } onDelete={ this.onDelete }/>
+  }
+
+  onDelete = async gallery => {
+    console.log(gallery);
+    const files = this.state.galleries.find(g => g.name === gallery).files;
+    console.log('files', files);
+
+    await files.map(file => Storage.remove(file.key));
+
+    Storage.remove(`images/${gallery}/`)
+      .then(result => {
+        console.log('removed');
+        this.listGalleries();
+      })
+      .catch(err => console.log(err));
   }
 
   addFolderDialog() {
