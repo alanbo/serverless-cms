@@ -18,3 +18,14 @@ Properties:
               Ref: "S3BucketPublicsite"
             - /public/*
       Principal: "*"
+    - Action:
+        - s3:ListBucket
+      Effect: Allow
+      Resource:
+        Fn::Join:
+          - ""
+          -
+            - "arn:aws:s3:::"
+            -
+              Ref: "S3BucketPublicsite"
+      Principal: "*"

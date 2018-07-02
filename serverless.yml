@@ -48,13 +48,23 @@ functions:
     #https://aws.amazon.com/premiumsupport/knowledge-center/unable-validate-destination-s3/
     # needs to be commented out on first deploy
 
-    events:
-      - s3: publicsite
+    # events:
+    #   - s3: publicsite
 
     environment:
       BUCKET: ${self:service}-public
       IMG_TABLE: ${self:service}-images
       FRAGMENTS_TABLE: ${self:service}-fragments
+
+  delete:
+    handler: functions/delete-images.deleteImages
+
+    role: deleteRole
+    #https://aws.amazon.com/premiumsupport/knowledge-center/unable-validate-destination-s3/
+    # needs to be commented out on first deploy
+
+    # events:
+    #   - s3: publicsite
 
   createPage:
     handler: functions/create-page.createPage
@@ -71,7 +81,9 @@ resources:
     S3BucketPublicsite: ${file(./settings/s3/s3bucket.yml)}
     S3BucketPolicy: ${file(./settings/s3/s3bucketPolicy.yml)}
     ResizeLambdaPermissionPhotosS3: ${file(./settings/s3/s3permission.yml)}
+    DeleteLambdaPermissionPhotosS3: ${file(./settings/s3/s3permissionDelete.yml)}
     resizeRole: ${file(./settings/roles/resizeRole.yml)}
+    deleteRole: ${file(./settings/roles/deleteRole.yml)}
     createPageRole: ${file(./settings/roles/createPageRole.yml)}
     updateDbRole: ${file(./settings/roles/updateDbRole.yml)}
     adminGroupRole: ${file(./settings/roles/adminGroupRole.yml)}
@@ -96,13 +108,13 @@ resources:
     graphQLDataImg: ${file(./settings/graphql-api/graphql-datasource-img.yml)}
 
     # needs to be commented out on first deploy
-    putMenu: ${file(./settings/graphql-api/resolvers/putMenu.yml)}
-    putText: ${file(./settings/graphql-api/resolvers/putText.yml)}
-
-    getText: ${file(./settings/graphql-api/resolvers/getText.yml)}
-    getMenu: ${file(./settings/graphql-api/resolvers/getMenu.yml)}
-    getImage: ${file(./settings/graphql-api/resolvers/getImage.yml)}
-    getGallery: ${file(./settings/graphql-api/resolvers/getGallery.yml)}
+    # putMenu: ${file(./settings/graphql-api/resolvers/putMenu.yml)}
+    # putText: ${file(./settings/graphql-api/resolvers/putText.yml)}
+    #
+    # getText: ${file(./settings/graphql-api/resolvers/getText.yml)}
+    # getMenu: ${file(./settings/graphql-api/resolvers/getMenu.yml)}
+    # getImage: ${file(./settings/graphql-api/resolvers/getImage.yml)}
+    # getGallery: ${file(./settings/graphql-api/resolvers/getGallery.yml)}
 
 
 
