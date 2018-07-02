@@ -7,19 +7,31 @@ Properties:
     ErrorDocument: "error.html"
   # https://aws.amazon.com/premiumsupport/knowledge-center/unable-validate-destination-s3/
   # needs to be commented out on first deploy
-  # NotificationConfiguration:
-  #   LambdaConfigurations:
-  #     - Event: s3:ObjectCreated:*
-  #       Filter:
-  #         S3Key:
-  #           Rules:
-  #             - Name: prefix
-  #               Value: public/temp/
-  #             - Name: suffix
-  #               Value: .jpg
-  #
-  #       Function:
-  #         Fn::GetAtt: ["ResizeLambdaFunction", "Arn"]
+  NotificationConfiguration:
+    LambdaConfigurations:
+      - Event: s3:ObjectCreated:*
+        Filter:
+          S3Key:
+            Rules:
+              - Name: prefix
+                Value: public/temp/
+              - Name: suffix
+                Value: .jpg
+
+        Function:
+          Fn::GetAtt: ["ResizeLambdaFunction", "Arn"]
+
+      - Event: s3:ObjectRemoved:*
+        Filter:
+          S3Key:
+            Rules:
+              - Name: prefix
+                Value: public/images/
+              - Name: suffix
+                Value: .jpg
+
+        Function:
+          Fn::GetAtt: ["DeleteLambdaFunction", "Arn"]
 
   CorsConfiguration:
     CorsRules:
