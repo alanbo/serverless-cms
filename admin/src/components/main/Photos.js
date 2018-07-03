@@ -27,7 +27,6 @@ class Photos extends Component {
   }
 
   listGalleries = () => {
-    console.log('listing');
     return Storage.list('images/')
       .then(result => {
         console.log(result);
@@ -110,7 +109,7 @@ class Photos extends Component {
       <div>
         <h1>Photos</h1>
         {/* <S3Image path="temp/" picker /> */}
-        {/* <S3Album path="temp/" picker /> */}
+        <S3Album path="temp/" picker />
         { this.listFolders() }
         <Button variant="fab" color="primary" aria-label="add" className= { classes.button } onClick={ this.addFolderDialog.bind(this) }>
           <AddIcon />
