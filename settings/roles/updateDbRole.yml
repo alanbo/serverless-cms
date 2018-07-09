@@ -37,6 +37,7 @@ Properties:
               - dynamodb:GetItem
               - dynamodb:BatchGetItem
               - dynamodb:Query
+              - dynamodb:Scan
             Resource:
               Fn::Join:
                 - ":"

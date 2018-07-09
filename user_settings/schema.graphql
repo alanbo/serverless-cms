@@ -5,6 +5,11 @@ interface Fragment {
 	lastUpdated: Int
 }
 
+type Gallery {
+	id: ID!
+	images: [Image!]
+}
+
 type Image implements Fragment {
 	id: ID!
 	author: String
@@ -53,13 +58,16 @@ type Mutation {
 	putText(text: String): Text
 	putMenu(input: MenuInput): Menu
 	updateMenu(input: MenuInput): Menu
+	addGallery(id: ID!): Gallery
+	deleteGallery(id: ID!): Gallery
 }
 
 type Query {
 	getText(id: ID!): Text
 	getImage(gallery: String!, filename: String!): Image
 	getMenu(id: ID!): Menu
-	getGallery(gallery: String!): [Image]
+	getGallery(id: ID!): Gallery
+	getGalleryList: [Gallery]
 }
 
 type Text implements Fragment {

@@ -1,0 +1,16 @@
+{
+    "version" : "2017-02-28",
+    "operation" : "Scan",
+    "filter" : {
+        ## Provide a query expression. **
+        "expression": "#type = :gallery",
+        "expressionNames" : {
+            "#type" : "type"
+         },
+         "expressionValues" : {
+            ":gallery" : {
+            	"S": "gallery"
+            }
+         }
+    }
+}
