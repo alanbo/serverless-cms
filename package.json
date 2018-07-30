@@ -23,6 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "bson-objectid": "^1.2.2",
-    "gm": "^1.23.1"
+    "gm": "^1.23.1",
+    "uuid": "^3.3.2"
   }
 }
