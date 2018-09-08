@@ -20,7 +20,18 @@ type Image implements Fragment {
 	filename: String!
 }
 
+input ImageInput {
+	gallery: String!
+	paths: [ImagePathInput!]!
+	filename: String!
+}
+
 type ImagePath {
+	path: String!
+	type: String!
+}
+
+input ImagePathInput {
 	path: String!
 	type: String!
 }
@@ -60,6 +71,7 @@ type Mutation {
 	updateMenu(input: MenuInput): Menu
 	addGallery(id: ID!): Gallery
 	deleteGallery(id: ID!): Gallery
+	addImage(input: ImageInput): Image
 }
 
 type Query {
