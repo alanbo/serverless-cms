@@ -1,0 +1,16 @@
+Type: "AWS::Cognito::IdentityPoolRoleAttachment"
+Properties:
+  IdentityPoolId:
+    Ref: identityPool
+  Roles:
+    authenticated:
+      Fn::GetAtt: ["dataEditorRole", "Arn"]
+      # Fn::Join:
+      #   - ":"
+      #   - - "arn:aws:cognito-identity"
+      #     - Ref: "AWS::Region"
+      #     - Ref: "AWS::AccountId"
+      #     - Fn::Join:
+      #       - "/"
+      #       - - identitypool
+      #         - Ref: identityPool
