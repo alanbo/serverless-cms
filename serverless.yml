@@ -12,7 +12,7 @@ custom:
 
 provider:
   name: aws
-  runtime: nodejs6.10
+  runtime: nodejs8.10
 
   stage: dev
   region: us-west-2
@@ -43,18 +43,14 @@ functions:
 
   resize:
     handler: functions/resize-images.resizeImages
-
     role: resizeRole
-    #https://aws.amazon.com/premiumsupport/knowledge-center/unable-validate-destination-s3/
-    # needs to be commented out on first deploy
-
-    events:
-      - s3: publicsite
 
     environment:
-      BUCKET: ${self:service},
+      BUCKET: ${self:service}
       IMG_TABLE: ${self:service}-images
       FRAGMENTS_TABLE: ${self:service}-fragments
+      GRAPHQL:
+        Fn::GetAtt: ["graphQLApi", "GraphQLUrl"]
 
   createPage:
     handler: functions/create-page.createPage
@@ -74,13 +70,8 @@ resources:
     resizeRole: ${file(./settings/roles/resizeRole.yml)}
     createPageRole: ${file(./settings/roles/createPageRole.yml)}
     updateDbRole: ${file(./settings/roles/updateDbRole.yml)}
-    adminGroupRole: ${file(./settings/roles/adminGroupRole.yml)}
     dataEditorRole: ${file(./settings/roles/dataEditorRole.yml)}
     identityPoolRoleAttachment:  ${file(./settings/auth/identity-pool-role-attachment.yml)}
-
-    imagesTable: ${file(./settings/tables.yml):imagesTable}
-    pagesTable: ${file(./settings/tables.yml):pagesTable}
-    menusTable: ${file(./settings/tables.yml):menusTable}
     fragmentsTable: ${file(./settings/tables.yml):fragmentsTable}
 
     userPool:  ${file(./settings/auth/user-pool.yml)}
@@ -98,6 +89,7 @@ resources:
     # needs to be commented out on first deploy
     putMenu: ${file(./settings/graphql-api/resolvers/putMenu.yml)}
     putText: ${file(./settings/graphql-api/resolvers/putText.yml)}
+    addImage: ${file(./settings/graphql-api/resolvers/addImage.yml)}
 
     getText: ${file(./settings/graphql-api/resolvers/getText.yml)}
     getMenu: ${file(./settings/graphql-api/resolvers/getMenu.yml)}

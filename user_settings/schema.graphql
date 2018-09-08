@@ -5,6 +5,11 @@ interface Fragment {
 	lastUpdated: Int
 }
 
+type Gallery {
+	id: ID!
+	images: [Image!]
+}
+
 type Image implements Fragment {
 	id: ID!
 	author: String
@@ -15,7 +20,18 @@ type Image implements Fragment {
 	filename: String!
 }
 
+input ImageInput {
+	gallery: String!
+	paths: [ImagePathInput!]!
+	filename: String!
+}
+
 type ImagePath {
+	path: String!
+	type: String!
+}
+
+input ImagePathInput {
 	path: String!
 	type: String!
 }
@@ -53,13 +69,17 @@ type Mutation {
 	putText(text: String): Text
 	putMenu(input: MenuInput): Menu
 	updateMenu(input: MenuInput): Menu
+	addGallery(id: ID!): Gallery
+	deleteGallery(id: ID!): Gallery
+	addImage(input: ImageInput): Image
 }
 
 type Query {
 	getText(id: ID!): Text
 	getImage(gallery: String!, filename: String!): Image
 	getMenu(id: ID!): Menu
-	getGallery(gallery: String!): [Image]
+	getGallery(id: ID!): Gallery
+	getGalleryList: [Gallery]
 }
 
 type Text implements Fragment {

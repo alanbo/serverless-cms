@@ -7,6 +7,7 @@
     "@material-ui/icons": "^1.1.0",
     "aws-amplify": "^0.4.4",
     "aws-amplify-react": "^0.1.50",
+    "lodash": "^4.17.10",
     "material-ui-icons": "^1.0.0-beta.36",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",

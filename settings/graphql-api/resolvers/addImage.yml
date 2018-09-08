@@ -1,9 +1,9 @@
 Type: "AWS::AppSync::Resolver"
 Properties:
-  TypeName: Query
+  TypeName: Mutation
   DataSourceName: fragments_database
-  RequestMappingTemplate: ${file(./user_settings/resolvers/queries/getGallery.vm)}
+  RequestMappingTemplate: ${file(./user_settings/resolvers/mutations/addImage.vm)}
   ResponseMappingTemplate: ${file(./user_settings/resolvers/response/passthrough.vm)}
   ApiId:
     Fn::GetAtt: ["graphQLApi", "ApiId"]
-  FieldName: getGallery
+  FieldName: addImage

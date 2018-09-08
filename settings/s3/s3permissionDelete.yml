@@ -1,0 +1,12 @@
+Type: "AWS::Lambda::Permission"
+Properties:
+  FunctionName:
+    "Fn::GetAtt":
+      - DeleteLambdaFunction
+      - Arn
+  Principal: "s3.amazonaws.com"
+  Action: "lambda:*"
+  SourceAccount:
+    Ref: AWS::AccountId
+  SourceArn:
+    Fn::GetAtt: ["S3BucketPublicsite", "Arn"]
