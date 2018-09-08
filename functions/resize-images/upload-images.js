@@ -2,9 +2,8 @@
 import AWS from 'aws-sdk';
 const s3 = new AWS.S3();
 
-function uploadOne(bucket, content_type, metadata, filename, { buffer, key }) {
+function uploadOne(bucket, content_type, metadata, path, { buffer, key }) {
   const gallery = metadata.gallery || 'general';
-  const path = `public/images/${gallery}/${key}/${filename}`;
 
   return new Promise((resolve, reject) => {
     s3.putObject({
@@ -25,8 +24,8 @@ function uploadOne(bucket, content_type, metadata, filename, { buffer, key }) {
 }
 
 const uploadImages = upload_data => {
-  const { images, buffer, metadata, bucket, filename, content_type } = upload_data;
-  const image_data = images.map( img => uploadOne(bucket, content_type, metadata, filename, img));
+  const { images, paths, metadata, bucket, filename, content_type } = upload_data;
+  const image_data = images.map((img, i) => uploadOne(bucket, content_type, metadata, paths[i].path, img));
 
   return Promise.all(image_data);
 };
