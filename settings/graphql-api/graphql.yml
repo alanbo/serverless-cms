@@ -6,4 +6,4 @@ Properties:
     AwsRegion: ${self:provider.region}
     DefaultAction: ALLOW
   Name: ${self:service}-graphql-api
-  AuthenticationType: AMAZON_COGNITO_USER_POOLS
+  AuthenticationType: AWS_IAM

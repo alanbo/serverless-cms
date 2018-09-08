@@ -21,17 +21,17 @@ Properties:
         Function:
           Fn::GetAtt: ["ResizeLambdaFunction", "Arn"]
 
-      - Event: s3:ObjectRemoved:*
-        Filter:
-          S3Key:
-            Rules:
-              - Name: prefix
-                Value: public/images/
-              - Name: suffix
-                Value: .jpg
-
-        Function:
-          Fn::GetAtt: ["DeleteLambdaFunction", "Arn"]
+      # - Event: s3:ObjectRemoved:*
+      #   Filter:
+      #     S3Key:
+      #       Rules:
+      #         - Name: prefix
+      #           Value: public/images/
+      #         - Name: suffix
+      #           Value: .jpg
+      #
+      #   Function:
+      #     Fn::GetAtt: ["DeleteLambdaFunction", "Arn"]
 
   CorsConfiguration:
     CorsRules:
