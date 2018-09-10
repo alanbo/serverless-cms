@@ -1,0 +1,9 @@
+Type: "AWS::AppSync::Resolver"
+Properties:
+  TypeName: Query
+  DataSourceName: fragments_database
+  RequestMappingTemplate: ${file(./user_settings/resolvers/types/gallery-images.vm)}
+  ResponseMappingTemplate: ${file(./user_settings/resolvers/response/gallery-images.vm)}
+  ApiId:
+    Fn::GetAtt: ["graphQLApi", "ApiId"]
+  FieldName: images

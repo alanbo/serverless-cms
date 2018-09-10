@@ -87,14 +87,21 @@ resources:
     graphQLDataImg: ${file(./settings/graphql-api/graphql-datasource-img.yml)}
 
     # needs to be commented out on first deploy
-    putMenu: ${file(./settings/graphql-api/resolvers/putMenu.yml)}
-    putText: ${file(./settings/graphql-api/resolvers/putText.yml)}
-    addImage: ${file(./settings/graphql-api/resolvers/addImage.yml)}
-
-    getText: ${file(./settings/graphql-api/resolvers/getText.yml)}
-    getMenu: ${file(./settings/graphql-api/resolvers/getMenu.yml)}
-    getImage: ${file(./settings/graphql-api/resolvers/getImage.yml)}
-    getGallery: ${file(./settings/graphql-api/resolvers/getGallery.yml)}
+    # putMenu: ${file(./settings/graphql-api/resolvers/putMenu.yml)}
+    # putText: ${file(./settings/graphql-api/resolvers/putText.yml)}
+    # addImage: ${file(./settings/graphql-api/resolvers/addImage.yml)}
+    #
+    # addImageToGallery: ${file(./settings/graphql-api/resolvers/addImageToGallery.yml)}
+    # removeGallery: ${file(./settings/graphql-api/resolvers/removeGallery.yml)}
+    # removeImage: ${file(./settings/graphql-api/resolvers/removeImage.yml)}
+    # removeImageFromGallery: ${file(./settings/graphql-api/resolvers/removeImageFromGallery.yml)}
+    # getImageList: ${file(./settings/graphql-api/resolvers/getImageList.yml)}
+    # galleryImages: ${file(./settings/graphql-api/resolvers/gallery-images.yml)}
+    #
+    # getText: ${file(./settings/graphql-api/resolvers/getText.yml)}
+    # getMenu: ${file(./settings/graphql-api/resolvers/getMenu.yml)}
+    # getImage: ${file(./settings/graphql-api/resolvers/getImage.yml)}
+    # getGallery: ${file(./settings/graphql-api/resolvers/getGallery.yml)}
 
 
 

@@ -1,0 +1,18 @@
+#set($ids = [])
+#foreach($id in $ctx.source.images)
+    #set($map = {})
+    $util.qr($map.put("id", $util.dynamodb.toString($id)))
+    $util.qr($map.put("type", $util.dynamodb.toString("image")))
+    $util.qr($ids.add($map))
+#end
+
+{
+    "version" : "2018-05-29",
+    "operation" : "BatchGetItem",
+    "tables" : {
+        "serverless-testing-site-fragments": {
+            "keys": $util.toJson($ids),
+            "consistentRead": true
+        }
+    }
+}
