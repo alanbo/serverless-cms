@@ -7,7 +7,8 @@ interface Fragment {
 
 type Gallery {
 	id: ID!
-	images: [Image!]
+	name: String!
+	images: [Image]!
 }
 
 type Image implements Fragment {
@@ -69,17 +70,21 @@ type Mutation {
 	putText(text: String): Text
 	putMenu(input: MenuInput): Menu
 	updateMenu(input: MenuInput): Menu
-	addGallery(id: ID!): Gallery
-	deleteGallery(id: ID!): Gallery
+	addGallery(name: String!): Gallery
+	removeGallery(id: ID!): Gallery
+	addImageToGallery(image_id: ID!, id: ID!): Gallery
+	removeImageFromGallery(image_number: Int!, id: ID!): Gallery
 	addImage(input: ImageInput): Image
+	removeImage(image_id: ID!, id: ID!): Image
 }
 
 type Query {
 	getText(id: ID!): Text
-	getImage(gallery: String!, filename: String!): Image
+	getImage(id: ID!): Image
 	getMenu(id: ID!): Menu
 	getGallery(id: ID!): Gallery
 	getGalleryList: [Gallery]
+	getImageList: [Image]
 }
 
 type Text implements Fragment {

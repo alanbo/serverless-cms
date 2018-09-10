@@ -4,7 +4,7 @@
     "filter" : {
         "expression" : "#type = :type",
         "expressionValues" : {
-            ":type" : { "S" : "gallery" }
+            ":type" : { "S" : "image" }
         },
             "expressionNames" : {
             "#type" : "type",
