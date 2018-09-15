@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Amplify, { Auth, Storage } from 'aws-amplify';
+import { withAuthenticator } from 'aws-amplify-react';
 
 import NavigationFrame from './components/NavigationFrame';
 import Main from './components/Main'
-import { Switch, Route } from 'react-router-dom'
 
-import Amplify, { Auth, Storage } from 'aws-amplify';
-import { withAuthenticator } from 'aws-amplify-react';
 import aws_exports from './cognito';
+import './App.css';
 
 // window.LOG_LEVEL = 'DEBUG';
 
