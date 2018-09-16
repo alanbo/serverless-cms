@@ -18,8 +18,11 @@ function handler ({
   const client_vars = {
     endpoint: ServiceEndpoint,
     graphqlApiId: GraphQLApiId,
-    bucket: BucketName
+    bucket: BucketName,
+    graphql_endpoint: GraphQLUrl,
+    region
   };
+
   const file_content = `export default ${JSON.stringify(client_data, null, '  ')}`;
   const file_vars = `export default ${JSON.stringify(client_vars, null, '  ')}`;
   const file_path = path.join(__dirname, '../admin/src', 'cognito.js');
