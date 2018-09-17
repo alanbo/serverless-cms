@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Amplify, { Auth, Storage, API, graphqlOperation } from 'aws-amplify';
 import { withAuthenticator } from 'aws-amplify-react';
+import { connect } from 'react-redux';
+import * as actionCreators from './actions/index';
 
 import NavigationFrame from './components/NavigationFrame';
 import Main from './components/Main'
@@ -8,6 +10,8 @@ import Main from './components/Main'
 import aws_exports from './cognito';
 import aws_vars from './aws-stack-vars';
 import './App.css';
+
+import { getImageList } from './graphql/image-queries';
 
 // window.LOG_LEVEL = 'DEBUG';
 
@@ -29,18 +33,6 @@ console.log(amp_config);
 
 Amplify.configure(amp_config);
 
-const getImageList = `
-{
-  getImageList {
-    id
-    filename
-    paths {
-      path
-    }
-  }
-}
-`;
-
 API.graphql(graphqlOperation(getImageList)).then(console.log).catch(console.log);
 
 class App extends Component {
@@ -52,6 +44,7 @@ class App extends Component {
     Auth.currentAuthenticatedUser()
     .then(data => this.setState({ user: data.username }))
     .catch(err => console.log(err));
+    this.props.fetchImageList();
   }
 
   signOut() {
@@ -73,4 +66,6 @@ class App extends Component {
 
 // export default App;
 
-export default withAuthenticator(App);
+export default withAuthenticator(
+  connect(null, actionCreators)(App)
+);
