@@ -10,3 +10,13 @@ export const getImageList = `
   }
 }
 `;
+
+export const getGalleryList = `
+{
+  getGalleryList {
+    id
+    images
+    name
+  }
+}
+`;
