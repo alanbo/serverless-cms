@@ -15,7 +15,6 @@ import { getImageList } from './graphql/image-queries';
 
 // window.LOG_LEVEL = 'DEBUG';
 
-console.log('endpoint: ', aws_vars.graphql_endpoint);
 
 const amp_config = {
   Auth: aws_exports,
@@ -29,11 +28,9 @@ const amp_config = {
   'aws_appsync_authenticationType': 'AWS_IAM',
 };
 
-console.log(amp_config);
 
 Amplify.configure(amp_config);
 
-API.graphql(graphqlOperation(getImageList)).then(console.log).catch(console.log);
 
 class App extends Component {
   state = {
