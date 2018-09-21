@@ -8,7 +8,7 @@ interface Fragment {
 type Gallery {
 	id: ID!
 	name: String!
-	images: [Image]!
+	images: [ID]!
 }
 
 type Image implements Fragment {
@@ -84,6 +84,7 @@ type Query {
 	getMenu(id: ID!): Menu
 	getGallery(id: ID!): Gallery
 	getGalleryList: [Gallery]
+	getGalleryListId: [ID]
 	getImageList: [Image]
 }
 

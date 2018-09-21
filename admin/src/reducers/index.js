@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 import imageList from './imageList';
+import galleryList from './galleryList';
 
 const serverless = combineReducers({
-  imageList
+  imageList,
+  galleryList
 });
 
 export default serverless;

@@ -44,7 +44,9 @@ class App extends Component {
     Auth.currentAuthenticatedUser()
     .then(data => this.setState({ user: data.username }))
     .catch(err => console.log(err));
+
     this.props.fetchImageList();
+    this.props.fetchGalleryList();
   }
 
   signOut() {
