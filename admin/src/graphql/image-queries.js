@@ -20,3 +20,21 @@ export const getGalleryList = `
   }
 }
 `;
+
+export const addGallery = `
+mutation AddGallery($name: String!) {
+  addGallery(name: $name) {
+    id
+    images
+    name
+  }
+}
+`;
+
+export const removeGallery = `
+mutation RemoveGallery($id: ID!) {
+  removeGallery(id: $id) {
+    name
+  }
+}
+`;

@@ -90,6 +90,7 @@ resources:
     putMenu: ${file(./settings/graphql-api/resolvers/putMenu.yml)}
     putText: ${file(./settings/graphql-api/resolvers/putText.yml)}
     addImage: ${file(./settings/graphql-api/resolvers/addImage.yml)}
+    addGallery: ${file(./settings/graphql-api/resolvers/addGallery.yml)}
     
     addImageToGallery: ${file(./settings/graphql-api/resolvers/addImageToGallery.yml)}
     removeGallery: ${file(./settings/graphql-api/resolvers/removeGallery.yml)}
