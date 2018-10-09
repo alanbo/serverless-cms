@@ -10,6 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Icon from '@material-ui/core/Icon';
+import { Link } from 'react-router-dom';
 
 const styles = theme => ({
   root: {
@@ -41,7 +42,7 @@ function FolderTable(props) {
             return (
               <TableRow key={n.name}>
                 <TableCell component="th" scope="row">
-                  {n.name}
+                  <Link to={ `/photos/${n.name}` }>{n.name}</Link>
                 </TableCell>
                 <TableCell numeric>{n.files}</TableCell>
                 <TableCell>

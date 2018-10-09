@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Amplify, { Auth, Storage, API, graphqlOperation } from 'aws-amplify';
 import { withAuthenticator } from 'aws-amplify-react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import * as actionCreators from './actions/index';
 
 import NavigationFrame from './components/NavigationFrame';
@@ -66,5 +67,5 @@ class App extends Component {
 // export default App;
 
 export default withAuthenticator(
-  connect(null, actionCreators)(App)
+  withRouter(connect(null, actionCreators)(App))
 );

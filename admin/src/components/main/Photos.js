@@ -10,6 +10,9 @@ import FormDialog from './photos/FormDialog';
 import FolderTable from './photos/FolderTable';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../actions/index';
+import { withRouter, Link, Route } from 'react-router-dom';
+import Gallery from './photos/Gallery';
+
 
 const styles = theme => ({
   button: {
@@ -28,37 +31,7 @@ class Photos extends Component {
     }
   }
 
-  listGalleries = () => {
-    return Storage.list('images/')
-      .then(result => {
-        const galleries = _.uniq(result.map(path => {
-          return path.key.split('/')[1];
-        }));
-
-        return Promise.all(galleries.map(name => {
-          return Storage.list(`images/${name}/thumbnail`).then(subresult => {
-            return {
-              name,
-              files: subresult
-            }
-          });
-        }))
-      })
-      .then(galleries => {
-        this.setState({ galleries });
-      })
-      .catch(err => console.log(err));
-  }
-
-  componentDidMount() {
-    this.listGalleries();
-  }
-
   listFolders() {
-    // return this.state.galleries.map(gallery => {
-    //   return <p key={ gallery }>{ gallery }</p>
-    // })
-
     const data = Object.keys(this.props.galleries).map(name => {
       return {
         name,
@@ -93,8 +66,6 @@ class Photos extends Component {
     return (
       <div>
         <h1>Photos</h1>
-        {/* <S3Image path="temp/" picker /> */}
-        <S3Album path="temp/" picker />
         { this.listFolders() }
         <Button variant="fab" color="primary" aria-label="add" className= { classes.button } onClick={ this.addFolderDialog.bind(this) }>
           <AddIcon />
@@ -104,9 +75,6 @@ class Photos extends Component {
           ? <FormDialog onClose={ this.addFolder.bind(this) }/>
           : ''
         }
-
-        {/* <FolderTable /> */}
-
       </div>
     );
   }
@@ -119,6 +87,6 @@ function mapStateToProps(state) {
   }
 }
 
-Photos = connect(mapStateToProps, actionCreators)(withStyles(styles)(Photos));
+Photos = withRouter(connect(mapStateToProps, actionCreators)(withStyles(styles)(Photos)));
 
 export { Photos };
