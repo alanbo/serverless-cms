@@ -23,7 +23,7 @@ TabContainer.propTypes = {
 const styles = theme => ({
   root: {
     backgroundColor: theme.palette.background.paper,
-    width: 500,
+    width: '100%',
   },
 });
 
@@ -52,10 +52,10 @@ class FullWidthTabs extends React.Component {
             indicatorColor="primary"
             textColor="primary"
             fullWidth
+            centered
           >
-            <Tab label="Item One" />
-            <Tab label="Item Two" />
-            <Tab label="Item Three" />
+            <Tab label="Images" />
+            <Tab label="Galleries" />
           </Tabs>
         </AppBar>
         <SwipeableViews
@@ -63,9 +63,12 @@ class FullWidthTabs extends React.Component {
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}
         >
-          <TabContainer dir={theme.direction}>Item One</TabContainer>
-          <TabContainer dir={theme.direction}>Item Two</TabContainer>
-          <TabContainer dir={theme.direction}>Item Three</TabContainer>
+          <TabContainer dir={theme.direction}>
+            { this.props.children[0] }
+          </TabContainer>
+          <TabContainer dir={theme.direction}>
+            { this.props.children[1] }
+          </TabContainer>
         </SwipeableViews>
       </div>
     );
