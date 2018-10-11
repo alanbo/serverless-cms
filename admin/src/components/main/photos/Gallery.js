@@ -28,23 +28,6 @@ const styles = theme => ({
   },
 });
 
-/**
- * The example data is structured as follows:
- *
- * import image from 'path/to/image.jpg';
- * [etc...]
- *
- * const tileData = [
- *   {
- *     img: image,
- *     title: 'Image',
- *     author: 'author',
- *   },
- *   {
- *     [etc...]
- *   },
- * ];
- */
 function makeImgPath(path) {
   return `https://s3-${aws_vars.region}.amazonaws.com/${aws_vars.bucket}/${path}`;
 }
@@ -54,11 +37,13 @@ class TitlebarGridList extends Component {
     const { classes } = this.props;
     const { gallery_name } = this.props.match.params;
     const gallery = this.props.galleries[gallery_name];
-    const images = gallery && Object.keys(this.props.images).length
-      ? gallery.images
-        .map(image_id => this.props.images[image_id])
-      : [];
-    console.log(images);
+    let images = [];
+
+    if (gallery && Object.keys(this.props.images).length) {
+      images = gallery.images.map(image_id => this.props.images[image_id])
+    } else if (this.props.all) {
+      images = Object.keys(this.props.images).map(key => this.props.images[key]);
+    }
 
     return (
       <div className={classes.root}>

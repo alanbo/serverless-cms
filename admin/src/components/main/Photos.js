@@ -8,10 +8,12 @@ import AddIcon from '@material-ui/icons/Add';
 import Icon from '@material-ui/core/Icon';
 import FormDialog from './photos/FormDialog';
 import FolderTable from './photos/FolderTable';
+import FullWidthTabs from './photos/Tabs';
+import Gallery from './photos/Gallery';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../actions/index';
 import { withRouter, Link, Route } from 'react-router-dom';
-import Gallery from './photos/Gallery';
+
 
 
 const styles = theme => ({
@@ -39,7 +41,7 @@ class Photos extends Component {
       }
     });
 
-    return <FolderTable data={ data } onDelete={ this.onDelete }/>
+    return <FolderTable data={ data } onDelete={ this.onDelete } key="galleries" />
   }
 
   onDelete = gallery => {
@@ -66,7 +68,14 @@ class Photos extends Component {
     return (
       <div>
         <h1>Photos</h1>
-        { this.listFolders() }
+        <FullWidthTabs>
+          {
+            [
+              <Gallery all={ true } key="all_images"/>,
+              this.listFolders()
+            ]
+          }
+        </FullWidthTabs>
         <Button variant="fab" color="primary" aria-label="add" className= { classes.button } onClick={ this.addFolderDialog.bind(this) }>
           <AddIcon />
         </Button>
