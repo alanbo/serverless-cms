@@ -8,6 +8,13 @@ import AddIcon from '@material-ui/icons/Add';
 import Icon from '@material-ui/core/Icon';
 import FormDialog from './photos/FormDialog';
 import FolderTable from './photos/FolderTable';
+import FullWidthTabs from './photos/Tabs';
+import Gallery from './photos/Gallery';
+import { connect } from 'react-redux';
+import * as actionCreators from '../../actions/index';
+import { withRouter, Link, Route } from 'react-router-dom';
+
+
 
 const styles = theme => ({
   button: {
@@ -26,80 +33,33 @@ class Photos extends Component {
     }
   }
 
-  listGalleries = () => {
-    return Storage.list('images/')
-      .then(result => {
-        console.log(result);
-        const galleries = _.uniq(result.map(path => {
-          return path.key.split('/')[1];
-        }));
-
-        return Promise.all(galleries.map(name => {
-          return Storage.list(`images/${name}/thumbnail`).then(subresult => {
-            return {
-              name,
-              files: subresult
-            }
-          });
-        }))
-      })
-      .then(galleries => {
-        this.setState({ galleries });
-        console.log(this.state.galleries);
-      })
-      .catch(err => console.log(err));
-  }
-
-  componentDidMount() {
-    this.listGalleries();
-  }
-
   listFolders() {
-    // return this.state.galleries.map(gallery => {
-    //   return <p key={ gallery }>{ gallery }</p>
-    // })
-
-    const data = this.state.galleries.map(({ name, files }) => {
+    const data = Object.keys(this.props.galleries).map(name => {
       return {
         name,
-        files: files.length
+        files: this.props.galleries[name].images.length || 0
       }
     });
 
-    console.log(data);
-
-    return <FolderTable data={ data } onDelete={ this.onDelete }/>
+    return <FolderTable data={ data } onDelete={ this.onDelete } key="galleries" />
   }
 
-  onDelete = async gallery => {
-    console.log(gallery);
-    const files = this.state.galleries.find(g => g.name === gallery).files;
-    console.log('files', files);
-
-    await files.map(file => Storage.remove(file.key));
-
-    Storage.remove(`images/${gallery}/`)
-      .then(result => {
-        console.log('removed');
-        this.listGalleries();
-      })
-      .catch(err => console.log(err));
+  onDelete = gallery => {
+    this.props.removeGallery(this.props.galleries[gallery].id);
   }
 
   addFolderDialog() {
     this.setState({
       add_dialog_open: true
     });
-    console.log('dialog open');
   }
 
   addFolder(name) {
-    Storage.put(`images/${name}/`, '')
-      .then(this.listGalleries);
+    this.props.addGallery(name);
+
     this.setState({
       add_dialog_open: false
     });
-    console.log(name);
   }
 
   render() {
@@ -108,9 +68,14 @@ class Photos extends Component {
     return (
       <div>
         <h1>Photos</h1>
-        {/* <S3Image path="temp/" picker /> */}
-        <S3Album path="temp/" picker />
-        { this.listFolders() }
+        <FullWidthTabs>
+          {
+            [
+              <Gallery all={ true } key="all_images"/>,
+              this.listFolders()
+            ]
+          }
+        </FullWidthTabs>
         <Button variant="fab" color="primary" aria-label="add" className= { classes.button } onClick={ this.addFolderDialog.bind(this) }>
           <AddIcon />
         </Button>
@@ -119,14 +84,18 @@ class Photos extends Component {
           ? <FormDialog onClose={ this.addFolder.bind(this) }/>
           : ''
         }
-
-        {/* <FolderTable /> */}
-
       </div>
     );
   }
 }
 
-Photos = withStyles(styles)(Photos);
+function mapStateToProps(state) {
+  return {
+    galleries: state.galleryList,
+    images: state.imageList
+  }
+}
+
+Photos = withRouter(connect(mapStateToProps, actionCreators)(withStyles(styles)(Photos)));
 
 export { Photos };

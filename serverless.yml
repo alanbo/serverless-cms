@@ -90,7 +90,16 @@ resources:
     putMenu: ${file(./settings/graphql-api/resolvers/putMenu.yml)}
     putText: ${file(./settings/graphql-api/resolvers/putText.yml)}
     addImage: ${file(./settings/graphql-api/resolvers/addImage.yml)}
-
+    addGallery: ${file(./settings/graphql-api/resolvers/addGallery.yml)}
+    
+    addImageToGallery: ${file(./settings/graphql-api/resolvers/addImageToGallery.yml)}
+    removeGallery: ${file(./settings/graphql-api/resolvers/removeGallery.yml)}
+    removeImage: ${file(./settings/graphql-api/resolvers/removeImage.yml)}
+    removeImageFromGallery: ${file(./settings/graphql-api/resolvers/removeImageFromGallery.yml)}
+    getImageList: ${file(./settings/graphql-api/resolvers/getImageList.yml)}
+    getGalleryList: ${file(./settings/graphql-api/resolvers/getImageList.yml)}
+    # galleryImages: ${file(./settings/graphql-api/resolvers/gallery-images.yml)}
+    
     getText: ${file(./settings/graphql-api/resolvers/getText.yml)}
     getMenu: ${file(./settings/graphql-api/resolvers/getMenu.yml)}
     getImage: ${file(./settings/graphql-api/resolvers/getImage.yml)}

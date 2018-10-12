@@ -1,0 +1,13 @@
+{
+  "serverless-testing-site-fragments": {
+    "Keys": [{
+        "id": {
+          "S": "50a47161-be10-4e54-8391-1ed703b4d46e"
+        },
+        "type": {
+          "S": "image"
+        }
+      }
+    ]
+  }
+}
