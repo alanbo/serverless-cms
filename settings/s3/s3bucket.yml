@@ -17,7 +17,7 @@ Properties:
                 Value: public/temp/
               - Name: suffix
                 Value: .jpg
-
+  
         Function:
           Fn::GetAtt: ["ResizeLambdaFunction", "Arn"]
 

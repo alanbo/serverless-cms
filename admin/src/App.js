@@ -1,24 +1,37 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Amplify, { Auth, Storage, API, graphqlOperation } from 'aws-amplify';
+import { withAuthenticator } from 'aws-amplify-react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import * as actionCreators from './actions/index';
 
 import NavigationFrame from './components/NavigationFrame';
 import Main from './components/Main'
-import { Switch, Route } from 'react-router-dom'
 
-import Amplify, { Auth, Storage } from 'aws-amplify';
-import { withAuthenticator } from 'aws-amplify-react';
 import aws_exports from './cognito';
+import aws_vars from './aws-stack-vars';
+import './App.css';
+
+import { getImageList } from './graphql/image-queries';
 
 // window.LOG_LEVEL = 'DEBUG';
 
-Amplify.configure({
+
+const amp_config = {
   Auth: aws_exports,
   Storage: {
     bucket: 'serverless-testing-site-public',
-    region: 'us-west-2'
-  }
-});
+    region: aws_vars.region
+  },
+
+  'aws_appsync_graphqlEndpoint': aws_vars.graphql_endpoint,
+  'aws_appsync_region': aws_vars.region,
+  'aws_appsync_authenticationType': 'AWS_IAM',
+};
+
+
+Amplify.configure(amp_config);
+
 
 class App extends Component {
   state = {
@@ -29,6 +42,9 @@ class App extends Component {
     Auth.currentAuthenticatedUser()
     .then(data => this.setState({ user: data.username }))
     .catch(err => console.log(err));
+
+    this.props.fetchImageList();
+    this.props.fetchGalleryList();
   }
 
   signOut() {
@@ -50,4 +66,6 @@ class App extends Component {
 
 // export default App;
 
-export default withAuthenticator(App);
+export default withAuthenticator(
+  withRouter(connect(null, actionCreators)(App))
+);
