@@ -10,6 +10,7 @@ import FormDialog from './photos/FormDialog';
 import FolderTable from './photos/FolderTable';
 import FullWidthTabs from './photos/Tabs';
 import Gallery from './photos/Gallery';
+import S3ImageUpload from './photos/S3ImageUpload';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../actions/index';
 import { withRouter, Link, Route } from 'react-router-dom';
@@ -29,8 +30,10 @@ class Photos extends Component {
     super();
     this.state = {
       galleries: [],
-      add_dialog_open: false
+      add_dialog_open: false,
+      current_tab: 0
     }
+    this.file_input = React.createRef();
   }
 
   listFolders() {
@@ -49,9 +52,14 @@ class Photos extends Component {
   }
 
   addFolderDialog() {
-    this.setState({
-      add_dialog_open: true
-    });
+    if (!!this.state.current_tab) {
+      this.setState({
+        add_dialog_open: true
+      });
+    } else {
+      this.file_input.current.click();
+      console.log(this.file_input.current);
+    }
   }
 
   addFolder(name) {
@@ -64,11 +72,12 @@ class Photos extends Component {
 
   render() {
     const { classes } = this.props;
+    console.log('tab is ', this.state.current_tab);
 
     return (
       <div>
         <h1>Photos</h1>
-        <FullWidthTabs>
+        <FullWidthTabs onChange={ current_tab => this.setState({ current_tab })}>
           {
             [
               <Gallery all={ true } key="all_images"/>,
@@ -80,8 +89,11 @@ class Photos extends Component {
           <AddIcon />
         </Button>
 
+        <S3ImageUpload ref={ this.file_input } onChange={ this.props.fetchImageList.bind(this)}/>
+
         { this.state.add_dialog_open
-          ? <FormDialog onClose={ this.addFolder.bind(this) }/>
+          ? <FormDialog onClose={ this.addFolder.bind(this) }>
+            </FormDialog>
           : ''
         }
       </div>

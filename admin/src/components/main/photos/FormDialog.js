@@ -53,6 +53,7 @@ export default class FormDialog extends React.Component {
               onChange={ e => this.setState({ text: e.target.value })}
               error={ this.state.error }
             />
+            { this.props.children }
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleCancel} color="primary">
