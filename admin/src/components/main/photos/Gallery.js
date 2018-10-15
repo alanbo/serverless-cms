@@ -10,6 +10,7 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 import aws_vars from '../../../aws-stack-vars';
+import * as actionCreators from '../../../actions/index';
 
 const styles = theme => ({
   root: {
@@ -33,6 +34,10 @@ function makeImgPath(path) {
 }
 
 class TitlebarGridList extends Component {
+  removeImage = (id) => {
+    this.props.removeImage(id);
+  }
+
   render() {
     const { classes } = this.props;
     const { gallery_name } = this.props.match.params;
@@ -58,7 +63,7 @@ class TitlebarGridList extends Component {
                 title={img.filename}
                 subtitle={<span>by: {img.id}</span>}
                 actionIcon={
-                  <IconButton className={classes.icon}>
+                  <IconButton className={classes.icon} onClick={ () => this.removeImage(img.id) }>
                     <InfoIcon />
                   </IconButton>
                 }
@@ -82,4 +87,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(withStyles(styles)(TitlebarGridList)));
+export default withRouter(connect(mapStateToProps, actionCreators)(withStyles(styles)(TitlebarGridList)));

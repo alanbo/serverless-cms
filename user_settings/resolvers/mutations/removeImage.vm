@@ -3,6 +3,6 @@
     "operation" : "DeleteItem",
     "key" : {
         "id" : { "S" : "$ctx.args.id" },
-        "type" : { "S" "image" }
+        "type" : { "S" : "image" }
     }
 }

@@ -75,7 +75,7 @@ type Mutation {
 	addImageToGallery(image_id: ID!, id: ID!): Gallery
 	removeImageFromGallery(image_number: Int!, id: ID!): Gallery
 	addImage(input: ImageInput): Image
-	removeImage(image_id: ID!, id: ID!): Image
+	removeImage(id: ID!): Image
 }
 
 type Query {
