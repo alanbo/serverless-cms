@@ -4,14 +4,16 @@ import {
     getImageList as images_query,
     getGalleryList as gallery_query,
     addGallery as add_gallery_mutation,
-    removeGallery as remove_gallery_mutation
+    removeGallery as remove_gallery_mutation,
+    removeImage as remove_image_mutation
 } from '../graphql/image-queries';
 
 import {
   add_image_list,
   add_gallery_list,
   add_gallery,
-  remove_gallery
+  remove_gallery,
+  remove_image
 } from '../actions/types';
 
 export const fetchImageList = () => {
@@ -53,6 +55,7 @@ export const addGallery = name => {
     }
 }
 
+
 export const removeGallery = id => {
     return dispatch => {
         API.graphql(graphqlOperation(remove_gallery_mutation, { id }))
@@ -60,6 +63,19 @@ export const removeGallery = id => {
                 dispatch({
                     type: remove_gallery,
                     payload: result.data.removeGallery
+                });
+            })
+            .catch(console.log);
+    }
+}
+
+export const removeImage = id => {
+    return dispatch => {
+        API.graphql(graphqlOperation(remove_image_mutation, { id }))
+            .then(result => {
+                dispatch({
+                    type: remove_image,
+                    payload: id
                 });
             })
             .catch(console.log);
