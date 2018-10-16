@@ -8,7 +8,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
-import InfoIcon from '@material-ui/icons/Info';
+import DeleteIcon from '@material-ui/icons/Delete';
 import aws_vars from '../../../aws-stack-vars';
 import * as actionCreators from '../../../actions/index';
 
@@ -19,14 +19,21 @@ const styles = theme => ({
     justifyContent: 'space-around',
     overflow: 'hidden',
     backgroundColor: theme.palette.background.paper,
+    alignItems: 'flex-start'
   },
   gridList: {
-    width: 'auto',
+    width: '100%',
     height: 450,
+    alignItems: 'flex-start'
   },
   icon: {
     color: 'rgba(255, 255, 255, 0.54)',
   },
+  image: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover"
+  }
 });
 
 function makeImgPath(path) {
@@ -58,13 +65,13 @@ class TitlebarGridList extends Component {
           </GridListTile>
           {images.map((img, i) => (
             <GridListTile key={i}>
-              <img src={makeImgPath(img.paths[0].path)} alt={img.filename} />
+              <img src={makeImgPath(img.paths[0].path)} alt={img.filename} className={classes.image}/>
               <GridListTileBar
                 title={img.filename}
                 subtitle={<span>by: {img.id}</span>}
                 actionIcon={
                   <IconButton className={classes.icon} onClick={ () => this.removeImage(img.id) }>
-                    <InfoIcon />
+                    <DeleteIcon />
                   </IconButton>
                 }
               />
