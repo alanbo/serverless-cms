@@ -70,9 +70,16 @@ class Photos extends Component {
     });
   }
 
+  refetchImages = () => {
+    // TO DO: temporary solution through timeout
+    // fix later by using graphql subscriptions
+    setTimeout(() => {
+      this.props.fetchImageList();
+    }, 4000)
+  }
+
   render() {
     const { classes } = this.props;
-    console.log('tab is ', this.state.current_tab);
 
     return (
       <div>
@@ -89,7 +96,7 @@ class Photos extends Component {
           <AddIcon />
         </Button>
 
-        <S3ImageUpload ref={ this.file_input } onChange={ this.props.fetchImageList.bind(this)}/>
+        <S3ImageUpload ref={ this.file_input } onChange={ this.refetchImages }/>
 
         { this.state.add_dialog_open
           ? <FormDialog onClose={ this.addFolder.bind(this) }>

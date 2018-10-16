@@ -17,9 +17,11 @@ import {
 } from '../actions/types';
 
 export const fetchImageList = () => {
+    console.log('fetching images');
     return dispatch => {
         API.graphql(graphqlOperation(images_query))
             .then(result => {
+                console.log(result);
                 dispatch({
                     type: add_image_list,
                     payload: result.data.getImageList
