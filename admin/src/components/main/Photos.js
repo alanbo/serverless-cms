@@ -17,7 +17,7 @@ import { withRouter, Link, Route } from 'react-router-dom';
 
 
 
-const styles = theme => ({
+export const styles = theme => ({
   button: {
     position: 'absolute',
     bottom: theme.spacing.unit * 2,

@@ -40,20 +40,19 @@ function makeImgPath(path) {
   return `https://s3-${aws_vars.region}.amazonaws.com/${aws_vars.bucket}/${path}`;
 }
 
-class TitlebarGridList extends Component {
+class Gallery extends Component {
   removeImage = (id) => {
     this.props.removeImage(id);
   }
 
   render() {
-    const { classes } = this.props;
-    const { gallery_name } = this.props.match.params;
+    const { classes, gallery_name } = this.props;
     const gallery = this.props.galleries[gallery_name];
     let images = [];
 
     if (gallery && Object.keys(this.props.images).length) {
       images = gallery.images.map(image_id => this.props.images[image_id])
-    } else if (this.props.all) {
+    } else {
       images = Object.keys(this.props.images).map(key => this.props.images[key]);
     }
 
@@ -70,9 +69,13 @@ class TitlebarGridList extends Component {
                 title={img.filename}
                 subtitle={<span>by: {img.id}</span>}
                 actionIcon={
-                  <IconButton className={classes.icon} onClick={ () => this.removeImage(img.id) }>
-                    <DeleteIcon />
-                  </IconButton>
+                  this.props.hide_delete
+                  ? false
+                  : (
+                    <IconButton className={classes.icon} onClick={ () => this.removeImage(img.id) }>
+                      <DeleteIcon />
+                    </IconButton>
+                  )
                 }
               />
             </GridListTile>
@@ -83,10 +86,6 @@ class TitlebarGridList extends Component {
   }
 }
 
-TitlebarGridList.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
 function mapStateToProps(state) {
   return {
     galleries: state.galleryList,
@@ -94,4 +93,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default withRouter(connect(mapStateToProps, actionCreators)(withStyles(styles)(TitlebarGridList)));
+export default withRouter(connect(mapStateToProps, actionCreators)(withStyles(styles)(Gallery)));
