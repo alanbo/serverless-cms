@@ -10,11 +10,20 @@ import Gallery from '../photos/Gallery';
 
 export default class AddToGalleryDialog extends React.Component {
   handleClose = () => {
-      this.props.onClose();
+      this.props.onClose(this.selected);
+      this.selected = [];
   };
+
+  // not state to avoid rerender.
+  selected = [];
 
   handleCancel = () => {
       this.props.onCancel();
+      this.selected = [];
+  }
+
+  handleSelect = selected => {
+    this.selected = selected;
   }
 
   render() {
@@ -30,7 +39,7 @@ export default class AddToGalleryDialog extends React.Component {
             <DialogContentText>
                 Click on the image to mark it to be added to gallery. Click it again to unmark it.
             </DialogContentText>
-            <Gallery hide_delete={ true } />
+            <Gallery selectable={ true } onTileClick={ this.handleSelect }/>
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleCancel} color="primary">
