@@ -46,3 +46,12 @@ export const removeImage = `
     }
   }
 `;
+
+export const addImagesToGallery = `
+  mutation addImagesToGallery($image_ids: [ID]!, $id: ID!) {
+    addImagesToGallery(image_ids: $image_ids, id: $id) {
+      name
+      images
+    }
+  }
+`;

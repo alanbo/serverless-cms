@@ -1,7 +1,8 @@
 import {
   add_gallery_list,
   add_gallery,
-  remove_gallery
+  remove_gallery,
+  add_images_to_gallery
 } from '../actions/types';
 
 
@@ -24,6 +25,12 @@ function galleryList(state = {}, action) {
       delete new_state[action.payload.name];
 
       return new_state;
+    case add_images_to_gallery:
+      let galleries_copy = Object.assign({}, state);
+
+      galleries_copy[action.payload.name].images = action.payload.images;
+
+      return galleries_copy;
     default:
       return state
   }

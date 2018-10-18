@@ -7,6 +7,7 @@ import Gallery from './photos/Gallery';
 import { styles } from './Photos';
 
 
+
 class GallerySectionClass extends Component {
     constructor() {
         super();
@@ -22,10 +23,12 @@ class GallerySectionClass extends Component {
         });
     }
 
-    closeDialog = () => {
+    closeDialog = selected => {
         this.setState({
             add_dialog_open: false
         });
+
+        console.log(selected);
     }
 
     render() {
