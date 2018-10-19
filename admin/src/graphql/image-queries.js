@@ -38,3 +38,29 @@ mutation RemoveGallery($id: ID!) {
   }
 }
 `;
+
+export const removeImage = `
+  mutation RemoveImage($id: ID!) {
+    removeImage(id: $id) {
+      filename
+    }
+  }
+`;
+
+export const addImagesToGallery = `
+  mutation addImagesToGallery($image_ids: [ID]!, $id: ID!) {
+    addImagesToGallery(image_ids: $image_ids, id: $id) {
+      name
+      images
+    }
+  }
+`;
+
+export const removeImageFromGallery = `
+  mutation RemoveImageFromGallery($image_number: Int!, $id: ID!) {
+    removeImageFromGallery(image_number: $image_number, id: $id) {
+      name
+      images
+    }
+  }
+`;

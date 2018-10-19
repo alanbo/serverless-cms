@@ -97,7 +97,7 @@ resources:
     removeImage: ${file(./settings/graphql-api/resolvers/removeImage.yml)}
     removeImageFromGallery: ${file(./settings/graphql-api/resolvers/removeImageFromGallery.yml)}
     getImageList: ${file(./settings/graphql-api/resolvers/getImageList.yml)}
-    getGalleryList: ${file(./settings/graphql-api/resolvers/getImageList.yml)}
+    getGalleryList: ${file(./settings/graphql-api/resolvers/getGalleryList.yml)}
     # galleryImages: ${file(./settings/graphql-api/resolvers/gallery-images.yml)}
     
     getText: ${file(./settings/graphql-api/resolvers/getText.yml)}
