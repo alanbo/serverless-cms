@@ -6,11 +6,16 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Gallery from '../photos/Gallery';
+import * as actionCreators from '../../../actions/index';
+import { connect } from 'react-redux';
 
 
-export default class AddToGalleryDialog extends React.Component {
+class AddToGalleryDialog extends React.Component {
   handleClose = () => {
+      const gallery_id = this.props.galleries[this.props.gallery_name].id;
+
       this.props.onClose(this.selected);
+      this.props.addImagesToGallery(gallery_id, this.selected);
       this.selected = [];
   };
 
@@ -54,3 +59,12 @@ export default class AddToGalleryDialog extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    galleries: state.galleryList,
+    images: state.imageList
+  }
+}
+
+export default connect(mapStateToProps, actionCreators)(AddToGalleryDialog);
