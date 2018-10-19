@@ -17,7 +17,6 @@ class GallerySectionClass extends Component {
     }
 
     addDialog() {
-        console.log('adding');
         this.setState({
             add_dialog_open: true
         });
@@ -27,8 +26,6 @@ class GallerySectionClass extends Component {
         this.setState({
             add_dialog_open: false
         });
-
-        console.log(selected);
     }
 
     render() {

@@ -55,3 +55,12 @@ export const addImagesToGallery = `
     }
   }
 `;
+
+export const removeImageFromGallery = `
+  mutation RemoveImageFromGallery($image_number: Int!, $id: ID!) {
+    removeImageFromGallery(image_number: $image_number, id: $id) {
+      name
+      images
+    }
+  }
+`;
