@@ -54,8 +54,14 @@ class Gallery extends Component {
     });
   }
 
-  removeImage = (id) => {
-    this.props.removeImage(id);
+  removeImage = (id, i) => {
+    if (this.props.gallery_name) {
+      const gallery_id = this.props.galleries[this.props.gallery_name].id;
+
+      this.props.removeImageFromGallery(gallery_id, i);
+    } else {
+      this.props.removeImage(id);
+    }
   }
 
   onTileClick = (img, i) => {
@@ -112,7 +118,7 @@ class Gallery extends Component {
               this.props.selectable
               ? false
               : (
-                <IconButton className={classes.icon} onClick={ () => this.removeImage(img.id) }>
+                <IconButton className={classes.icon} onClick={ () => this.removeImage(img.id, i) }>
                   <DeleteIcon />
                 </IconButton>
               )
