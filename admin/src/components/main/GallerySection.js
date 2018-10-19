@@ -45,7 +45,11 @@ class GallerySectionClass extends Component {
 
                 {
                     this.state.add_dialog_open
-                        ? <AddToGalleryDialog onClose={ this.closeDialog } onCancel={ this.closeDialog } />
+                        ? <AddToGalleryDialog
+                            onClose={ this.closeDialog }
+                            onCancel={ this.closeDialog }
+                            gallery_name={ gallery_name }
+                          />
                         : null
                 }
             </div>
