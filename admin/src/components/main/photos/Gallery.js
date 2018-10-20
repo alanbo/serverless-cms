@@ -148,13 +148,12 @@ class Gallery extends Component {
       return;
     }
 
-    const images = [...this.props.galleries[this.props.gallery_name].images];
+    const { id, images }= this.props.galleries[this.props.gallery_name];
+
     const dragged_img = images.splice(this.current_dragged, 1)[0];
     images.splice(i, 0, dragged_img);
 
-    if (this.props.onReorder) {
-      this.props.onReorder(images);
-    }
+    this.props.reorderImagesInGallery(id, images);
   }
   
 
