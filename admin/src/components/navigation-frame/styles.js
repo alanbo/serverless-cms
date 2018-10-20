@@ -63,6 +63,7 @@ const styles = theme => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing.unit * 3,
+    overflow: 'auto'
   },
   flex: {
     flex: 1,

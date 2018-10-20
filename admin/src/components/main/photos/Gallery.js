@@ -23,7 +23,7 @@ const styles = theme => ({
   },
   gridList: {
     width: '100%',
-    height: 450,
+    height: 'auto',
     alignItems: 'flex-start'
   },
   icon: {
@@ -32,10 +32,17 @@ const styles = theme => ({
   image: {
     width: "100%",
     height: "100%",
-    objectFit: "cover"
+    objectFit: "cover",
+    pointerEvents: 'none'
   },
   selected: {
     opacity: 0.5
+  },
+
+  tileDragEnter: {
+    '& .gallery-tile *': {
+      pointerEvents: 'none'
+    }
   }
 });
 
@@ -47,6 +54,9 @@ class Gallery extends Component {
   state = {
     selected_images: []
   }
+
+  galleryRef = React.createRef();
+  current_dragged = NaN;
 
   selectedToArr() {
     return Object.keys(this.state.selected_images).filter( id => {
@@ -90,6 +100,64 @@ class Gallery extends Component {
     }
   }
 
+  onDragEnter = event => {
+    if (!this.props.reorder_allowed) {
+      return;
+    }
+
+    const tile = event.currentTarget;
+
+    if (tile.tagName === 'LI') {
+      tile.style.opacity = 0.4;
+      tile.style.filter = 'grayscale(100%)';
+    }
+  }
+
+  onDragLeave = event => {
+    if (!this.props.reorder_allowed) {
+      return;
+    }
+
+    const tile = event.currentTarget;
+
+    if (tile.tagName === 'LI') {
+      tile.style.opacity = '';
+      tile.style.filter = '';
+    }
+  }
+
+  onDragStart = (e, i) => {
+    if (!this.props.reorder_allowed) {
+      return;
+    }
+
+    this.current_dragged = i;
+    this.galleryRef.current.classList.add(this.props.classes.tileDragEnter);
+  }
+
+  onDragEnd = () => {
+    if (!this.props.reorder_allowed) {
+      return;
+    }
+
+    this.galleryRef.current.classList.remove(this.props.classes.tileDragEnter);
+  }
+
+  onDrop = (e, i) => {
+    if (!this.props.reorder_allowed) {
+      return;
+    }
+
+    const images = [...this.props.galleries[this.props.gallery_name].images];
+    const dragged_img = images.splice(this.current_dragged, 1)[0];
+    images.splice(i, 0, dragged_img);
+
+    if (this.props.onReorder) {
+      this.props.onReorder(images);
+    }
+  }
+  
+
   renderImageTiles() {
     const { classes, gallery_name } = this.props;
     const gallery = this.props.galleries[gallery_name];
@@ -108,9 +176,20 @@ class Gallery extends Component {
         <GridListTile
           key={i}
           onClick={ () => this.onTileClick(img, i) }
-          className={ selected ? classes.selected : '' }
+          className={ `${selected ? classes.selected : ''} gallery-tile` }
+          draggable={ this.props.reorder_allowed }
+          onDragEnter={ this.onDragEnter }
+          onDragLeave={ this.onDragLeave }
+          onDragStart={ e => this.onDragStart(e, i) }
+          onDragEnd={ this.onDragEnd }
+          onDrop={ e => this.onDrop(e, i) }
+          onDragOver={ e => e.preventDefault() }
         >
-          <img src={makeImgPath(img.paths[0].path)} alt={img.filename} className={classes.image}/>
+          <img
+            src={makeImgPath(img.paths[0].path)}
+            alt={img.filename}
+            className={classes.image}
+          />
           <GridListTileBar
             title={img.filename}
             subtitle={<span>by: {img.id}</span>}
@@ -141,7 +220,7 @@ class Gallery extends Component {
     }
 
     return (
-      <div className={classes.root}>
+      <div className={classes.root} ref={ this.galleryRef }>
         <GridList cellHeight={180} className={classes.gridList}>
           <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
             <ListSubheader component="div">{gallery_name}</ListSubheader>
