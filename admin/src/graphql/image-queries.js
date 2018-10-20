@@ -64,3 +64,13 @@ export const removeImageFromGallery = `
     }
   }
 `;
+
+export const reorderImagesInGallery = `
+  mutation ReorderImagesInGallery($image_ids: [ID]!, $id: ID!) {
+    reorderImagesInGallery(image_ids: $image_ids, id: $id) {
+      id
+      images
+      name
+    }
+  }
+`;

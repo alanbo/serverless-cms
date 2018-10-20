@@ -7,7 +7,8 @@ import {
     removeGallery as remove_gallery_mutation,
     removeImage as remove_image_mutation,
     addImagesToGallery as add_images_to_gallery_mutation,
-    removeImageFromGallery as remove_image_from_gallery_mutation
+    removeImageFromGallery as remove_image_from_gallery_mutation,
+    reorderImagesInGallery as reorder_images_in_gallery_mutation
 } from '../graphql/image-queries';
 
 import {
@@ -17,7 +18,8 @@ import {
   remove_gallery,
   remove_image,
   add_images_to_gallery,
-  remove_image_from_gallery
+  remove_image_from_gallery,
+  reorder_images_in_gallery
 } from '../actions/types';
 
 export const fetchImageList = () => {
@@ -108,6 +110,20 @@ export const removeImageFromGallery = (id, image_number) => {
                 dispatch({
                     type: remove_image_from_gallery,
                     payload: result.data.removeImageFromGallery
+                });
+            })
+            .catch(console.log);
+    }
+}
+
+
+export const reorderImagesInGallery = (id, image_ids) => {
+    return dispatch => {
+        API.graphql(graphqlOperation(reorder_images_in_gallery_mutation, { id, image_ids }))
+            .then(result => {
+                dispatch({
+                    type: reorder_images_in_gallery,
+                    payload: result.data.reorderImagesInGallery
                 });
             })
             .catch(console.log);
