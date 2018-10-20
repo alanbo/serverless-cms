@@ -43,6 +43,11 @@ const styles = theme => ({
     '& .gallery-tile *': {
       pointerEvents: 'none'
     }
+  },
+
+  draggedOver: {
+    opacity: 0.4,
+    filter: 'grayscale(100%)'
   }
 });
 
@@ -52,7 +57,8 @@ function makeImgPath(path) {
 
 class Gallery extends Component {
   state = {
-    selected_images: []
+    selected_images: [],
+    dragged_over: NaN
   }
 
   galleryRef = React.createRef();
@@ -141,7 +147,9 @@ class Gallery extends Component {
     }
 
     this.galleryRef.current.classList.remove(this.props.classes.tileDragEnter);
+    this.setState({ dragged_over: NaN })
   }
+
 
   onDrop = (e, i) => {
     if (!this.props.reorder_allowed) {
@@ -170,15 +178,19 @@ class Gallery extends Component {
 
     return images.map((img, i) => {
       const selected = this.state.selected_images[img.id];
+      const dragged_over = this.state.dragged_over === i;
+
+      const selected_class = selected ? classes.selected : '';
+      const dragged_over_class = dragged_over ? classes.draggedOver: ''; 
+      const final_class = `gallery-tile ${selected_class} ${dragged_over_class}`;
 
       return (
         <GridListTile
           key={i}
           onClick={ () => this.onTileClick(img, i) }
-          className={ `${selected ? classes.selected : ''} gallery-tile` }
+          className={ final_class }
           draggable={ this.props.reorder_allowed }
-          onDragEnter={ this.onDragEnter }
-          onDragLeave={ this.onDragLeave }
+          onDragEnter={ () => this.setState({ dragged_over: i }) }
           onDragStart={ e => this.onDragStart(e, i) }
           onDragEnd={ this.onDragEnd }
           onDrop={ e => this.onDrop(e, i) }
