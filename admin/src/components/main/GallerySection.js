@@ -35,7 +35,7 @@ class GallerySectionClass extends Component {
 
         return (
             <div>
-                <Gallery gallery_name={ gallery_name } />
+                <Gallery gallery_name={ gallery_name } reorder_allowed={ true }/>
                 <Button variant="fab" color="primary" aria-label="add" className= { classes.button } onClick={ this.addDialog.bind(this) }>
                     <AddIcon />
                 </Button>

@@ -73,7 +73,9 @@ type Mutation {
 	addGallery(name: String!): Gallery
 	removeGallery(id: ID!): Gallery
 	addImageToGallery(image_id: ID!, id: ID!): Gallery
+	addImagesToGallery(image_ids: [ID]!, id: ID!): Gallery
 	removeImageFromGallery(image_number: Int!, id: ID!): Gallery
+	reorderImagesInGallery(image_ids: [ID]!, id: ID!): Gallery
 	addImage(input: ImageInput): Image
 	removeImage(id: ID!): Image
 }

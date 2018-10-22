@@ -3,7 +3,8 @@ import {
   add_gallery,
   remove_gallery,
   add_images_to_gallery,
-  remove_image_from_gallery
+  remove_image_from_gallery,
+  reorder_images_in_gallery
 } from '../actions/types';
 
 
@@ -30,6 +31,7 @@ function galleryList(state = {}, action) {
       return new_state;
     }
 
+    case reorder_images_in_gallery:
     case add_images_to_gallery: {
       let galleries_copy = Object.assign({}, state);
 
