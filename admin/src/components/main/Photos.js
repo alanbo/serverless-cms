@@ -8,7 +8,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Icon from '@material-ui/core/Icon';
 import FormDialog from './photos/FormDialog';
 import FolderTable from './photos/FolderTable';
-import FullWidthTabs from './photos/Tabs';
+import FullWidthTabs from './common/Tabs';
 import Gallery from './photos/Gallery';
 import S3ImageUpload from './photos/S3ImageUpload';
 import { connect } from 'react-redux';
@@ -84,7 +84,10 @@ class Photos extends Component {
     return (
       <div>
         <h1>Photos</h1>
-        <FullWidthTabs onChange={ current_tab => this.setState({ current_tab })}>
+        <FullWidthTabs
+          onChange={ current_tab => this.setState({ current_tab })}
+          titles={ ['Images', 'Galleries' ]}
+        >
           {
             [
               <Gallery all={ true } key="all_images"/>,

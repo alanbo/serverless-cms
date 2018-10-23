@@ -45,7 +45,7 @@ class FullWidthTabs extends React.Component {
   };
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes, theme, titles, children } = this.props;
 
     return (
       <div className={classes.root}>
@@ -58,8 +58,9 @@ class FullWidthTabs extends React.Component {
             fullWidth
             centered
           >
-            <Tab label="Images" />
-            <Tab label="Galleries" />
+            {
+              titles.map(title => (<Tab label={ title } />))
+            }
           </Tabs>
         </AppBar>
         <SwipeableViews
@@ -67,12 +68,9 @@ class FullWidthTabs extends React.Component {
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}
         >
-          <TabContainer dir={theme.direction}>
-            { this.props.children[0] }
-          </TabContainer>
-          <TabContainer dir={theme.direction}>
-            { this.props.children[1] }
-          </TabContainer>
+          {
+            children.map(child => (<TabContainer dir={theme.direction}>{ child }</TabContainer>))
+          }
         </SwipeableViews>
       </div>
     );
