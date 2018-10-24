@@ -5,8 +5,9 @@ import _ from 'lodash';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
+import TextField from '@material-ui/core/TextField';
 import Icon from '@material-ui/core/Icon';
-import FormDialog from './photos/FormDialog';
+import AddDialog from './common/AddDialog';
 import FolderTable from './photos/FolderTable';
 import FullWidthTabs from './common/Tabs';
 import Gallery from './photos/Gallery';
@@ -14,16 +15,10 @@ import S3ImageUpload from './photos/S3ImageUpload';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../actions/index';
 import { withRouter, Link, Route } from 'react-router-dom';
+import styles from './common/btn_styles';
 
+const match = /^[a-zA-Z0-9_]+$/ig;
 
-
-export const styles = theme => ({
-  button: {
-    position: 'absolute',
-    bottom: theme.spacing.unit * 2,
-    right: theme.spacing.unit * 2,
-  },
-});
 
 class Photos extends Component {
   constructor() {
@@ -31,7 +26,9 @@ class Photos extends Component {
     this.state = {
       galleries: [],
       add_dialog_open: false,
-      current_tab: 0
+      current_tab: 0,
+      input_text: '',
+      input_error: false
     }
     this.file_input = React.createRef();
   }
@@ -58,15 +55,28 @@ class Photos extends Component {
       });
     } else {
       this.file_input.current.click();
-      console.log(this.file_input.current);
     }
   }
 
   addFolder(name) {
-    this.props.addGallery(name);
+    if (match.test(this.state.text)){
+      this.setState({ input_error: false });
+      this.props.addGallery(this.state.input_text);
 
+      this.setState({
+        add_dialog_open: false,
+        input_error: false
+      });
+    } else {
+      this.setState({ input_error: true });
+    }
+
+  }
+
+  cancelAddFolder() {
     this.setState({
-      add_dialog_open: false
+      add_dialog_open: false,
+      input_text: ''
     });
   }
 
@@ -102,8 +112,25 @@ class Photos extends Component {
         <S3ImageUpload ref={ this.file_input } onChange={ this.refetchImages }/>
 
         { this.state.add_dialog_open
-          ? <FormDialog onClose={ this.addFolder.bind(this) }>
-            </FormDialog>
+          ? <AddDialog
+              onClose={ this.addFolder.bind(this) }
+              onCancel={ this.cancelAddFolder.bind(this)}
+              title='Add Gallery'
+              text='Type in the name of the gallery. It should be composed of alphanumeric characters and underscores.'
+              add_btn_text='Add Gallery'
+            >
+              <TextField
+                autoFocus
+                margin="dense"
+                id="name"
+                label="Gallery Name"
+                type="text"
+                fullWidth
+                value={ this.state.text }
+                onChange={ e => this.setState({ input_text: e.target.value })}
+                error={ this.state.input_error }
+              />
+            </AddDialog>
           : ''
         }
       </div>
