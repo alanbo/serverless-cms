@@ -5,30 +5,15 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Gallery from '../photos/Gallery';
-import * as actionCreators from '../../../actions/index';
-import { connect } from 'react-redux';
 
 
-class AddToGalleryDialog extends React.Component {
+class AddDialog extends React.Component {
   handleClose = () => {
-      const gallery_id = this.props.galleries[this.props.gallery_name].id;
-
-      this.props.onClose(this.selected);
-      this.props.addImagesToGallery(gallery_id, this.selected);
-      this.selected = [];
+      this.props.onClose();
   };
-
-  // not state to avoid rerender.
-  selected = [];
 
   handleCancel = () => {
       this.props.onCancel();
-      this.selected = [];
-  }
-
-  handleSelect = selected => {
-    this.selected = selected;
   }
 
   render() {
@@ -39,19 +24,19 @@ class AddToGalleryDialog extends React.Component {
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
         >
-          <DialogTitle id="form-dialog-title">Add Image</DialogTitle>
+          <DialogTitle id="form-dialog-title">{ this.props.title }</DialogTitle>
           <DialogContent>
             <DialogContentText>
-                Click on the image to mark it to be added to gallery. Click it again to unmark it.
+              { this.props.text }
             </DialogContentText>
-            <Gallery selectable={ true } onTileClick={ this.handleSelect }/>
+            { this.props.children }
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleCancel} color="primary">
               Cancel
             </Button>
             <Button onClick={this.handleClose} color="primary">
-              Add Images 
+              { this.props.add_btn_text } 
             </Button>
           </DialogActions>
         </Dialog>
@@ -60,11 +45,4 @@ class AddToGalleryDialog extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    galleries: state.galleryList,
-    images: state.imageList
-  }
-}
-
-export default connect(mapStateToProps, actionCreators)(AddToGalleryDialog);
+export default AddDialog;
