@@ -82,6 +82,7 @@ type Mutation {
 
 type Query {
 	getText(id: ID!): Text
+	getTextList: [Text]
 	getImage(id: ID!): Image
 	getMenu(id: ID!): Menu
 	getGallery(id: ID!): Gallery
