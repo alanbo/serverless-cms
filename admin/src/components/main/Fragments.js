@@ -6,7 +6,7 @@ import Menus from './fragments/Menus';
 import All from './fragments/All';
 import styles from './common/btn_styles';
 import { withStyles } from '@material-ui/core/styles';
-import { withRouter, Link, Route } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Button from '@material-ui/core/Button';

@@ -59,7 +59,7 @@ class FullWidthTabs extends React.Component {
             centered
           >
             {
-              titles.map(title => (<Tab label={ title } />))
+              titles.map(title => (<Tab label={title} key={title} />))
             }
           </Tabs>
         </AppBar>
@@ -69,7 +69,7 @@ class FullWidthTabs extends React.Component {
           onChangeIndex={this.handleChangeIndex}
         >
           {
-            children.map(child => (<TabContainer dir={theme.direction}>{ child }</TabContainer>))
+            children.map((child, i) => (<TabContainer dir={theme.direction} key={i}>{child}</TabContainer>))
           }
         </SwipeableViews>
       </div>

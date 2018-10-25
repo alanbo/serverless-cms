@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
@@ -65,7 +64,7 @@ class Gallery extends Component {
   current_dragged = NaN;
 
   selectedToArr() {
-    return Object.keys(this.state.selected_images).filter( id => {
+    return Object.keys(this.state.selected_images).filter(id => {
       return this.state.selected_images[id];
     });
   }
@@ -156,14 +155,14 @@ class Gallery extends Component {
       return;
     }
 
-    const { id, images }= this.props.galleries[this.props.gallery_name];
+    const { id, images } = this.props.galleries[this.props.gallery_name];
 
     const dragged_img = images.splice(this.current_dragged, 1)[0];
     images.splice(i, 0, dragged_img);
 
     this.props.reorderImagesInGallery(id, images);
   }
-  
+
 
   renderImageTiles() {
     const { classes, gallery_name } = this.props;
@@ -181,20 +180,20 @@ class Gallery extends Component {
       const dragged_over = this.state.dragged_over === i;
 
       const selected_class = selected ? classes.selected : '';
-      const dragged_over_class = dragged_over ? classes.draggedOver: ''; 
+      const dragged_over_class = dragged_over ? classes.draggedOver : '';
       const final_class = `gallery-tile ${selected_class} ${dragged_over_class}`;
 
       return (
         <GridListTile
           key={i}
-          onClick={ () => this.onTileClick(img, i) }
-          className={ final_class }
-          draggable={ this.props.reorder_allowed }
-          onDragEnter={ () => this.setState({ dragged_over: i }) }
-          onDragStart={ e => this.onDragStart(e, i) }
-          onDragEnd={ this.onDragEnd }
-          onDrop={ e => this.onDrop(e, i) }
-          onDragOver={ e => e.preventDefault() }
+          onClick={() => this.onTileClick(img, i)}
+          className={final_class}
+          draggable={this.props.reorder_allowed}
+          onDragEnter={() => this.setState({ dragged_over: i })}
+          onDragStart={e => this.onDragStart(e, i)}
+          onDragEnd={this.onDragEnd}
+          onDrop={e => this.onDrop(e, i)}
+          onDragOver={e => e.preventDefault()}
         >
           <img
             src={makeImgPath(img.paths[0].path)}
@@ -206,12 +205,12 @@ class Gallery extends Component {
             subtitle={<span>by: {img.id}</span>}
             actionIcon={
               this.props.selectable
-              ? false
-              : (
-                <IconButton className={classes.icon} onClick={ () => this.removeImage(img.id, i) }>
-                  <DeleteIcon />
-                </IconButton>
-              )
+                ? false
+                : (
+                  <IconButton className={classes.icon} onClick={() => this.removeImage(img.id, i)}>
+                    <DeleteIcon />
+                  </IconButton>
+                )
             }
           />
         </GridListTile>
@@ -221,22 +220,14 @@ class Gallery extends Component {
 
   render() {
     const { classes, gallery_name } = this.props;
-    const gallery = this.props.galleries[gallery_name];
-    let images = [];
-
-    if (gallery && Object.keys(this.props.images).length) {
-      images = gallery.images.map(image_id => this.props.images[image_id])
-    } else {
-      images = Object.keys(this.props.images).map(key => this.props.images[key]);
-    }
 
     return (
-      <div className={classes.root} ref={ this.galleryRef }>
+      <div className={classes.root} ref={this.galleryRef}>
         <GridList cellHeight={180} className={classes.gridList}>
           <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
             <ListSubheader component="div">{gallery_name}</ListSubheader>
           </GridListTile>
-          { this.renderImageTiles() }
+          {this.renderImageTiles()}
         </GridList>
       </div>
     );

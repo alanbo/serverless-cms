@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import { Storage } from 'aws-amplify';
-import { PhotoPicker, S3Image, S3Album } from 'aws-amplify-react';
-import _ from 'lodash';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import TextField from '@material-ui/core/TextField';
-import Icon from '@material-ui/core/Icon';
 import AddDialog from './common/AddDialog';
 import FolderTable from './photos/FolderTable';
 import FullWidthTabs from './common/Tabs';
@@ -14,7 +10,7 @@ import Gallery from './photos/Gallery';
 import S3ImageUpload from './photos/S3ImageUpload';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../actions/index';
-import { withRouter, Link, Route } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import styles from './common/btn_styles';
 
 const match = /^[a-zA-Z0-9_]+$/ig;
@@ -41,7 +37,7 @@ class Photos extends Component {
       }
     });
 
-    return <FolderTable data={ data } onDelete={ this.onDelete } key="galleries" />
+    return <FolderTable data={data} onDelete={this.onDelete} key="galleries" />
   }
 
   onDelete = gallery => {
@@ -59,7 +55,7 @@ class Photos extends Component {
   }
 
   addFolder(name) {
-    if (match.test(this.state.text)){
+    if (match.test(this.state.text)) {
       this.setState({ input_error: false });
       this.props.addGallery(this.state.input_text);
 
@@ -95,42 +91,42 @@ class Photos extends Component {
       <div>
         <h1>Photos</h1>
         <FullWidthTabs
-          onChange={ current_tab => this.setState({ current_tab })}
-          titles={ ['Images', 'Galleries' ]}
+          onChange={current_tab => this.setState({ current_tab })}
+          titles={['Images', 'Galleries']}
         >
           {
             [
-              <Gallery all={ true } key="all_images"/>,
+              <Gallery all={true} key="all_images" />,
               this.listFolders()
             ]
           }
         </FullWidthTabs>
-        <Button variant="fab" color="primary" aria-label="add" className= { classes.button } onClick={ this.addFolderDialog.bind(this) }>
+        <Button variant="fab" color="primary" aria-label="add" className={classes.button} onClick={this.addFolderDialog.bind(this)}>
           <AddIcon />
         </Button>
 
-        <S3ImageUpload ref={ this.file_input } onChange={ this.refetchImages }/>
+        <S3ImageUpload ref={this.file_input} onChange={this.refetchImages} />
 
-        { this.state.add_dialog_open
+        {this.state.add_dialog_open
           ? <AddDialog
-              onClose={ this.addFolder.bind(this) }
-              onCancel={ this.cancelAddFolder.bind(this)}
-              title='Add Gallery'
-              text='Type in the name of the gallery. It should be composed of alphanumeric characters and underscores.'
-              add_btn_text='Add Gallery'
-            >
-              <TextField
-                autoFocus
-                margin="dense"
-                id="name"
-                label="Gallery Name"
-                type="text"
-                fullWidth
-                value={ this.state.text }
-                onChange={ e => this.setState({ input_text: e.target.value })}
-                error={ this.state.input_error }
-              />
-            </AddDialog>
+            onClose={this.addFolder.bind(this)}
+            onCancel={this.cancelAddFolder.bind(this)}
+            title='Add Gallery'
+            text='Type in the name of the gallery. It should be composed of alphanumeric characters and underscores.'
+            add_btn_text='Add Gallery'
+          >
+            <TextField
+              autoFocus
+              margin="dense"
+              id="name"
+              label="Gallery Name"
+              type="text"
+              fullWidth
+              value={this.state.text}
+              onChange={e => this.setState({ input_text: e.target.value })}
+              error={this.state.input_error}
+            />
+          </AddDialog>
           : ''
         }
       </div>

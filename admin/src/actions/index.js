@@ -25,7 +25,6 @@ import {
   remove_image_from_gallery,
   reorder_images_in_gallery,
   put_text,
-  remove_text
 } from '../actions/types';
 
 export const fetchImageList = () => {
