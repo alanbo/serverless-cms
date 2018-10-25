@@ -6,10 +6,14 @@ import Menus from './fragments/Menus';
 import All from './fragments/All';
 import styles from './common/btn_styles';
 import { withStyles } from '@material-ui/core/styles';
+import { withRouter, Link, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import AddDialog from './common/AddDialog';
 import RichTextEditor from './common/RichTextEditor';
+import * as actionCreators from '../../actions/index';
 
 
 class UnstyledFragments extends Component {
@@ -26,7 +30,7 @@ class UnstyledFragments extends Component {
   }
 
   closeDialog = selected => {
-    console.log(this.current_text);
+    this.props.putText(this.current_text);
     this.current_text = '';
 
     this.setState({
@@ -76,6 +80,14 @@ class UnstyledFragments extends Component {
   }
 };
 
-const Fragments = withStyles(styles)(UnstyledFragments);
+
+function mapStateToProps(state) {
+  return {
+    galleries: state.galleryList,
+    images: state.imageList
+  }
+}
+
+const Fragments = withRouter(connect(mapStateToProps, actionCreators)(withStyles(styles)(UnstyledFragments)));
 
 export { Fragments };
