@@ -5,6 +5,14 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = theme => ({
+    dialog: {
+        width: '80vw',
+        maxWidth: '80vw'
+    }
+});
 
 
 class AddDialog extends React.Component {
@@ -17,12 +25,17 @@ class AddDialog extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
+
     return (
-      <div>
+      <div> 
         <Dialog
           open={ true }
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
+          classes={{
+            paper: classes.dialog
+          }}
         >
           <DialogTitle id="form-dialog-title">{ this.props.title }</DialogTitle>
           <DialogContent>
@@ -45,4 +58,4 @@ class AddDialog extends React.Component {
   }
 }
 
-export default AddDialog;
+export default withStyles(styles)(AddDialog);
