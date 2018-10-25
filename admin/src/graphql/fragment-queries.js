@@ -5,4 +5,13 @@ export const putText = `
       text
     }
   }
-`
+`;
+
+export const getTextList = `
+  {
+    getTextList {
+      id
+      text
+    }
+  }
+`;

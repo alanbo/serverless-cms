@@ -12,7 +12,8 @@ import {
 } from '../graphql/image-queries';
 
 import {
-  putText as put_text_mutation
+  putText as put_text_mutation,
+  getTextList as get_text_list_query
 } from '../graphql/fragment-queries';
 
 import {
@@ -25,6 +26,7 @@ import {
   remove_image_from_gallery,
   reorder_images_in_gallery,
   put_text,
+  get_text_list
 } from '../actions/types';
 
 export const fetchImageList = () => {
@@ -143,6 +145,19 @@ export const putText = text => {
         dispatch({
           type: put_text,
           payload: result.data.putText
+        });
+      })
+      .catch(console.log);
+  }
+}
+
+export const getTextList = () => {
+  return dispatch => {
+    API.graphql(graphqlOperation(get_text_list_query))
+      .then(result => {
+        dispatch({
+          type: get_text_list,
+          payload: result.data.getTextList
         });
       })
       .catch(console.log);
