@@ -103,6 +103,7 @@ resources:
     # galleryImages: ${file(./settings/graphql-api/resolvers/gallery-images.yml)}
     
     getText: ${file(./settings/graphql-api/resolvers/getText.yml)}
+    getTextList: ${file(./settings/graphql-api/resolvers/getTextList.yml)}
     getMenu: ${file(./settings/graphql-api/resolvers/getMenu.yml)}
     getImage: ${file(./settings/graphql-api/resolvers/getImage.yml)}
     getGallery: ${file(./settings/graphql-api/resolvers/getGallery.yml)}
