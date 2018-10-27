@@ -9,7 +9,7 @@ function removeHtml(html) {
 
   div.innerHTML = html;
 
-  return div.textContent;
+  return div.textContent.substring(0, 60);
 }
 
 
@@ -21,14 +21,15 @@ function textList(state = {}, action) {
 
       action.payload.forEach(text => {
         texts[text.id] = text;
-        texts[text.id].snippet = removeHtml(text.text).substring(0, 50);
+        texts[text.id].snippet = removeHtml(text.text);
       });
 
       return texts;
     }
 
     case put_text: {
-      const texts = Object.assign({}, state, { [action.payload.id]: action.payload });
+      const new_text = Object.assign({ snippet: removeHtml(action.payload.text) }, action.payload);
+      const texts = Object.assign({}, state, { [action.payload.id]: new_text });
 
       return texts;
     }

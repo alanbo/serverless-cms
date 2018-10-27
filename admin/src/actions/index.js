@@ -13,7 +13,9 @@ import {
 
 import {
   putText as put_text_mutation,
-  getTextList as get_text_list_query
+  getTextList as get_text_list_query,
+  removeText as remove_text_mutation,
+  updateText as update_text_mutation
 } from '../graphql/fragment-queries';
 
 import {
@@ -26,7 +28,9 @@ import {
   remove_image_from_gallery,
   reorder_images_in_gallery,
   put_text,
-  get_text_list
+  get_text_list,
+  remove_text,
+  update_text
 } from '../actions/types';
 
 export const fetchImageList = () => {
@@ -138,9 +142,9 @@ export const reorderImagesInGallery = (id, image_ids) => {
 }
 
 
-export const putText = text => {
+export const putText = (text, is_rich = false) => {
   return dispatch => {
-    API.graphql(graphqlOperation(put_text_mutation, { text }))
+    API.graphql(graphqlOperation(put_text_mutation, { text, is_rich }))
       .then(result => {
         dispatch({
           type: put_text,
@@ -158,6 +162,33 @@ export const getTextList = () => {
         dispatch({
           type: get_text_list,
           payload: result.data.getTextList
+        });
+      })
+      .catch(console.log);
+  }
+}
+
+
+export const removeText = id => {
+  return dispatch => {
+    API.graphql(graphqlOperation(remove_text_mutation, { id }))
+      .then(result => {
+        dispatch({
+          type: remove_text,
+          payload: id
+        });
+      })
+      .catch(console.log);
+  }
+}
+
+export const updateText = (text, id) => {
+  return dispatch => {
+    API.graphql(graphqlOperation(update_text_mutation, { id, text }))
+      .then(result => {
+        dispatch({
+          type: update_text,
+          payload: result.data.updateText
         });
       })
       .catch(console.log);

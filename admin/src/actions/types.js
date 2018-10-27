@@ -8,4 +8,5 @@ export const remove_image_from_gallery = 'REMOVE_IMAGE_FROM_GALLERY';
 export const reorder_images_in_gallery = 'REORDER_IMAGES_IN_GALLERY';
 export const put_text = 'PUT_TEXT';
 export const remove_text = 'REMOVE_TEXT';
+export const update_text = 'UPDATE_TEXT';
 export const get_text_list = 'GET_TEXT_LIST';
