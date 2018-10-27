@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Amplify, { Auth, Storage, API, graphqlOperation } from 'aws-amplify';
+import Amplify, { Auth } from 'aws-amplify';
 import { withAuthenticator } from 'aws-amplify-react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -11,8 +11,6 @@ import Main from './components/Main'
 import aws_exports from './cognito';
 import aws_vars from './aws-stack-vars';
 import './App.css';
-
-import { getImageList } from './graphql/image-queries';
 
 // window.LOG_LEVEL = 'DEBUG';
 
@@ -40,31 +38,30 @@ class App extends Component {
 
   componentDidMount() {
     Auth.currentAuthenticatedUser()
-    .then(data => this.setState({ user: data.username }))
-    .catch(err => console.log(err));
+      .then(data => this.setState({ user: data.username }))
+      .catch(err => console.log(err));
 
     this.props.fetchImageList();
     this.props.fetchGalleryList();
+    this.props.getTextList();
   }
 
   signOut() {
     Auth.signOut()
-    .then(data => window.location.reload())
-    .catch(err => console.log(err));
+      .then(data => window.location.reload())
+      .catch(err => console.log(err));
   }
 
   render() {
     return (
       <div className="App">
-        <NavigationFrame signOut={ this.signOut }>
+        <NavigationFrame signOut={this.signOut}>
           <Main />
         </NavigationFrame>
       </div>
     );
   }
 }
-
-// export default App;
 
 export default withAuthenticator(
   withRouter(connect(null, actionCreators)(App))

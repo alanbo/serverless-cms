@@ -3,8 +3,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/Inbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
 import Icon from '@material-ui/core/Icon';
 import { Link } from 'react-router-dom'
 import Divider from '@material-ui/core/Divider';
@@ -74,7 +72,7 @@ export default ({ signOut }) => {
           </ListItem>
         </Link>
         <Divider />
-        <ListItem button onClick={ signOut }>
+        <ListItem button onClick={signOut}>
           <ListItemIcon>
             <Icon>power_settings_new</Icon>
           </ListItemIcon>

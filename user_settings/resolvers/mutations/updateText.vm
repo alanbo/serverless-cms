@@ -1,0 +1,17 @@
+{
+    "version" : "2017-02-28",
+    "operation" : "UpdateItem",
+    "key": {
+        "id": $util.dynamodb.toStringJson($ctx.args.id),
+        "type": $util.dynamodb.toStringJson("text")
+    },
+    "update" : {
+        "expression" : "SET #text = :text",
+        "expressionNames" : {
+           "#text" : "text"
+       },
+       "expressionValues" : {
+           ":text" : $util.dynamodb.toStringJson($ctx.args.text)
+       }
+    }
+}

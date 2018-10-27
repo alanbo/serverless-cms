@@ -10,7 +10,6 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import Button from '@material-ui/core/Button';
 import styles from './navigation-frame/styles';
 import MenuList from './navigation-frame/MenuList';
 
@@ -62,11 +61,11 @@ class NavigationFrame extends React.Component {
               {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
             </IconButton>
           </div>
-          <MenuList signOut={ this.props.signOut }/>
+          <MenuList signOut={this.props.signOut} />
         </Drawer>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-            { this.props.children }
+          {this.props.children}
         </main>
       </div>
     );
