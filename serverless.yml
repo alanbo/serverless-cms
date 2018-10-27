@@ -89,6 +89,8 @@ resources:
     # needs to be commented out on first deploy
     putMenu: ${file(./settings/graphql-api/resolvers/putMenu.yml)}
     putText: ${file(./settings/graphql-api/resolvers/putText.yml)}
+    updateText: ${file(./settings/graphql-api/resolvers/updateText.yml)}
+    removeText: ${file(./settings/graphql-api/resolvers/removeText.yml)}
     addImage: ${file(./settings/graphql-api/resolvers/addImage.yml)}
     addGallery: ${file(./settings/graphql-api/resolvers/addGallery.yml)}
     
