@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -9,7 +8,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { Link } from 'react-router-dom';
 
 const styles = theme => ({
   root: {
@@ -23,7 +21,7 @@ const styles = theme => ({
 });
 
 
-function FolderTable(props) {
+function TextList(props) {
   const { classes } = props;
 
   return (
@@ -31,21 +29,19 @@ function FolderTable(props) {
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell numeric>Number of files</TableCell>
+            <TableCell>Snippet</TableCell>
             <TableCell>Delete</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {props.data.map(n => {
             return (
-              <TableRow key={n.name}>
+              <TableRow key={n.id}>
                 <TableCell component="th" scope="row">
-                  <Link to={`/photos/${n.name}`}>{n.name}</Link>
+                  {n.snippet}...
                 </TableCell>
-                <TableCell numeric>{n.files}</TableCell>
                 <TableCell>
-                  <IconButton aria-label="Delete" onClick={() => props.onDelete(n.name)}>
+                  <IconButton aria-label="Delete" onClick={() => props.onDelete(n.id)}>
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
@@ -58,8 +54,4 @@ function FolderTable(props) {
   );
 }
 
-FolderTable.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(FolderTable);
+export default withStyles(styles)(TextList);

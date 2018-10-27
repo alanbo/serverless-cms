@@ -67,7 +67,9 @@ input MenuSectionInput {
 }
 
 type Mutation {
-	putText(text: String): Text
+	putText(text: String!, is_rich: Boolean): Text
+	updateText(text: String, id: ID!): Text
+	removeText(id: ID!): Text
 	putMenu(input: MenuInput): Menu
 	updateMenu(input: MenuInput): Menu
 	addGallery(name: String!): Gallery
@@ -82,6 +84,7 @@ type Mutation {
 
 type Query {
 	getText(id: ID!): Text
+	getTextList: [Text]
 	getImage(id: ID!): Image
 	getMenu(id: ID!): Menu
 	getGallery(id: ID!): Gallery
@@ -96,6 +99,7 @@ type Text implements Fragment {
 	createdAt: Int!
 	lastUpdated: Int
 	text: String!
+	is_rich: Boolean
 }
 
 schema {
