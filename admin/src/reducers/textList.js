@@ -1,7 +1,8 @@
 import {
   put_text,
   remove_text,
-  get_text_list
+  get_text_list,
+  update_text
 } from '../actions/types';
 
 function removeHtml(html) {
@@ -27,6 +28,7 @@ function textList(state = {}, action) {
       return texts;
     }
 
+    case update_text:
     case put_text: {
       const new_text = Object.assign({ snippet: removeHtml(action.payload.text) }, action.payload);
       const texts = Object.assign({}, state, { [action.payload.id]: new_text });
@@ -41,8 +43,6 @@ function textList(state = {}, action) {
 
       return texts;
     }
-
-
 
     default:
       return state
