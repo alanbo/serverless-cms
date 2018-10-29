@@ -23,6 +23,7 @@ export const updateText = `
     updateText(text: $text, id: $id) {
       id
       text
+      is_rich
     }
   }
 `;

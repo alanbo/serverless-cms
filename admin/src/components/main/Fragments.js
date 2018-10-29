@@ -35,7 +35,8 @@ class UnstyledFragments extends Component {
     add_dialog_open: false,
     current_tab: 0,
     simple_text: '',
-    rich_text: ''
+    rich_text: '',
+    edited_text_id: null
   }
 
   current_text = '';
@@ -43,7 +44,7 @@ class UnstyledFragments extends Component {
   tab_data = [
     {
       title: 'Text',
-      renderTab: () => <TextList data={this.props.simple_texts} key='Text' />,
+      renderTab: () => <TextList data={this.props.simple_texts} key='Text' onEdit={this.editText} />,
       dialog_title: 'Simple Text Editor',
       dialog_text: 'Fill out the text',
       dialog_add_btn_text: 'Add Text',
@@ -65,7 +66,7 @@ class UnstyledFragments extends Component {
     },
     {
       title: 'Rich Text',
-      renderTab: () => <TextList data={this.props.rich_texts} key='Rich Text' />,
+      renderTab: () => <TextList data={this.props.rich_texts} key='Rich Text' onEdit={this.editText} />,
       dialog_title: 'Rich Text Editor',
       dialog_text: 'Fill out the text',
       dialog_add_btn_text: 'Add Text',
@@ -85,7 +86,17 @@ class UnstyledFragments extends Component {
       dialogRenderInner: () => <div>Menu Placeholder</div>,
       onClose: () => { }
     },
-  ]
+  ];
+
+  editText = text_obj => {
+    const { is_rich, text, id } = text_obj;
+
+    this.setState({
+      [is_rich ? 'rich_text' : 'simple_text']: text,
+      add_dialog_open: true,
+      edited_text_id: id
+    })
+  }
 
   addDialog() {
     this.setState({
@@ -96,12 +107,17 @@ class UnstyledFragments extends Component {
   closeTextDialog = (is_rich) => {
     const text = is_rich ? this.state.rich_text : this.state.simple_text;
 
-    this.props.putText(text, is_rich);
+    if (this.state.edited_text_id) {
+      this.props.updateText(text, this.state.edited_text_id);
+    } else {
+      this.props.putText(text, is_rich);
+    }
 
     this.setState({
       add_dialog_open: false,
       rich_text: '',
-      simple_text: ''
+      simple_text: '',
+      edited_text_id: null
     });
   }
 
@@ -109,7 +125,8 @@ class UnstyledFragments extends Component {
     this.setState({
       add_dialog_open: false,
       rich_text: '',
-      simple_text: ''
+      simple_text: '',
+      edited_text_id: null
     });
   };
 
