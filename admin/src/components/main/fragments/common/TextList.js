@@ -22,6 +22,14 @@ const styles = theme => ({
   table: {
     minWidth: 400,
   },
+
+  editCell: {
+    textAlign: 'right'
+  },
+
+  editCellHeader: {
+    textAlign: 'right'
+  }
 });
 
 
@@ -34,7 +42,7 @@ function TextList(props) {
         <TableHead>
           <TableRow>
             <TableCell>Snippet</TableCell>
-            <TableCell>Edit</TableCell>
+            <TableCell className={classes.editCellHeader}>Edit</TableCell>
             <TableCell>Delete</TableCell>
           </TableRow>
         </TableHead>
@@ -45,8 +53,8 @@ function TextList(props) {
                 <TableCell component="th" scope="row">
                   {n.snippet}...
                 </TableCell>
-                <TableCell>
-                  <IconButton aria-label="Delete" onClick={() => props.onEdit(n)}>
+                <TableCell className={classes.editCell}>
+                  <IconButton aria-label="Edit" onClick={() => props.onEdit(n)}>
                     <EditIcon />
                   </IconButton>
                 </TableCell>
