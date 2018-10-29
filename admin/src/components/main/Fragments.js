@@ -61,7 +61,7 @@ class UnstyledFragments extends Component {
         />
       ),
 
-      onClose: () => this.closeTextDialog(true)
+      onClose: () => this.closeTextDialog(false)
     },
     {
       title: 'Rich Text',
