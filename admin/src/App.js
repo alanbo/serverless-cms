@@ -44,6 +44,7 @@ class App extends Component {
     this.props.fetchImageList();
     this.props.fetchGalleryList();
     this.props.getTextList();
+    this.props.getMenuList();
   }
 
   signOut() {
