@@ -15,7 +15,8 @@ import {
   putText as put_text_mutation,
   getTextList as get_text_list_query,
   removeText as remove_text_mutation,
-  updateText as update_text_mutation
+  updateText as update_text_mutation,
+  getMenuList as get_menu_list_query
 } from '../graphql/fragment-queries';
 
 import {
@@ -30,7 +31,8 @@ import {
   put_text,
   get_text_list,
   remove_text,
-  update_text
+  update_text,
+  get_menu_list
 } from '../actions/types';
 
 export const fetchImageList = () => {
@@ -189,6 +191,19 @@ export const updateText = (text, id) => {
         dispatch({
           type: update_text,
           payload: result.data.updateText
+        });
+      })
+      .catch(console.log);
+  }
+}
+
+export const getMenuList = () => {
+  return dispatch => {
+    API.graphql(graphqlOperation(get_menu_list_query))
+      .then(result => {
+        dispatch({
+          type: get_menu_list,
+          payload: result.data.getMenuList
         });
       })
       .catch(console.log);
