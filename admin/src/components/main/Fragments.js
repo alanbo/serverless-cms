@@ -12,6 +12,7 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import AddDialog from './common/AddDialog';
 import TextList from './fragments/common/TextList';
+import MenuDialogInner from './fragments/menus/MenuDialogInner';
 import * as actionCreators from '../../actions/index';
 
 const styles = theme => ({
@@ -36,6 +37,7 @@ class UnstyledFragments extends Component {
     current_tab: 0,
     simple_text: '',
     rich_text: '',
+    edited_menu: '',
     edited_text_id: null
   }
 
@@ -79,11 +81,11 @@ class UnstyledFragments extends Component {
     },
     {
       title: 'Menu',
-      renderTab: () => <Menus key='Menu' />,
+      renderTab: () => <Menus key='Menu' onEdit={this.editMenu} />,
       dialog_title: 'Menu Editor',
       dialog_text: 'Design the menu',
       dialog_add_btn_text: 'Add Menu',
-      dialogRenderInner: () => <div>Menu Placeholder</div>,
+      dialogRenderInner: () => <MenuDialogInner data={this.state.edited_menu} />,
       onClose: () => { }
     },
   ];
@@ -96,6 +98,14 @@ class UnstyledFragments extends Component {
       add_dialog_open: true,
       edited_text_id: id
     })
+  }
+
+  editMenu = edited_menu => {
+    this.setState({
+      add_dialog_open: true,
+      edited_menu
+    })
+
   }
 
   addDialog() {
