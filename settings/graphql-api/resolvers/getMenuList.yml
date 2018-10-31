@@ -1,0 +1,9 @@
+Type: "AWS::AppSync::Resolver"
+Properties:
+  TypeName: Query
+  DataSourceName: fragments_database
+  RequestMappingTemplate: ${file(./user_settings/resolvers/queries/getMenuList.vm)}
+  ResponseMappingTemplate: ${file(./user_settings/resolvers/response/passthroughList.vm)}
+  ApiId:
+    Fn::GetAtt: ["graphQLApi", "ApiId"]
+  FieldName: getMenuList

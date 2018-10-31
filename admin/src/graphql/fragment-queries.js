@@ -88,3 +88,29 @@ export const putMenu = `
     }
   }
 `;
+
+
+export const getMenuList = `
+  {
+    getMenuList {
+      id
+      name
+      items {
+        name
+        href
+        items {
+          name
+          href
+          items {
+            name
+            href
+            items {
+              name
+              href
+            }
+          }
+        }
+      }
+    }
+  }
+`;
