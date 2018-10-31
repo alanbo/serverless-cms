@@ -41,7 +41,7 @@ function TextList(props) {
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
-            <TableCell>Snippet</TableCell>
+            <TableCell>Name</TableCell>
             <TableCell className={classes.editCellHeader}>Edit</TableCell>
             <TableCell>Delete</TableCell>
           </TableRow>
@@ -51,7 +51,7 @@ function TextList(props) {
             return (
               <TableRow key={n.id}>
                 <TableCell component="th" scope="row">
-                  {n.snippet}...
+                  {n.name || n.snippet}
                 </TableCell>
                 <TableCell className={classes.editCell}>
                   <IconButton aria-label="Edit" onClick={() => props.onEdit(n)}>
