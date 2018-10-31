@@ -102,11 +102,11 @@ resources:
     getImageList: ${file(./settings/graphql-api/resolvers/getImageList.yml)}
     getGalleryList: ${file(./settings/graphql-api/resolvers/getGalleryList.yml)}
 
-    # galleryImages: ${file(./settings/graphql-api/resolvers/gallery-images.yml)}
     
     getText: ${file(./settings/graphql-api/resolvers/getText.yml)}
     getTextList: ${file(./settings/graphql-api/resolvers/getTextList.yml)}
     getMenu: ${file(./settings/graphql-api/resolvers/getMenu.yml)}
+    getMenuList: ${file(./settings/graphql-api/resolvers/getMenuList.yml)}
     getImage: ${file(./settings/graphql-api/resolvers/getImage.yml)}
     getGallery: ${file(./settings/graphql-api/resolvers/getGallery.yml)}
 
