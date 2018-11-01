@@ -1,17 +1,25 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import TextField from '@material-ui/core/TextField';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
 
 const menu_item_styles = theme => ({
   text_field: {
     width: '40%',
     marginLeft: '5%',
     marginRight: '5%'
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit,
+  },
+  addBtnWrapper: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+  button: {
+    margin: 10
   }
 });
 
@@ -60,6 +68,18 @@ class MenuItemUnstyled extends Component {
         </div>
 
         {this.renderInnerList()}
+
+        <div className={classes.addBtnWrapper}>
+          <Button variant="contained" color="primary" className={classes.button}>
+            Add Menu Item
+            <AddIcon className={classes.rightIcon}>add</AddIcon>
+          </Button>
+          <Button variant="contained" color="primary" className={classes.button}>
+            Add Inner Mennu
+            <AddIcon className={classes.rightIcon}>add</AddIcon>
+          </Button>
+
+        </div>
       </li>
     );
   }
