@@ -60,6 +60,12 @@ const menu_item_styles = theme => ({
   }
 });
 
+const new_item = {
+  name: '',
+  href: null,
+  items: null
+}
+
 
 class MenuItemUnstyled extends Component {
   // check if all path elements cover current_path elements
@@ -128,11 +134,7 @@ class MenuItemUnstyled extends Component {
     const href = item.href || '';
     const items = item.items || [];
 
-    const new_item = {
-      name: '',
-      href: null,
-      items: null
-    }
+
 
     // check if the path of the element is on the path of the topmost expanded element
     // makes sure that the parent is not closed while its descandant is currently expanded
@@ -212,7 +214,6 @@ const MenuItem = withStyles(menu_item_styles)(MenuItemUnstyled);
 class MenuDialogInner extends Component {
   state = {
     menu_data: null,
-    menu_path: [],
     menu_index_path: []
   }
 
@@ -260,11 +261,31 @@ class MenuDialogInner extends Component {
         <ul className={classes.list}>
           {this.renderItems()}
         </ul>
-        <div className={classes.addBtnWrapper}>
-          <Button color="primary" variant="fab" aria-label="Add" className={classes.button} mini>
-            <AddIcon />
-          </Button>
-        </div>
+        {
+          // only display button when at the lowest level of expansion
+          !this.state.menu_index_path.length
+            ? (
+              <div className={classes.addBtnWrapper}>
+                <Button
+                  color="primary"
+                  variant="fab"
+                  aria-label="Add"
+                  className={classes.button} mini
+                  onClick={() => {
+                    const menu_data = R.pipe(
+                      R.append(new_item),
+                      R.assocPath(['items'], R.__, data)
+                    )(data.items || []);
+
+                    this.setState({ menu_data });
+                    this.updatePath([menu_data.items.length - 1]);
+                  }}
+                >
+                  <AddIcon />
+                </Button>
+              </div>
+            ) : null
+        }
       </div>
     )
   }
