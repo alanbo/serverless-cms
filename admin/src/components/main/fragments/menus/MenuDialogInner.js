@@ -10,6 +10,8 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import teal from '@material-ui/core/colors/teal';
+import indigo from '@material-ui/core/colors/indigo';
 
 const menu_item_styles = theme => ({
   text_field: {
@@ -63,13 +65,13 @@ class MenuItemUnstyled extends Component {
     href_input: null
   }
 
-  renderInnerList() {
+  renderInnerList(path) {
     const { item, classes } = this.props;
 
     if (item.items) {
       return (
         <Paper component='ul' className={classes.list}>
-          {item.items.map((item, i) => <MenuItemUnstyled key={i} item={item} classes={classes} />)}
+          {item.items.map((item, i) => <MenuItemUnstyled prev={path} key={i} item={item} classes={classes} />)}
         </Paper>
       );
     }
@@ -81,12 +83,14 @@ class MenuItemUnstyled extends Component {
     const { item, classes } = this.props;
     const name = this.state.name_input || item.name;
     const href = this.state.href_input || item.href || '';
+    const prev = this.props.prev || [];
+    const path = [...prev, name];
 
     return (
       <li>
-        <ExpansionPanel className={classes.expansionPanel}>
+        <ExpansionPanel style={{ backgroundColor: indigo[100 * path.length] }} className={classes.expansionPanel}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>{name}</Typography>
+            <Typography className={classes.heading}>{`/ ${path.join(' / ')}`}</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails className={classes.expansionPanelDetails}>
             <Paper className={classes.textFieldsWrapper}>
@@ -106,13 +110,19 @@ class MenuItemUnstyled extends Component {
               />
             </Paper>
 
-            {this.renderInnerList()}
+            {this.renderInnerList(path)}
 
-            <div className={classes.addBtnWrapper}>
-              <Button color="primary" variant="fab" aria-label="Add" className={classes.button} mini>
-                <AddIcon />
-              </Button>
-            </div>
+            {
+              // if depth greater than 4 do not allow adding more nested lists
+              path.length < 4
+                ? (
+                  <div className={classes.addBtnWrapper}>
+                    <Button color="primary" variant="fab" aria-label="Add" className={classes.button} mini>
+                      <AddIcon />
+                    </Button>
+                  </div>
+                ) : null
+            }
           </ExpansionPanelDetails>
         </ExpansionPanel>
       </li>
