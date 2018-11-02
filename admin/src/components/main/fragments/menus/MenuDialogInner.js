@@ -13,6 +13,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import teal from '@material-ui/core/colors/teal';
 import indigo from '@material-ui/core/colors/indigo';
 
+import * as R from 'ramda';
+
 const menu_item_styles = theme => ({
   text_field: {
     width: '100%',
@@ -60,13 +62,7 @@ const menu_item_styles = theme => ({
 
 
 class MenuItemUnstyled extends Component {
-  state = {
-    name_input: null,
-    href_input: null,
-  };
-
-  prev_path = [];
-
+  // check if all path elements cover current_path elements
   isOnPath(path, current_path) {
     let on_path = true;
 
@@ -79,20 +75,28 @@ class MenuItemUnstyled extends Component {
     return on_path;
   }
 
-  renderInnerList(path) {
-    const { item, classes, current_path, updatePath } = this.props;
+  renderInnerList() {
+    const {
+      item,
+      classes,
+      current_index_path,
+      updatePath,
+      updateMenuData,
+      index_path
+    } = this.props;
 
     if (item.items) {
       return (
         <Paper component='ul' className={classes.list}>
           {item.items.map((item, i) => (
             <MenuItemUnstyled
-              prev={path}
               key={i}
               item={item}
               classes={classes}
               updatePath={updatePath}
-              current_path={current_path}
+              current_index_path={current_index_path}
+              updateMenuData={updateMenuData}
+              index_path={[...index_path, i]}
             />
           ))}
         </Paper>
@@ -102,65 +106,65 @@ class MenuItemUnstyled extends Component {
     return null;
   }
 
-  onExpandChange = (path) => {
-    if (this.prev_path.join() === path.join()) {
-      const new_path = [...path];
+  onExpandChange = () => {
+    const { index_path, current_index_path } = this.props;
+
+    if (R.equals(index_path, current_index_path)) {
+      const new_path = [...current_index_path];
+
+      // go one level lower when already expanded element is clicked again
       new_path.pop();
 
       this.props.updatePath(new_path);
-      this.prev_path = [];
     } else {
-      this.props.updatePath(path);
-      this.prev_path = path;
+      this.props.updatePath(index_path);
     }
   }
 
   render() {
-    const { item, classes, current_path, updatePath } = this.props;
-    const name = this.state.name_input || item.name;
-    const href = this.state.href_input || item.href || '';
-    const prev = this.props.prev || [];
-    const path = [...prev, item.name];
-    const on_path = this.isOnPath(path, current_path);
+    const { item, classes, updateMenuData, index_path, current_index_path } = this.props;
+    const name = item.name;
+    const href = item.href || '';
 
-    if (!on_path) {
-      this.prev_path = [];
-    }
+    // check if the path of the element is on the path of the topmost expanded element
+    // makes sure that the parent is not closed while its descandant is currently expanded
+    const on_path = this.isOnPath(index_path, current_index_path);
 
     return (
       <li>
         <ExpansionPanel
-          style={{ backgroundColor: indigo[100 * path.length] }}
+          // darkens the color depending on how deeply nested the element is
+          style={{ backgroundColor: indigo[100 * index_path.length] }}
           className={classes.expansionPanel}
           expanded={on_path}
-          onChange={() => this.onExpandChange(path)}
+          onChange={() => this.onExpandChange()}
         >
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>{`/ ${path.join(' / ')}`}</Typography>
+            <Typography className={classes.heading}>{name}</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails className={classes.expansionPanelDetails}>
             <Paper className={classes.textFieldsWrapper}>
               <TextField
                 label='Name'
                 value={name}
-                onChange={e => this.setState({ name_input: e.target.value })}
+                onChange={e => updateMenuData(index_path, 'name', e.target.value)}
                 margin='normal'
                 className={classes.text_field}
               />
               <TextField
                 label='Url'
                 value={href}
-                onChange={e => this.setState({ href_input: e.target.value })}
+                onChange={e => updateMenuData(index_path, 'href', e.target.value)}
                 margin='normal'
                 className={classes.text_field}
               />
             </Paper>
 
-            {this.renderInnerList(path)}
+            {this.renderInnerList()}
 
             {
               // if depth greater than 4 do not allow adding more nested lists
-              path.length < 4
+              index_path.length < 4
                 ? (
                   <div className={classes.addBtnWrapper}>
                     <Button color="primary" variant="fab" aria-label="Add" className={classes.button} mini>
@@ -183,20 +187,42 @@ const MenuItem = withStyles(menu_item_styles)(MenuItemUnstyled);
 class MenuDialogInner extends Component {
   state = {
     menu_data: null,
-    menu_path: []
+    menu_path: [],
+    menu_index_path: []
   }
 
-  updatePath = menu_path => {
-    this.setState({ menu_path });
-    console.log(menu_path);
+  updatePath = menu_index_path => {
+    this.setState({ menu_index_path });
+  }
+
+  updateMenuData = (path, prop_name, value) => {
+
+    // prepares lenses path for the item being edited and updates it
+    const menu_data = R.pipe(
+      R.intersperse('items'),
+      R.prepend('items'),
+      R.append(prop_name),
+      R.assocPath(R.__, value, this.state.menu_data || this.props.data)
+    )(path);
+
+    this.setState({ menu_data });
   }
 
   renderItems() {
     const data = this.state.menu_data || this.props.data || {};
+
+    // converts an object of menu items into an array
     const menu_items = Object.keys(data.items).map(item => data.items[item]);
 
     return menu_items.map((item, i) => (
-      <MenuItem item={item} key={i} current_path={this.state.menu_path} updatePath={this.updatePath} />
+      <MenuItem
+        item={item}
+        key={i}
+        current_index_path={this.state.menu_index_path}
+        updatePath={this.updatePath}
+        updateMenuData={this.updateMenuData}
+        index_path={[i]}
+      />
     ));
   }
 
