@@ -122,13 +122,21 @@ class MenuItemUnstyled extends Component {
   }
 
   render() {
-    const { item, classes, updateMenuData, index_path, current_index_path } = this.props;
+    const { item, classes, updateMenuData, index_path, current_index_path, updatePath } = this.props;
     const name = item.name;
     const href = item.href || '';
+    const items = item.items || [];
+
+    const new_item = {
+      name: '',
+      href: null,
+      items: null
+    }
 
     // check if the path of the element is on the path of the topmost expanded element
     // makes sure that the parent is not closed while its descandant is currently expanded
     const on_path = this.isOnPath(index_path, current_index_path);
+    const is_current_path = R.equals(current_index_path, index_path);
 
     return (
       <li>
@@ -164,10 +172,26 @@ class MenuItemUnstyled extends Component {
 
             {
               // if depth greater than 4 do not allow adding more nested lists
-              index_path.length < 4
+              // only display button for currently expanded element
+              index_path.length < 4 && is_current_path
                 ? (
                   <div className={classes.addBtnWrapper}>
-                    <Button color="primary" variant="fab" aria-label="Add" className={classes.button} mini>
+                    <Button
+                      color="primary"
+                      variant="fab"
+                      aria-label="Add"
+                      className={classes.button} mini
+                      onClick={e => {
+                        // appends the new item to the list of items
+                        const new_items = R.append(new_item, items);
+
+                        // updates menu data to include new item
+                        updateMenuData(index_path, 'items', new_items);
+
+                        // expands newly created item
+                        updatePath(R.append(new_items.length - 1, index_path));
+                      }}
+                    >
                       <AddIcon />
                     </Button>
                   </div>
