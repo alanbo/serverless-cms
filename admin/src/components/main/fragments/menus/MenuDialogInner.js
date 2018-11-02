@@ -62,16 +62,39 @@ const menu_item_styles = theme => ({
 class MenuItemUnstyled extends Component {
   state = {
     name_input: null,
-    href_input: null
+    href_input: null,
+  };
+
+  prev_path = [];
+
+  isOnPath(path, current_path) {
+    let on_path = true;
+
+    path.forEach((item, i) => {
+      if (item !== current_path[i]) {
+        on_path = false;
+      }
+    });
+
+    return on_path;
   }
 
   renderInnerList(path) {
-    const { item, classes } = this.props;
+    const { item, classes, current_path, updatePath } = this.props;
 
     if (item.items) {
       return (
         <Paper component='ul' className={classes.list}>
-          {item.items.map((item, i) => <MenuItemUnstyled prev={path} key={i} item={item} classes={classes} />)}
+          {item.items.map((item, i) => (
+            <MenuItemUnstyled
+              prev={path}
+              key={i}
+              item={item}
+              classes={classes}
+              updatePath={updatePath}
+              current_path={current_path}
+            />
+          ))}
         </Paper>
       );
     }
@@ -79,16 +102,39 @@ class MenuItemUnstyled extends Component {
     return null;
   }
 
+  onExpandChange = (path) => {
+    if (this.prev_path.join() === path.join()) {
+      const new_path = [...path];
+      new_path.pop();
+
+      this.props.updatePath(new_path);
+      this.prev_path = [];
+    } else {
+      this.props.updatePath(path);
+      this.prev_path = path;
+    }
+  }
+
   render() {
-    const { item, classes } = this.props;
+    const { item, classes, current_path, updatePath } = this.props;
     const name = this.state.name_input || item.name;
     const href = this.state.href_input || item.href || '';
     const prev = this.props.prev || [];
-    const path = [...prev, name];
+    const path = [...prev, item.name];
+    const on_path = this.isOnPath(path, current_path);
+
+    if (!on_path) {
+      this.prev_path = [];
+    }
 
     return (
       <li>
-        <ExpansionPanel style={{ backgroundColor: indigo[100 * path.length] }} className={classes.expansionPanel}>
+        <ExpansionPanel
+          style={{ backgroundColor: indigo[100 * path.length] }}
+          className={classes.expansionPanel}
+          expanded={on_path}
+          onChange={() => this.onExpandChange(path)}
+        >
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <Typography className={classes.heading}>{`/ ${path.join(' / ')}`}</Typography>
           </ExpansionPanelSummary>
@@ -132,9 +178,17 @@ class MenuItemUnstyled extends Component {
 
 const MenuItem = withStyles(menu_item_styles)(MenuItemUnstyled);
 
+
+
 class MenuDialogInner extends Component {
   state = {
-    menu_data: null
+    menu_data: null,
+    menu_path: []
+  }
+
+  updatePath = menu_path => {
+    this.setState({ menu_path });
+    console.log(menu_path);
   }
 
   renderItems() {
@@ -142,7 +196,7 @@ class MenuDialogInner extends Component {
     const menu_items = Object.keys(data.items).map(item => data.items[item]);
 
     return menu_items.map((item, i) => (
-      <MenuItem item={item} key={i} />
+      <MenuItem item={item} key={i} current_path={this.state.menu_path} updatePath={this.updatePath} />
     ));
   }
 
