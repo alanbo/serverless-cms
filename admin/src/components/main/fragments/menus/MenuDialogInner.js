@@ -109,8 +109,9 @@ class MenuItemUnstyled extends Component {
   onExpandChange = () => {
     const { index_path, current_index_path } = this.props;
 
-    if (R.equals(index_path, current_index_path)) {
-      const new_path = [...current_index_path];
+    // if expanded element is on path
+    if (this.isOnPath(index_path, current_index_path)) {
+      const new_path = [...index_path];
 
       // go one level lower when already expanded element is clicked again
       new_path.pop();
