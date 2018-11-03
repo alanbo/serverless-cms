@@ -15,6 +15,8 @@ import indigo from '@material-ui/core/colors/indigo';
 
 import * as R from 'ramda';
 
+const EMPTY_NAME_ERR = 'Fill out the name';
+
 const menu_item_styles = theme => ({
   text_field: {
     width: '100%',
@@ -68,6 +70,9 @@ const new_item = {
 
 
 class MenuItemUnstyled extends Component {
+  state = {
+    name_err_text: null
+  }
   // check if all path elements cover current_path elements
   isOnPath(path, current_path) {
     let on_path = true;
@@ -122,7 +127,10 @@ class MenuItemUnstyled extends Component {
       // go one level lower when already expanded element is clicked again
       new_path.pop();
 
-      this.props.updatePath(new_path);
+      // root component will run a callback if it detects an empty name
+      this.props.updatePath(new_path, name_err_text => {
+        this.setState({ name_err_text });
+      });
     } else {
       this.props.updatePath(index_path);
     }
@@ -133,7 +141,6 @@ class MenuItemUnstyled extends Component {
     const name = item.name;
     const href = item.href || '';
     const items = item.items || [];
-
 
 
     // check if the path of the element is on the path of the topmost expanded element
@@ -156,9 +163,17 @@ class MenuItemUnstyled extends Component {
           <ExpansionPanelDetails className={classes.expansionPanelDetails}>
             <Paper className={classes.textFieldsWrapper}>
               <TextField
-                label='Name'
+                label={this.state.name_err_text || 'Name'}
                 value={name}
-                onChange={e => updateMenuData(index_path, 'name', e.target.value)}
+                error={!!this.state.name_err_text}
+                onChange={e => {
+                  // if empty name error, clear it on first change
+                  if (this.state.name_err_text) {
+                    this.setState({ name_err_text: null });
+                  }
+
+                  updateMenuData(index_path, 'name', e.target.value);
+                }}
                 margin='normal'
                 className={classes.text_field}
               />
@@ -217,8 +232,33 @@ class MenuDialogInner extends Component {
     menu_index_path: []
   }
 
-  updatePath = menu_index_path => {
-    this.setState({ menu_index_path });
+  updatePath = (menu_index_path, errCallback = () => { }) => {
+    const old_path = this.state.menu_index_path;
+    const data = this.state.menu_data || this.props.data || {};
+
+    // Detect if the name attribute on the path
+    // that is about to be changed
+    // is empty
+    const is_name_empty = R.pipe(
+      R.intersperse('items'),
+      R.prepend('items'),
+      R.lensPath(),
+      R.view(R.__, data),
+      R.ifElse(
+        R.has('name'),
+        R.prop('name'),
+        () => false
+      ),
+      R.isEmpty()
+    )(old_path);
+
+    // run error callback if the name is empty
+    if (is_name_empty) {
+      errCallback(EMPTY_NAME_ERR);
+      // only allow index path change if the currently open item has its name filled
+    } else {
+      this.setState({ menu_index_path });
+    }
   }
 
   updateMenuData = (path, prop_name, value) => {
