@@ -39,7 +39,8 @@ class UnstyledFragments extends Component {
     simple_text: '',
     rich_text: '',
     edited_menu: '',
-    edited_text_id: null
+    edited_text_id: null,
+    empty_menu_name: false,
   }
 
   current_text = '';
@@ -102,10 +103,31 @@ class UnstyledFragments extends Component {
       dialog_title: 'Menu Editor',
       dialog_text: 'Design the menu',
       dialog_add_btn_text: 'Add Menu',
-      dialogRenderInner: () => <MenuDialogInner data={this.state.edited_menu} innerRef={this.menu_dialog_inner_ref} />,
+      dialogRenderInner: () => (
+        <MenuDialogInner
+          data={this.state.edited_menu || { name: '' }}
+          innerRef={this.menu_dialog_inner_ref}
+          is_name_empty={this.state.empty_menu_name}
+        />
+      ),
       onClose: () => {
         const { menu_data } = this.menu_dialog_inner_ref.current.state;
-        this.props.putMenu(R.dissoc('id', menu_data), menu_data.id);
+        // TO DO:
+        // when state is empty menu_data will be undefined
+        // temporary fix, to be redone in a more elegant way
+        if (!menu_data) {
+          this.setState({ add_dialog_open: false, empty_menu_name: false, edited_menu: false })
+          return;
+        }
+
+        if (menu_data.name && menu_data.name.length > 0) {
+          this.props.putMenu(R.dissoc('id', menu_data), menu_data.id);
+          this.setState({ add_dialog_open: false, empty_menu_name: false, edited_menu: false })
+        } else {
+          this.setState({
+            empty_menu_name: true
+          })
+        }
       }
     },
   ];
@@ -156,7 +178,9 @@ class UnstyledFragments extends Component {
       add_dialog_open: false,
       rich_text: '',
       simple_text: '',
-      edited_text_id: null
+      edited_text_id: null,
+      empty_menu_name: false,
+      edited_menu: false
     });
   };
 

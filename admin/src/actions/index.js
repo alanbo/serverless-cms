@@ -216,7 +216,7 @@ export const getMenuList = () => {
 
 export const putMenu = (menu, id) => {
   return dispatch => {
-    API.graphql(graphqlOperation(put_menu_mutation, { ...(id || {}), menu }))
+    API.graphql(graphqlOperation(put_menu_mutation, { id, menu }))
       .then(result => {
         dispatch({
           type: put_menu,
