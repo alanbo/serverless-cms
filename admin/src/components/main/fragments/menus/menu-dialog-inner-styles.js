@@ -22,7 +22,6 @@ export default theme => ({
     fontWeight: theme.typography.fontWeightRegular,
   },
   list: {
-    padding: 0,
     listStyleType: 'none',
     padding: 20,
     marginBottom: 20
