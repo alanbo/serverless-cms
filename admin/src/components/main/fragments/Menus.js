@@ -7,7 +7,7 @@ class Menus extends Component {
   render() {
     return (
       <div>
-        <TextList data={this.props.menus} onEdit={this.props.onEdit} />
+        <TextList data={this.props.menus} onEdit={this.props.onEdit} removeItem={this.props.removeMenu} />
       </div>
     );
   }
