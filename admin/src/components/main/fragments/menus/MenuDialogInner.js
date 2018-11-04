@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
+import TextField from '@material-ui/core/TextField';
 
 import * as R from 'ramda';
 
@@ -75,12 +76,28 @@ class MenuDialogInner extends Component {
     ));
   }
 
+  updateName = e => {
+    const data = this.state.menu_data || this.props.data;
+
+    this.setState({
+      menu_data: R.assoc('name', e.target.value, data)
+    });
+  }
+
   render() {
     const data = this.state.menu_data || this.props.data;
-    const { classes } = this.props;
+    const { classes, is_name_empty } = this.props;
 
     return (
       <div>
+        <TextField
+          value={data.name}
+          onChange={this.updateName}
+          required
+          label={is_name_empty ? 'Name can\'t be empty' : false}
+          error={is_name_empty}
+
+        />
         <ul className={classes.list}>
           {this.renderItems()}
         </ul>
@@ -110,7 +127,7 @@ class MenuDialogInner extends Component {
               </div>
             ) : null
         }
-      </div>
+      </div >
     )
   }
 
