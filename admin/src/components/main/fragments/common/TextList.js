@@ -59,7 +59,7 @@ function TextList(props) {
                   </IconButton>
                 </TableCell>
                 <TableCell>
-                  <IconButton aria-label="Delete" onClick={() => props.removeText(n.id)}>
+                  <IconButton aria-label="Delete" onClick={() => props.removeItem(n.id)}>
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
@@ -72,4 +72,4 @@ function TextList(props) {
   );
 }
 
-export default connect(null, actionCreators)(withStyles(styles)(TextList));
+export default withStyles(styles)(TextList);

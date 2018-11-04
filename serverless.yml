@@ -97,6 +97,7 @@ resources:
     addImageToGallery: ${file(./settings/graphql-api/resolvers/addImageToGallery.yml)}
     removeGallery: ${file(./settings/graphql-api/resolvers/removeGallery.yml)}
     removeImage: ${file(./settings/graphql-api/resolvers/removeImage.yml)}
+    removeText: ${file(./settings/graphql-api/resolvers/removeText.yml)}
     removeImageFromGallery: ${file(./settings/graphql-api/resolvers/removeImageFromGallery.yml)}
     reorderImagesInGallery:  ${file(./settings/graphql-api/resolvers/reorderImagesInGallery.yml)}
     getImageList: ${file(./settings/graphql-api/resolvers/getImageList.yml)}

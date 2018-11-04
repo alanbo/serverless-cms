@@ -2,7 +2,8 @@ import * as R from 'ramda';
 
 import {
   get_menu_list,
-  put_menu
+  put_menu,
+  remove_menu
 } from '../actions/types';
 
 
@@ -21,6 +22,9 @@ function menuList(state = {}, action) {
 
     case put_menu:
       return R.assoc(action.payload.id, action.payload, state);
+
+    case remove_menu:
+      return R.dissoc(action.payload.id, state);
 
     default:
       return state

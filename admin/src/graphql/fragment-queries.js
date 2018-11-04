@@ -114,3 +114,19 @@ export const getMenuList = `
     }
   }
 `;
+
+export const removeMenu = `
+  mutation RemoveMenu($id: ID!) {
+    removeMenu(id: $id) {
+      id
+      name
+      items {
+        name
+        items {
+          name
+          href
+        }
+      }
+    }
+  }
+`;

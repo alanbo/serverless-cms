@@ -49,7 +49,14 @@ class UnstyledFragments extends Component {
   tab_data = [
     {
       title: 'Text',
-      renderTab: () => <TextList data={this.props.simple_texts} key='Text' onEdit={this.editText} />,
+      renderTab: () => (
+        <TextList
+          data={this.props.simple_texts}
+          key='Text'
+          onEdit={this.editText}
+          removeItem={this.props.removeText}
+        />
+      ),
       dialog_title: 'Simple Text Editor',
       dialog_text: 'Fill out the text',
       dialog_add_btn_text: 'Add Text',
@@ -71,7 +78,14 @@ class UnstyledFragments extends Component {
     },
     {
       title: 'Rich Text',
-      renderTab: () => <TextList data={this.props.rich_texts} key='Rich Text' onEdit={this.editText} />,
+      renderTab: () => (
+        <TextList
+          data={this.props.rich_texts}
+          key='Rich Text'
+          onEdit={this.editText}
+          removeItem={this.props.removeText}
+        />
+      ),
       dialog_title: 'Rich Text Editor',
       dialog_text: 'Fill out the text',
       dialog_add_btn_text: 'Add Text',
