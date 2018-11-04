@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -77,6 +78,7 @@ class MenuItem extends Component {
         current_index_path,
         updatePath,
         empty_name_path,
+        deleteItem,
         classes
       }
     } = this.props;
@@ -119,7 +121,7 @@ class MenuItem extends Component {
               />
               <TextField
                 label='Url'
-                value={href}
+                value={href || ''}
                 onChange={e => updateMenuData(index_path, 'href', e.target.value)}
                 margin='normal'
                 className={classes.text_field}
@@ -128,12 +130,28 @@ class MenuItem extends Component {
 
             {this.renderInnerList()}
 
-            {
-              // if depth greater than 4 do not allow adding more nested lists
-              // only display button for currently expanded element
-              index_path.length < 4 && is_current_path && name.length
-                ? (
-                  <div className={classes.addBtnWrapper}>
+            <div className={classes.addBtnWrapper}>
+              {
+                // if depth greater than 4 do not allow adding more nested lists
+                // only display button for currently expanded element
+                is_current_path
+                  ? (
+                    <Button
+                      color="secondary"
+                      variant="fab"
+                      aria-label="Delete"
+                      className={classes.button} mini
+                      onClick={e => deleteItem(index_path)}
+                    >
+                      <DeleteIcon />
+                    </Button>
+                  ) : null
+              }
+              {
+                // if depth greater than 4 do not allow adding more nested lists
+                // only display button for currently expanded element
+                index_path.length < 4 && is_current_path && name.length
+                  ? (
                     <Button
                       color="primary"
                       variant="fab"
@@ -152,9 +170,9 @@ class MenuItem extends Component {
                     >
                       <AddIcon />
                     </Button>
-                  </div>
-                ) : null
-            }
+                  ) : null
+              }
+            </div>
           </ExpansionPanelDetails>
         </ExpansionPanel>
       </li>
