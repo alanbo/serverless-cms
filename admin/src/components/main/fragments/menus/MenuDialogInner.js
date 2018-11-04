@@ -1,229 +1,13 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import teal from '@material-ui/core/colors/teal';
-import indigo from '@material-ui/core/colors/indigo';
-
 import * as R from 'ramda';
 
-const EMPTY_NAME_ERR = 'Fill out the name';
-
-const menu_item_styles = theme => ({
-  text_field: {
-    width: '100%',
-  },
-  rightIcon: {
-    marginLeft: theme.spacing.unit,
-  },
-  addBtnWrapper: {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'flex-end',
-  },
-  button: {
-    margin: 10
-  },
-
-  root: {
-    width: '100%',
-  },
-  heading: {
-    fontSize: theme.typography.pxToRem(15),
-    fontWeight: theme.typography.fontWeightRegular,
-  },
-  list: {
-    padding: 0,
-    listStyleType: 'none',
-    padding: 20,
-    marginBottom: 20
-  },
-
-  expansionPanel: {
-    marginTop: 20,
-    marginBottom: 20,
-  },
-
-  expansionPanelDetails: {
-    display: 'block'
-  },
-
-  textFieldsWrapper: {
-    padding: 20,
-    marginBottom: 20
-  }
-});
-
-const new_item = {
-  name: '',
-  href: null,
-  items: null
-}
-
-
-class MenuItemUnstyled extends Component {
-  state = {
-    name_err_text: null
-  }
-  // check if all path elements cover current_path elements
-  isOnPath(path, current_path) {
-    let on_path = true;
-
-    path.forEach((item, i) => {
-      if (item !== current_path[i]) {
-        on_path = false;
-      }
-    });
-
-    return on_path;
-  }
-
-  renderInnerList() {
-    const {
-      item,
-      classes,
-      current_index_path,
-      updatePath,
-      updateMenuData,
-      index_path
-    } = this.props;
-
-    if (item.items) {
-      return (
-        <Paper component='ul' className={classes.list}>
-          {item.items.map((item, i) => (
-            <MenuItemUnstyled
-              key={i}
-              item={item}
-              classes={classes}
-              updatePath={updatePath}
-              current_index_path={current_index_path}
-              updateMenuData={updateMenuData}
-              index_path={[...index_path, i]}
-            />
-          ))}
-        </Paper>
-      );
-    }
-
-    return null;
-  }
-
-  onExpandChange = () => {
-    const { index_path, current_index_path } = this.props;
-
-    // if expanded element is on path
-    if (this.isOnPath(index_path, current_index_path)) {
-      const new_path = [...index_path];
-
-      // go one level lower when already expanded element is clicked again
-      new_path.pop();
-
-      // root component will run a callback if it detects an empty name
-      this.props.updatePath(new_path, name_err_text => {
-        this.setState({ name_err_text });
-      });
-    } else {
-      this.props.updatePath(index_path);
-    }
-  }
-
-  render() {
-    const { item, classes, updateMenuData, index_path, current_index_path, updatePath } = this.props;
-    const name = item.name;
-    const href = item.href || '';
-    const items = item.items || [];
-
-
-    // check if the path of the element is on the path of the topmost expanded element
-    // makes sure that the parent is not closed while its descandant is currently expanded
-    const on_path = this.isOnPath(index_path, current_index_path);
-    const is_current_path = R.equals(current_index_path, index_path);
-
-    return (
-      <li>
-        <ExpansionPanel
-          // darkens the color depending on how deeply nested the element is
-          style={{ backgroundColor: indigo[100 * index_path.length] }}
-          className={classes.expansionPanel}
-          expanded={on_path}
-          onChange={() => this.onExpandChange()}
-        >
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>{name}</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails className={classes.expansionPanelDetails}>
-            <Paper className={classes.textFieldsWrapper}>
-              <TextField
-                label={this.state.name_err_text || 'Name'}
-                value={name}
-                error={!!this.state.name_err_text}
-                onChange={e => {
-                  // if empty name error, clear it on first change
-                  if (this.state.name_err_text) {
-                    this.setState({ name_err_text: null });
-                  }
-
-                  updateMenuData(index_path, 'name', e.target.value);
-                }}
-                margin='normal'
-                className={classes.text_field}
-              />
-              <TextField
-                label='Url'
-                value={href}
-                onChange={e => updateMenuData(index_path, 'href', e.target.value)}
-                margin='normal'
-                className={classes.text_field}
-              />
-            </Paper>
-
-            {this.renderInnerList()}
-
-            {
-              // if depth greater than 4 do not allow adding more nested lists
-              // only display button for currently expanded element
-              index_path.length < 4 && is_current_path
-                ? (
-                  <div className={classes.addBtnWrapper}>
-                    <Button
-                      color="primary"
-                      variant="fab"
-                      aria-label="Add"
-                      className={classes.button} mini
-                      onClick={e => {
-                        // appends the new item to the list of items
-                        const new_items = R.append(new_item, items);
-
-                        // updates menu data to include new item
-                        updateMenuData(index_path, 'items', new_items);
-
-                        // expands newly created item
-                        updatePath(R.append(new_items.length - 1, index_path));
-                      }}
-                    >
-                      <AddIcon />
-                    </Button>
-                  </div>
-                ) : null
-            }
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-      </li>
-    );
-  }
-}
-
-const MenuItem = withStyles(menu_item_styles)(MenuItemUnstyled);
-
+import MenuItem from './MenuItem';
+import { isNameEmpty, getUpdatedMenuData, NEW_ITEM } from './helpers';
+import menu_item_styles from './menu-dialog-inner-styles';
 
 
 class MenuDialogInner extends Component {
@@ -235,47 +19,39 @@ class MenuDialogInner extends Component {
   updatePath = (menu_index_path, errCallback = () => { }) => {
     const old_path = this.state.menu_index_path;
     const data = this.state.menu_data || this.props.data || {};
-
-    // Detect if the name attribute on the path
-    // that is about to be changed
-    // is empty
-    const is_name_empty = R.pipe(
-      R.intersperse('items'),
-      R.prepend('items'),
-      R.lensPath(),
-      R.view(R.__, data),
-      R.ifElse(
-        R.has('name'),
-        R.prop('name'),
-        () => false
-      ),
-      R.isEmpty()
-    )(old_path);
+    const is_name_empty = isNameEmpty(old_path, data);
 
     // run error callback if the name is empty
     if (is_name_empty) {
-      errCallback(EMPTY_NAME_ERR);
+      this.setState({ empty_name_path: old_path });
       // only allow index path change if the currently open item has its name filled
     } else {
-      this.setState({ menu_index_path });
+      this.setState({ menu_index_path, empty_name_path: null });
     }
   }
 
   updateMenuData = (path, prop_name, value) => {
+    const data = this.state.menu_data || this.props.data || {};
+    const menu_data = getUpdatedMenuData(path, prop_name, value, data);
 
-    // prepares lenses path for the item being edited and updates it
-    const menu_data = R.pipe(
-      R.intersperse('items'),
-      R.prepend('items'),
-      R.append(prop_name),
-      R.assocPath(R.__, value, this.state.menu_data || this.props.data)
-    )(path);
-
-    this.setState({ menu_data });
+    // clears out empty name error if the error path item name is filled with at least one char
+    if (prop_name === 'name' && R.equals(path, this.state.empty_name_path) && value.length) {
+      this.setState({ empty_name_path: null, menu_data });
+    } else {
+      this.setState({ menu_data });
+    }
   }
 
   renderItems() {
     const data = this.state.menu_data || this.props.data || {};
+
+    const root_passtrhough = {
+      current_index_path: this.state.menu_index_path,
+      updatePath: this.updatePath,
+      updateMenuData: this.updateMenuData,
+      empty_name_path: this.state.empty_name_path,
+      classes: this.props.classes
+    }
 
     // converts an object of menu items into an array
     const menu_items = Object.keys(data.items).map(item => data.items[item]);
@@ -284,10 +60,8 @@ class MenuDialogInner extends Component {
       <MenuItem
         item={item}
         key={i}
-        current_index_path={this.state.menu_index_path}
-        updatePath={this.updatePath}
-        updateMenuData={this.updateMenuData}
         index_path={[i]}
+        root={root_passtrhough}
       />
     ));
   }
@@ -313,7 +87,7 @@ class MenuDialogInner extends Component {
                   className={classes.button} mini
                   onClick={() => {
                     const menu_data = R.pipe(
-                      R.append(new_item),
+                      R.append(NEW_ITEM),
                       R.assocPath(['items'], R.__, data)
                     )(data.items || []);
 
