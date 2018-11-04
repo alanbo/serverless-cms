@@ -6,7 +6,7 @@ import AddIcon from '@material-ui/icons/Add';
 import * as R from 'ramda';
 
 import MenuItem from './MenuItem';
-import { isNameEmpty, getUpdatedMenuData, NEW_ITEM } from './helpers';
+import { isNameEmpty, getUpdatedMenuData, getDissocMenuData, NEW_ITEM } from './helpers';
 import menu_item_styles from './menu-dialog-inner-styles';
 
 
@@ -42,6 +42,14 @@ class MenuDialogInner extends Component {
     }
   }
 
+  deleteItem = path => {
+    const data = this.state.menu_data || this.props.data || {};
+    const menu_data = getDissocMenuData(path, data);
+
+    // update menu_data with removed item and move the current path one level lower.
+    this.setState({ menu_data, menu_index_path: R.init(this.state.menu_index_path) });
+  }
+
   renderItems() {
     const data = this.state.menu_data || this.props.data || {};
 
@@ -50,11 +58,12 @@ class MenuDialogInner extends Component {
       updatePath: this.updatePath,
       updateMenuData: this.updateMenuData,
       empty_name_path: this.state.empty_name_path,
+      deleteItem: this.deleteItem,
       classes: this.props.classes
     }
 
     // converts an object of menu items into an array
-    const menu_items = Object.keys(data.items).map(item => data.items[item]);
+    const menu_items = Object.keys(data.items || {}).map(item => data.items[item]);
 
     return menu_items.map((item, i) => (
       <MenuItem
@@ -91,8 +100,9 @@ class MenuDialogInner extends Component {
                       R.assocPath(['items'], R.__, data)
                     )(data.items || []);
 
-                    this.setState({ menu_data });
-                    this.updatePath([menu_data.items.length - 1]);
+                    this.setState({ menu_data }, () => {
+                      this.updatePath([menu_data.items.length - 1]);
+                    });
                   }}
                 >
                   <AddIcon />
