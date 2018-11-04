@@ -14,6 +14,7 @@ import AddDialog from './common/AddDialog';
 import TextList from './fragments/common/TextList';
 import MenuDialogInner from './fragments/menus/MenuDialogInner';
 import * as actionCreators from '../../actions/index';
+import * as R from 'ramda';
 
 const styles = theme => ({
   button: {
@@ -42,6 +43,8 @@ class UnstyledFragments extends Component {
   }
 
   current_text = '';
+
+  menu_dialog_inner_ref = React.createRef();
 
   tab_data = [
     {
@@ -85,8 +88,11 @@ class UnstyledFragments extends Component {
       dialog_title: 'Menu Editor',
       dialog_text: 'Design the menu',
       dialog_add_btn_text: 'Add Menu',
-      dialogRenderInner: () => <MenuDialogInner data={this.state.edited_menu} />,
-      onClose: () => { }
+      dialogRenderInner: () => <MenuDialogInner data={this.state.edited_menu} innerRef={this.menu_dialog_inner_ref} />,
+      onClose: () => {
+        const { menu_data } = this.menu_dialog_inner_ref.current.state;
+        this.props.putMenu(R.dissoc('id', menu_data), menu_data.id);
+      }
     },
   ];
 

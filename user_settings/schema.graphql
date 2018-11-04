@@ -44,6 +44,7 @@ type Menu {
 }
 
 input MenuInput {
+	id: ID
 	name: String!
 	items: [MenuItemInput]
 }
@@ -85,6 +86,7 @@ type Query {
 	getGalleryList: [Gallery]
 	getGalleryListId: [ID]
 	getImageList: [Image]
+	getMenuList: [Menu]!
 }
 
 type Text implements Fragment {
