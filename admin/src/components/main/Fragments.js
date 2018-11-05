@@ -12,7 +12,9 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import AddDialog from './common/AddDialog';
 import TextList from './fragments/common/TextList';
+import MenuDialogInner from './fragments/menus/MenuDialogInner';
 import * as actionCreators from '../../actions/index';
+import * as R from 'ramda';
 
 const styles = theme => ({
   button: {
@@ -36,15 +38,26 @@ class UnstyledFragments extends Component {
     current_tab: 0,
     simple_text: '',
     rich_text: '',
-    edited_text_id: null
+    edited_menu: '',
+    edited_text_id: null,
+    empty_menu_name: false,
   }
 
   current_text = '';
 
+  menu_dialog_inner_ref = React.createRef();
+
   tab_data = [
     {
       title: 'Text',
-      renderTab: () => <TextList data={this.props.simple_texts} key='Text' onEdit={this.editText} />,
+      renderTab: () => (
+        <TextList
+          data={this.props.simple_texts}
+          key='Text'
+          onEdit={this.editText}
+          removeItem={this.props.removeText}
+        />
+      ),
       dialog_title: 'Simple Text Editor',
       dialog_text: 'Fill out the text',
       dialog_add_btn_text: 'Add Text',
@@ -66,7 +79,14 @@ class UnstyledFragments extends Component {
     },
     {
       title: 'Rich Text',
-      renderTab: () => <TextList data={this.props.rich_texts} key='Rich Text' onEdit={this.editText} />,
+      renderTab: () => (
+        <TextList
+          data={this.props.rich_texts}
+          key='Rich Text'
+          onEdit={this.editText}
+          removeItem={this.props.removeText}
+        />
+      ),
       dialog_title: 'Rich Text Editor',
       dialog_text: 'Fill out the text',
       dialog_add_btn_text: 'Add Text',
@@ -79,12 +99,36 @@ class UnstyledFragments extends Component {
     },
     {
       title: 'Menu',
-      renderTab: () => <Menus key='Menu' />,
+      renderTab: () => <Menus key='Menu' onEdit={this.editMenu} />,
       dialog_title: 'Menu Editor',
       dialog_text: 'Design the menu',
       dialog_add_btn_text: 'Add Menu',
-      dialogRenderInner: () => <div>Menu Placeholder</div>,
-      onClose: () => { }
+      dialogRenderInner: () => (
+        <MenuDialogInner
+          data={this.state.edited_menu || { name: '' }}
+          innerRef={this.menu_dialog_inner_ref}
+          is_name_empty={this.state.empty_menu_name}
+        />
+      ),
+      onClose: () => {
+        const { menu_data } = this.menu_dialog_inner_ref.current.state;
+        // TO DO:
+        // when state is empty menu_data will be undefined
+        // temporary fix, to be redone in a more elegant way
+        if (!menu_data) {
+          this.setState({ add_dialog_open: false, empty_menu_name: false, edited_menu: false })
+          return;
+        }
+
+        if (menu_data.name && menu_data.name.length > 0) {
+          this.props.putMenu(R.dissoc('id', menu_data), menu_data.id);
+          this.setState({ add_dialog_open: false, empty_menu_name: false, edited_menu: false })
+        } else {
+          this.setState({
+            empty_menu_name: true
+          })
+        }
+      }
     },
   ];
 
@@ -96,6 +140,14 @@ class UnstyledFragments extends Component {
       add_dialog_open: true,
       edited_text_id: id
     })
+  }
+
+  editMenu = edited_menu => {
+    this.setState({
+      add_dialog_open: true,
+      edited_menu
+    })
+
   }
 
   addDialog() {
@@ -126,7 +178,9 @@ class UnstyledFragments extends Component {
       add_dialog_open: false,
       rich_text: '',
       simple_text: '',
-      edited_text_id: null
+      edited_text_id: null,
+      empty_menu_name: false,
+      edited_menu: false
     });
   };
 

@@ -9,9 +9,6 @@ import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import { connect } from 'react-redux';
-
-import * as actionCreators from '../../../../actions/index';
 
 const styles = theme => ({
   root: {
@@ -41,7 +38,7 @@ function TextList(props) {
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
-            <TableCell>Snippet</TableCell>
+            <TableCell>Name</TableCell>
             <TableCell className={classes.editCellHeader}>Edit</TableCell>
             <TableCell>Delete</TableCell>
           </TableRow>
@@ -51,7 +48,7 @@ function TextList(props) {
             return (
               <TableRow key={n.id}>
                 <TableCell component="th" scope="row">
-                  {n.snippet}...
+                  {n.name || n.snippet}
                 </TableCell>
                 <TableCell className={classes.editCell}>
                   <IconButton aria-label="Edit" onClick={() => props.onEdit(n)}>
@@ -59,7 +56,7 @@ function TextList(props) {
                   </IconButton>
                 </TableCell>
                 <TableCell>
-                  <IconButton aria-label="Delete" onClick={() => props.removeText(n.id)}>
+                  <IconButton aria-label="Delete" onClick={() => props.removeItem(n.id)}>
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
@@ -72,4 +69,4 @@ function TextList(props) {
   );
 }
 
-export default connect(null, actionCreators)(withStyles(styles)(TextList));
+export default withStyles(styles)(TextList);

@@ -10,3 +10,7 @@ export const put_text = 'PUT_TEXT';
 export const remove_text = 'REMOVE_TEXT';
 export const update_text = 'UPDATE_TEXT';
 export const get_text_list = 'GET_TEXT_LIST';
+export const get_menu_list = 'GET_MENU_LIST';
+export const put_menu = 'PUT_MENU';
+export const remove_menu = 'REMOVE_MENU';
+

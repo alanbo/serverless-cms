@@ -1,0 +1,13 @@
+{
+    "version" : "2017-02-28",
+    "operation" : "Scan",
+    "filter" : {
+        "expression" : "#type = :type",
+        "expressionValues" : {
+            ":type" : { "S" : "menu" }
+        },
+            "expressionNames" : {
+            "#type" : "type",
+        },
+    }
+}
