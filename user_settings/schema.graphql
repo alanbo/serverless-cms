@@ -39,39 +39,33 @@ input ImagePathInput {
 
 type Menu {
 	id: ID!
-	sections: [MenuSection!]!
+	name: String!
+	items: [MenuItem!]!
 }
 
 input MenuInput {
-	sections: [MenuSectionInput]
-}
-
-type MenuLink {
-	href: String
-	text: String
-}
-
-input MenuLinkInput {
-	href: String
-	text: String
-}
-
-type MenuSection {
-	links: [MenuLink]
-	name: String
-}
-
-input MenuSectionInput {
-	links: [MenuLinkInput!]!
+	id: ID
 	name: String!
+	items: [MenuItemInput]
+}
+
+type MenuItem {
+	name: String!
+	href: String
+	items: [MenuItem]
+}
+
+input MenuItemInput {
+	id: ID
+	name: String!
+	href: String
+	items: [MenuItemInput]
 }
 
 type Mutation {
 	putText(text: String!, is_rich: Boolean): Text
 	updateText(text: String, id: ID!): Text
 	removeText(id: ID!): Text
-	putMenu(input: MenuInput): Menu
-	updateMenu(input: MenuInput): Menu
 	addGallery(name: String!): Gallery
 	removeGallery(id: ID!): Gallery
 	addImageToGallery(image_id: ID!, id: ID!): Gallery
@@ -80,6 +74,8 @@ type Mutation {
 	reorderImagesInGallery(image_ids: [ID]!, id: ID!): Gallery
 	addImage(input: ImageInput): Image
 	removeImage(id: ID!): Image
+	putMenu(menu: MenuInput!, id: ID): Menu
+	removeMenu(id: ID!): Menu
 }
 
 type Query {
@@ -91,6 +87,7 @@ type Query {
 	getGalleryList: [Gallery]
 	getGalleryListId: [ID]
 	getImageList: [Image]
+	getMenuList: [Menu]!
 }
 
 type Text implements Fragment {
