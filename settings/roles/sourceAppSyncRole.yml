@@ -1,0 +1,21 @@
+Type: AWS::IAM::Role
+Properties:
+  RoleName: ${self:service}--sourceAppSyncRole
+  AssumeRolePolicyDocument:
+    Version: '2012-10-17'
+    Statement:
+      - Effect: Allow
+        Principal:
+          Service:
+            - appsync.amazonaws.com
+        Action: sts:AssumeRole
+  Policies:
+    - PolicyName: ${self:service}--updateDb
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+              - lambda:invokeFunction
+            Resource:
+              - Fn::GetAtt: ["ResolveAppSyncLambdaFunction", "Arn"]

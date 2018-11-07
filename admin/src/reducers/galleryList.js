@@ -14,16 +14,21 @@ function galleryList(state = {}, action) {
       const galleries = {};
 
       action.payload.forEach(gal => {
-        galleries[gal.name] = gal;
+        console.log(gal);
+        const images = gal.images.map(obj => obj.id);
+
+        const gallery = { ...gal, images };
+
+        galleries[gal.name] = gallery;
       });
 
       return Object.assign({}, state, galleries);
     }
 
     case add_gallery: {
-      return Object.assign({}, state, { [action.payload.name]: action.payload });
+      return Object.assign({}, state, { [action.payload.name]: { ...action.payload, images: [] } });
     }
-      
+
     case remove_gallery: {
       const new_state = Object.assign({}, state);
       delete new_state[action.payload.name];
@@ -35,7 +40,7 @@ function galleryList(state = {}, action) {
     case add_images_to_gallery: {
       let galleries_copy = Object.assign({}, state);
 
-      galleries_copy[action.payload.name].images = action.payload.images;
+      galleries_copy[action.payload.name].images = action.payload.images.map(obj => obj.id);
 
       return galleries_copy;
     }
@@ -48,7 +53,7 @@ function galleryList(state = {}, action) {
 
       return new_state;
     }
-      
+
     default:
       return state
   }

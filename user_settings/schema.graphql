@@ -8,7 +8,7 @@ interface Fragment {
 type Gallery {
 	id: ID!
 	name: String!
-	images: [ID]!
+	images: [Image]!
 }
 
 type Image implements Fragment {
@@ -40,7 +40,7 @@ input ImagePathInput {
 type Menu {
 	id: ID!
 	name: String!
-	items: [MenuItem!]!
+	items: [MenuItem!]
 }
 
 input MenuInput {

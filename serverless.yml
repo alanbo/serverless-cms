@@ -18,6 +18,12 @@ provider:
   region: us-west-2
 
 functions:
+  resolveAppSync:
+    handler: functions/resolveAppSync.handler
+    role: updateDbRole
+    environment:
+      FRAGMENTS_TABLE: ${self:service}-fragments
+
   update_data:
     handler: functions/update-data.updateData
     role: updateDbRole
@@ -71,6 +77,7 @@ resources:
     createPageRole: ${file(./settings/roles/createPageRole.yml)}
     updateDbRole: ${file(./settings/roles/updateDbRole.yml)}
     dataEditorRole: ${file(./settings/roles/dataEditorRole.yml)}
+    sourceAppSyncRole: ${file(./settings/roles/sourceAppSyncRole.yml)}
     identityPoolRoleAttachment:  ${file(./settings/auth/identity-pool-role-attachment.yml)}
     fragmentsTable: ${file(./settings/tables.yml):fragmentsTable}
 
@@ -84,7 +91,7 @@ resources:
     graphQLSchema: ${file(./settings/graphql-api/graphql-schema.yml)}
     graphQLKey: ${file(./settings/graphql-api/graphql-key.yml)}
     graphQLData: ${file(./settings/graphql-api/graphql-datasource.yml)}
-    graphQLDataImg: ${file(./settings/graphql-api/graphql-datasource-img.yml)}
+    graphQLLambda: ${file(./settings/graphql-api/graphql-datasource-lambda.yml)}
 
     # needs to be commented out on first deploy
     putMenu: ${file(./settings/graphql-api/resolvers/putMenu.yml)}
@@ -95,9 +102,9 @@ resources:
     addGallery: ${file(./settings/graphql-api/resolvers/addGallery.yml)}
     
     addImageToGallery: ${file(./settings/graphql-api/resolvers/addImageToGallery.yml)}
+    addImagesToGallery: ${file(./settings/graphql-api/resolvers/addImagesToGallery.yml)}
     removeGallery: ${file(./settings/graphql-api/resolvers/removeGallery.yml)}
     removeImage: ${file(./settings/graphql-api/resolvers/removeImage.yml)}
-    removeText: ${file(./settings/graphql-api/resolvers/removeText.yml)}
     removeImageFromGallery: ${file(./settings/graphql-api/resolvers/removeImageFromGallery.yml)}
     reorderImagesInGallery:  ${file(./settings/graphql-api/resolvers/reorderImagesInGallery.yml)}
     getImageList: ${file(./settings/graphql-api/resolvers/getImageList.yml)}
@@ -110,6 +117,7 @@ resources:
     getMenuList: ${file(./settings/graphql-api/resolvers/getMenuList.yml)}
     getImage: ${file(./settings/graphql-api/resolvers/getImage.yml)}
     getGallery: ${file(./settings/graphql-api/resolvers/getGallery.yml)}
+    galleryImages: ${file(./settings/graphql-api/resolvers/gallery-images.yml)}
 
 
 
