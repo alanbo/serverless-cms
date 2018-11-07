@@ -22,6 +22,7 @@
   "author": "The serverless webpack authors (https://github.com/elastic-coders/serverless-webpack)",
   "license": "MIT",
   "dependencies": {
+    "@playlyfe/gql": "^2.6.0",
     "apollo-cache-inmemory": "^1.2.10",
     "apollo-client": "^2.4.2",
     "apollo-link": "^1.2.3",

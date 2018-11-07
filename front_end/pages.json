@@ -1,0 +1,20 @@
+{
+  "bio_page": {
+    "template": "./pug/about-page.pug",
+    "query": "./queries/GetBioPage.graphql",
+    "inputs": {
+      "menu_id": "menu",
+      "image_id_1": "image",
+      "image_id_2": "image",
+      "text_id": "text"
+    }
+  },
+  "gallery_page": {
+    "template": "./pug/gallery-page.pug",
+    "query": "./queries/GetGelleryPage.graphql",
+    "inputs": {
+      "gallery_id": "gallery",
+      "menu_id": "menu"
+    }
+  }
+}
