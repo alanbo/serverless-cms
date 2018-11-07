@@ -15,7 +15,9 @@ export const getGalleryList = `
 {
   getGalleryList {
     id
-    images
+    images {
+      id
+    }
     name
   }
 }
@@ -25,7 +27,6 @@ export const addGallery = `
 mutation AddGallery($name: String!) {
   addGallery(name: $name) {
     id
-    images
     name
   }
 }
@@ -51,7 +52,9 @@ export const addImagesToGallery = `
   mutation addImagesToGallery($image_ids: [ID]!, $id: ID!) {
     addImagesToGallery(image_ids: $image_ids, id: $id) {
       name
-      images
+      images {
+        id
+      }
     }
   }
 `;
@@ -60,7 +63,9 @@ export const removeImageFromGallery = `
   mutation RemoveImageFromGallery($image_number: Int!, $id: ID!) {
     removeImageFromGallery(image_number: $image_number, id: $id) {
       name
-      images
+      images {
+        id
+      }
     }
   }
 `;
@@ -69,8 +74,10 @@ export const reorderImagesInGallery = `
   mutation ReorderImagesInGallery($image_ids: [ID]!, $id: ID!) {
     reorderImagesInGallery(image_ids: $image_ids, id: $id) {
       id
-      images
       name
+      images {
+        id
+      }
     }
   }
 `;

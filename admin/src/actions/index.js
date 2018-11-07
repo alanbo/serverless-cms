@@ -107,9 +107,11 @@ export const removeImage = id => {
 
 
 export const addImagesToGallery = (id, image_ids) => {
+  console.log(image_ids);
   return dispatch => {
     API.graphql(graphqlOperation(add_images_to_gallery_mutation, { id, image_ids }))
       .then(result => {
+        console.log(result);
         dispatch({
           type: add_images_to_gallery,
           payload: result.data.addImagesToGallery
