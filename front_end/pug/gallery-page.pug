@@ -1,0 +1,5 @@
+extends layout.pug
+
+block content
+  each image in gallery.images
+    img(src=image.paths[3].path)
