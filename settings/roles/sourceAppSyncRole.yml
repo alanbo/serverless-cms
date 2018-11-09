@@ -19,3 +19,4 @@ Properties:
               - lambda:invokeFunction
             Resource:
               - Fn::GetAtt: ["ResolveAppSyncLambdaFunction", "Arn"]
+              - Fn::GetAtt: ["ResolvePageTypeLambdaFunction", "Arn"]

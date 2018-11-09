@@ -28,7 +28,7 @@
     "apollo-link": "^1.2.3",
     "apollo-link-http": "^1.5.5",
     "aws-appsync": "^1.0.0",
-    "aws-sdk": "^2.315.0",
+    "aws-sdk": "^2.353.0",
     "bson-objectid": "^1.2.3",
     "es6-promise": "^4.2.5",
     "gm": "^1.23.1",
