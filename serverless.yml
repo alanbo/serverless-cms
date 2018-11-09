@@ -18,6 +18,11 @@ provider:
   region: us-west-2
 
 functions:
+  resolvePageType:
+    handler: functions/resolvePageType.resolvePageType
+    role: readS3role
+    environment:
+      BUCKET: ${self:service}-public
   resolveAppSync:
     handler: functions/resolveAppSync.handler
     role: updateDbRole
@@ -80,6 +85,7 @@ resources:
     sourceAppSyncRole: ${file(./settings/roles/sourceAppSyncRole.yml)}
     identityPoolRoleAttachment:  ${file(./settings/auth/identity-pool-role-attachment.yml)}
     fragmentsTable: ${file(./settings/tables.yml):fragmentsTable}
+    readS3role:  ${file(./settings/roles/readS3role.yml)}
 
     userPool:  ${file(./settings/auth/user-pool.yml)}
     userPoolGroup: ${file(./settings/auth/user-pool-group.yml)}
@@ -92,6 +98,7 @@ resources:
     graphQLKey: ${file(./settings/graphql-api/graphql-key.yml)}
     graphQLData: ${file(./settings/graphql-api/graphql-datasource.yml)}
     graphQLLambda: ${file(./settings/graphql-api/graphql-datasource-lambda.yml)}
+    graphQLPageTypesDataSource: ${file(./settings/graphql-api/graphql-datasource-page-types.yml)}
 
     # needs to be commented out on first deploy
     putMenu: ${file(./settings/graphql-api/resolvers/putMenu.yml)}
@@ -109,6 +116,7 @@ resources:
     reorderImagesInGallery:  ${file(./settings/graphql-api/resolvers/reorderImagesInGallery.yml)}
     getImageList: ${file(./settings/graphql-api/resolvers/getImageList.yml)}
     getGalleryList: ${file(./settings/graphql-api/resolvers/getGalleryList.yml)}
+    getPageTypeList: ${file(./settings/graphql-api/resolvers/getPageTypeList.yml)}
 
     
     getText: ${file(./settings/graphql-api/resolvers/getText.yml)}

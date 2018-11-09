@@ -5,8 +5,6 @@ var AWS = require("aws-sdk");
 var documentClient = new AWS.DynamoDB.DocumentClient();
 
 exports.handler = async (event) => {
-  console.log(event);
-
   if (!event || !event.length) {
     return [];
   }
