@@ -76,6 +76,20 @@ type Mutation {
 	removeImage(id: ID!): Image
 	putMenu(menu: MenuInput!, id: ID): Menu
 	removeMenu(id: ID!): Menu
+	putPage(
+		id: ID,
+		name: String!,
+		type: String!,
+		fragments: [ID]
+	): Page
+	removePage(id: ID!): Page
+}
+
+type Page {
+	id: ID!
+	name: String!
+	type: String!
+	fragments: [ID]
 }
 
 type PageType {
@@ -100,6 +114,8 @@ type Query {
 	getImageList: [Image]
 	getMenuList: [Menu]!
 	getPageTypeList: [PageType]
+	getPage(id: ID!): Page
+	getPageList: [Page]
 }
 
 type Text implements Fragment {

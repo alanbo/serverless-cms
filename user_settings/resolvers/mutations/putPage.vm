@@ -1,0 +1,17 @@
+#set( $id = '' )
+
+#if( $ctx.args.id )
+	#set( $id = $util.dynamodb.toDynamoDBJson($ctx.args.id) )
+#else
+	#set( $id = $util.dynamodb.toDynamoDBJson($util.autoId()) )
+#end
+
+{
+    "version" : "2017-02-28",
+    "operation" : "PutItem",
+    "key" : {
+        "id": $id,
+        "type": $util.dynamodb.toDynamoDBJson("page"),
+    },
+    "attributeValues" : $util.dynamodb.toMapValuesJson($ctx.args)
+}
