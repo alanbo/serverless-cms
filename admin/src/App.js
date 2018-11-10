@@ -46,6 +46,7 @@ class App extends Component {
     this.props.getTextList();
     this.props.getMenuList();
     this.props.getPageTypeList();
+    this.props.getPageList();
   }
 
   signOut() {
