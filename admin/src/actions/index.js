@@ -22,6 +22,10 @@ import {
 } from '../graphql/fragment-queries';
 
 import {
+  getPageTypeList as get_page_type_list_query
+} from '../graphql/page-queries';
+
+import {
   add_image_list,
   add_gallery_list,
   add_gallery,
@@ -36,7 +40,8 @@ import {
   update_text,
   get_menu_list,
   put_menu,
-  remove_menu
+  remove_menu,
+  get_page_type_list
 } from '../actions/types';
 
 export const fetchImageList = () => {
@@ -242,3 +247,15 @@ export const removeMenu = id => {
   }
 }
 
+export const getPageTypeList = () => {
+  return dispatch => {
+    API.graphql(graphqlOperation(get_page_type_list_query))
+      .then(result => {
+        dispatch({
+          type: get_page_type_list,
+          payload: result.data.getPageTypeList
+        });
+      })
+      .catch(console.log);
+  }
+}
