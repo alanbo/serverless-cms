@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import FolderTable from './common/ListTable';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../actions/index';
+import AddButton from './common/AddButton';
 
 class PagesComponent extends Component {
   onDelete = id => {
@@ -9,15 +10,19 @@ class PagesComponent extends Component {
     console.log(id);
   }
 
+  addNewPage = () => this.props.history.push('/pages/add_new_page');
+
   render() {
     const { pages } = this.props;
 
-    console.log(pages);
+
+    console.log(this.props.history);
 
     return (
       <div>
         <h1>Pages</h1>
         <FolderTable data={pages} onDelete={({ id }) => this.onDelete(id)} root_path="pages" />
+        <AddButton onClick={this.addNewPage} />
       </div>
     );
   }
