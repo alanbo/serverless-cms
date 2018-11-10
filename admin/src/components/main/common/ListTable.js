@@ -25,6 +25,7 @@ const styles = theme => ({
 
 function FolderTable(props) {
   const { classes } = props;
+  const has_files = props.data[0] && props.data[0].files;
 
   return (
     <Paper className={classes.root}>
@@ -32,20 +33,35 @@ function FolderTable(props) {
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>
-            <TableCell numeric>Number of files</TableCell>
+            {
+              has_files
+                ? (
+                  <TableCell numeric>Number of files</TableCell>
+                ) : null
+            }
             <TableCell>Delete</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {props.data.map(n => {
             return (
-              <TableRow key={n.name}>
+              <TableRow key={n.id}>
                 <TableCell component="th" scope="row">
-                  <Link to={`/photos/${n.name}`}>{n.name}</Link>
+                  <Link
+                    to={{
+                      pathname: `/${props.root_path}/${n.name}`,
+                      state: { id: n.id }
+                    }}
+                  >{n.name}</Link>
                 </TableCell>
-                <TableCell numeric>{n.files}</TableCell>
+                {
+                  has_files
+                    ? (
+                      <TableCell numeric>{n.files}</TableCell>
+                    ) : null
+                }
                 <TableCell>
-                  <IconButton aria-label="Delete" onClick={() => props.onDelete(n.name)}>
+                  <IconButton aria-label="Delete" onClick={() => props.onDelete(n)}>
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
