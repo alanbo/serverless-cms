@@ -105,6 +105,8 @@ resources:
     putText: ${file(./settings/graphql-api/resolvers/putText.yml)}
     updateText: ${file(./settings/graphql-api/resolvers/updateText.yml)}
     removeText: ${file(./settings/graphql-api/resolvers/removeText.yml)}
+    removePage: ${file(./settings/graphql-api/resolvers/removePage.yml)}
+    putPage: ${file(./settings/graphql-api/resolvers/putPage.yml)}
     addImage: ${file(./settings/graphql-api/resolvers/addImage.yml)}
     addGallery: ${file(./settings/graphql-api/resolvers/addGallery.yml)}
     
@@ -121,6 +123,8 @@ resources:
     
     getText: ${file(./settings/graphql-api/resolvers/getText.yml)}
     getTextList: ${file(./settings/graphql-api/resolvers/getTextList.yml)}
+    getPage: ${file(./settings/graphql-api/resolvers/getPage.yml)}
+    getPageList: ${file(./settings/graphql-api/resolvers/getPageList.yml)}
     getMenu: ${file(./settings/graphql-api/resolvers/getMenu.yml)}
     getMenuList: ${file(./settings/graphql-api/resolvers/getMenuList.yml)}
     getImage: ${file(./settings/graphql-api/resolvers/getImage.yml)}
