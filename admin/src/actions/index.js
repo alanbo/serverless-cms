@@ -22,7 +22,10 @@ import {
 } from '../graphql/fragment-queries';
 
 import {
-  getPageTypeList as get_page_type_list_query
+  getPageTypeList as get_page_type_list_query,
+  getPageList as get_page_list_query,
+  removePage as remove_page_mutation,
+  putPage as put_page_mutation
 } from '../graphql/page-queries';
 
 import {
@@ -41,7 +44,10 @@ import {
   get_menu_list,
   put_menu,
   remove_menu,
-  get_page_type_list
+  get_page_type_list,
+  get_page_list,
+  remove_page,
+  put_page
 } from '../actions/types';
 
 export const fetchImageList = () => {
@@ -254,6 +260,48 @@ export const getPageTypeList = () => {
         dispatch({
           type: get_page_type_list,
           payload: result.data.getPageTypeList
+        });
+      })
+      .catch(console.log);
+  }
+}
+
+
+export const getPageList = () => {
+  return dispatch => {
+    API.graphql(graphqlOperation(get_page_list_query))
+      .then(result => {
+        dispatch({
+          type: get_page_list,
+          payload: result.data.getPageList
+        });
+      })
+      .catch(console.log);
+  }
+}
+
+
+export const removePage = id => {
+  return dispatch => {
+    API.graphql(graphqlOperation(remove_page_mutation, { id }))
+      .then(result => {
+        dispatch({
+          type: remove_page,
+          payload: result.data.removePage
+        });
+      })
+      .catch(console.log);
+  }
+}
+
+
+export const putPage = (name, type, fragments, id) => {
+  return dispatch => {
+    API.graphql(graphqlOperation(put_page_mutation, { name, type, fragments, id }))
+      .then(result => {
+        dispatch({
+          type: put_page,
+          payload: result.data.putPage
         });
       })
       .catch(console.log);
