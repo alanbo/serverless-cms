@@ -36,7 +36,7 @@
       },
       {
         "name": "menu_id",
-        "type": "gallery",
+        "type": "menu",
         "title": "Choose menu:"
       }
     ]

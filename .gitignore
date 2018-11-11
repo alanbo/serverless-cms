@@ -16,3 +16,4 @@ stack.yml
 admin/src/cognito.js
 admin/src/aws-stack-vars.js
 admin/src/AppSync.js
+.DS_Store
