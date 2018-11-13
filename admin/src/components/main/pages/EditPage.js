@@ -4,6 +4,13 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import AutocompleteSelect from '../common/AutocompleteSelect';
 
+const styles = theme => ({
+  name_input: {
+    width: '100%',
+    marginBottom: theme.spacing.unit * 3
+  }
+});
+
 class EditPage extends Component {
   state = {
     name: '',
@@ -41,6 +48,7 @@ class EditPage extends Component {
 
     const {
       page_types,
+      classes
     } = this.props;
 
     const options = Object.keys(page_types)
@@ -55,6 +63,7 @@ class EditPage extends Component {
               onChange={e => this.setState({ name: e.target.value })}
               value={this.state.value}
               label='Name'
+              className={classes.name_input}
             />
           )
         }
@@ -97,5 +106,5 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(EditPage);
+export default connect(mapStateToProps)(withStyles(styles, { withTheme: true })(EditPage));
 
