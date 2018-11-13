@@ -8,7 +8,7 @@ interface Fragment {
 type Gallery {
 	id: ID!
 	name: String!
-	images: [ID]!
+	images: [Image]
 }
 
 type Image implements Fragment {
@@ -40,7 +40,7 @@ input ImagePathInput {
 type Menu {
 	id: ID!
 	name: String!
-	items: [MenuItem!]!
+	items: [MenuItem!]
 }
 
 input MenuInput {
@@ -76,6 +76,33 @@ type Mutation {
 	removeImage(id: ID!): Image
 	putMenu(menu: MenuInput!, id: ID): Menu
 	removeMenu(id: ID!): Menu
+	putPage(page_data: PageInput!): Page
+	removePage(id: ID!): Page
+}
+
+type Page {
+	id: ID!
+	name: String!
+	page_type: String!
+	fragments: [ID]
+}
+
+input PageInput {
+	id: ID
+	name: String!
+	page_type: String!
+	fragments: [ID]
+}
+
+type PageType {
+	name: String!
+	inputs: [PageTypeInput]
+}
+
+type PageTypeInput {
+	name: String!
+	type: String!
+	title: String!
 }
 
 type Query {
@@ -88,6 +115,9 @@ type Query {
 	getGalleryListId: [ID]
 	getImageList: [Image]
 	getMenuList: [Menu]!
+	getPageTypeList: [PageType]
+	getPage(id: ID!): Page
+	getPageList: [Page]
 }
 
 type Text implements Fragment {

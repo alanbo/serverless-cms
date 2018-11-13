@@ -1,9 +1,12 @@
 Type: "AWS::AppSync::Resolver"
 Properties:
   TypeName: Query
-  DataSourceName: fragments_database
-  RequestMappingTemplate: ${file(./user_settings/resolvers/queries/getImage.vm)}
+  DataSourceName: page_types_lambda_resolver
+  RequestMappingTemplate: ${file(./user_settings/resolvers/lambdaInvoke.vm)}
   ResponseMappingTemplate: ${file(./user_settings/resolvers/response/passthrough.vm)}
   ApiId:
     Fn::GetAtt: ["graphQLApi", "ApiId"]
-  FieldName: getImage
+  FieldName: getPageTypeList
+
+DependsOn:
+  - graphQLPageTypesDataSource

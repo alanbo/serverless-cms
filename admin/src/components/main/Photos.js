@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import TextField from '@material-ui/core/TextField';
 import AddDialog from './common/AddDialog';
-import FolderTable from './photos/FolderTable';
+import FolderTable from './common/ListTable';
 import FullWidthTabs from './common/Tabs';
 import Gallery from './photos/Gallery';
 import S3ImageUpload from './photos/S3ImageUpload';
@@ -37,7 +37,7 @@ class Photos extends Component {
       }
     });
 
-    return <FolderTable data={data} onDelete={this.onDelete} key="galleries" />
+    return <FolderTable data={data} onDelete={({ name }) => this.onDelete(name)} key="galleries" root_path="gallery" />
   }
 
   onDelete = gallery => {
