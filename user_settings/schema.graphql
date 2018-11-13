@@ -76,19 +76,21 @@ type Mutation {
 	removeImage(id: ID!): Image
 	putMenu(menu: MenuInput!, id: ID): Menu
 	removeMenu(id: ID!): Menu
-	putPage(
-		id: ID,
-		name: String!,
-		type: String!,
-		fragments: [ID]
-	): Page
+	putPage(page_data: PageInput!): Page
 	removePage(id: ID!): Page
 }
 
 type Page {
 	id: ID!
 	name: String!
-	type: String!
+	page_type: String!
+	fragments: [ID]
+}
+
+input PageInput {
+	id: ID
+	name: String!
+	page_type: String!
 	fragments: [ID]
 }
 

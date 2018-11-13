@@ -5,6 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import AutocompleteSelect from '../common/AutocompleteSelect';
 import SaveCancelButtons from '../common/SaveCancelButtons';
 import * as R from 'ramda';
+import * as actionCreators from '../../../actions/index';
 
 const styles = theme => ({
   name_input: {
@@ -40,18 +41,36 @@ class EditPage extends Component {
       page_types
     } = this.props;
 
-    const current_inputs = page_types[this.state.page_data.page_type].inputs;
+    const page_type_name = this.state.page_data.page_type;
+
+    if (!page_type_name) {
+      return false;
+    }
+
+    const page_type_data = page_types[page_type_name];
+
+    if (!page_type_data) {
+      return false;
+    }
+
+    const current_inputs = page_type_data.inputs;
 
     return current_inputs.map((input, i) => {
-      const id = this.state.page_data.fragments[i];
-      const value = R.find(R.propEq('value', id))(inputs[input.type]);
+      const fragments = this.state.page_data.fragments;
+      let value = { label: '', value: '' };
+
+      if (fragments && fragments[i]) {
+        const id = fragments[i];
+        value = R.find(R.propEq('value', id))(inputs[input.type]);
+      }
+
 
       return <AutocompleteSelect
         key={input.name}
         options={inputs[input.type]}
         onChange={val => this.changeInputFragment(val.value, i)}
-        label={value ? false : input.title}
-        value={value || { label: '', value: '' }}
+        label={value.value.length ? false : input.title}
+        value={value}
       />
     });
   }
@@ -95,7 +114,16 @@ class EditPage extends Component {
       return false;
     }
 
-    const label = this.props.page_types[value].name;
+    const page_type = this.props.page_types[value];
+
+    if (!page_type) {
+      return false;
+    }
+
+    console.log(value);
+    console.log(page_type);
+
+    const label = page_type.name;
 
     return ({ label, value });
   }
@@ -118,8 +146,8 @@ class EditPage extends Component {
         {
           id ? <h2>{name}</h2> : (
             <TextField
-              onChange={e => this.setState({ name: e.target.value })}
-              value={this.state.value}
+              onChange={e => this.setState({ page_data: R.assoc('name', e.target.value, this.state.page_data) })}
+              value={this.state.page_data ? this.state.page_data.name : ''}
               label='Name'
               className={classes.name_input}
             />
@@ -134,7 +162,15 @@ class EditPage extends Component {
 
         {this.renderInputs()}
 
-        <SaveCancelButtons />
+        <SaveCancelButtons
+          onSave={() => {
+            this.props.putPage(this.state.page_data);
+            this.props.history.goBack();
+          }}
+
+          onCancel={() => this.props.history.goBack()}
+        />
+
       </div>
     );
   }
@@ -167,5 +203,5 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(withStyles(styles, { withTheme: true })(EditPage));
+export default connect(mapStateToProps, actionCreators)(withStyles(styles, { withTheme: true })(EditPage));
 
