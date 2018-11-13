@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import AutocompleteSelect from '../common/AutocompleteSelect';
+import SaveCancelButtons from '../common/SaveCancelButtons';
 import * as R from 'ramda';
 
 const styles = theme => ({
@@ -132,6 +133,8 @@ class EditPage extends Component {
         />
 
         {this.renderInputs()}
+
+        <SaveCancelButtons />
       </div>
     );
   }
