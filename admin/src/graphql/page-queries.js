@@ -12,10 +12,11 @@ export const getPageTypeList = `
 `;
 
 export const putPage = `
-  mutation putPage($id: ID, $name: String!, $type: String!, $fragments: [ID]) {
-    putPage(id: $id, name: $name, type: $type, fragments: $fragments) {
+  mutation putPage($page_data: PageInput!) {
+    putPage(page_data: $page_data) {
       id
       name
+      page_type
       fragments
     }
   }
@@ -27,6 +28,7 @@ export const getPageList = `
       id
       name
       fragments
+      page_type
     }
   }
 `;

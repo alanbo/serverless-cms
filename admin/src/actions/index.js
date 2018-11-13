@@ -295,9 +295,10 @@ export const removePage = id => {
 }
 
 
-export const putPage = (name, type, fragments, id) => {
+export const putPage = (page_data) => {
+  console.log(page_data);
   return dispatch => {
-    API.graphql(graphqlOperation(put_page_mutation, { name, type, fragments, id }))
+    API.graphql(graphqlOperation(put_page_mutation, { page_data }))
       .then(result => {
         dispatch({
           type: put_page,

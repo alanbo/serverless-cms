@@ -1,7 +1,7 @@
 #set( $id = '' )
 
-#if( $ctx.args.id )
-	#set( $id = $util.dynamodb.toDynamoDBJson($ctx.args.id) )
+#if( $ctx.args.page_data.id )
+	#set( $id = $util.dynamodb.toDynamoDBJson($ctx.args.page_data.id) )
 #else
 	#set( $id = $util.dynamodb.toDynamoDBJson($util.autoId()) )
 #end
@@ -13,5 +13,5 @@
         "id": $id,
         "type": $util.dynamodb.toDynamoDBJson("page"),
     },
-    "attributeValues" : $util.dynamodb.toMapValuesJson($ctx.args)
+    "attributeValues" : $util.dynamodb.toMapValuesJson($ctx.args.page_data)
 }
