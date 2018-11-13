@@ -1,0 +1,12 @@
+Type: "AWS::AppSync::DataSource"
+Properties:
+  Type: AWS_LAMBDA
+  Description: Lambda resolver to get data from pages configuration file.
+  ServiceRoleArn:
+    Fn::GetAtt: ["sourceAppSyncRole", "Arn"]
+  ApiId:
+    Fn::GetAtt: ["graphQLApi", "ApiId"]
+  Name: page_types_lambda_resolver
+  LambdaConfig:
+    LambdaFunctionArn:
+      Fn::GetAtt: ["ResolvePageTypeLambdaFunction", "Arn"]

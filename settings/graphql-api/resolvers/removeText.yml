@@ -2,7 +2,7 @@ Type: "AWS::AppSync::Resolver"
 Properties:
   TypeName: Mutation
   DataSourceName: fragments_database
-  RequestMappingTemplate: ${file(./user_settings/resolvers/queries/removeText.vm)}
+  RequestMappingTemplate: ${file(./user_settings/resolvers/mutations/removeText.vm)}
   ResponseMappingTemplate: ${file(./user_settings/resolvers/response/passthrough.vm)}
   ApiId:
     Fn::GetAtt: ["graphQLApi", "ApiId"]
