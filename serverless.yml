@@ -63,6 +63,17 @@ functions:
       GRAPHQL:
         Fn::GetAtt: ["graphQLApi", "GraphQLUrl"]
 
+  render:
+    handler: functions/renderPages.handler
+    role: resizeRole
+
+    environment:
+      BUCKET: ${self:service}-public
+      FRAGMENTS_TABLE: ${self:service}-fragments
+      GRAPHQL:
+        Fn::GetAtt: ["graphQLApi", "GraphQLUrl"]
+
+
   createPage:
     handler: functions/create-page.createPage
     role: createPageRole
