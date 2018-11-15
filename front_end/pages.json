@@ -27,7 +27,7 @@
   },
   "gallery_page": {
     "template": "./pug/gallery-page.pug",
-    "query": "./queries/GetGelleryPage.graphql",
+    "query": "./queries/GetGalleryPage.graphql",
     "inputs": [
       {
         "name": "gallery_id",
