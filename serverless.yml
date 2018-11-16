@@ -9,6 +9,12 @@ custom:
   output:
     file: ./stack.yml
     handler: scripts/client.handler
+    
+  webpack:
+    includeModules: true # enable auto-packing of external modules
+
+package:
+  individually: true
 
 provider:
   name: aws
