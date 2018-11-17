@@ -7,3 +7,5 @@ Properties:
   ApiId:
     Fn::GetAtt: ["graphQLApi", "ApiId"]
   FieldName: reorderImagesInGallery
+DependsOn:
+  - graphQLData

@@ -7,3 +7,5 @@ Properties:
   ApiId:
     Fn::GetAtt: ["graphQLApi", "ApiId"]
   FieldName: removeGallery
+DependsOn:
+  - graphQLData
