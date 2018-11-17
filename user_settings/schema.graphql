@@ -78,6 +78,7 @@ type Mutation {
 	removeMenu(id: ID!): Menu
 	putPage(page_data: PageInput!): Page
 	removePage(id: ID!): Page
+	renderPages(id: [ID]): Boolean
 }
 
 type Page {
@@ -96,6 +97,8 @@ input PageInput {
 
 type PageType {
 	name: String!
+	template: String!
+	query: String!
 	inputs: [PageTypeInput]
 }
 

@@ -3,8 +3,8 @@ Properties:
   BucketName: ${self:service}-public
   AccessControl: PublicRead
   WebsiteConfiguration:
-    IndexDocument: "index.html"
-    ErrorDocument: "error.html"
+    IndexDocument: "index"
+    ErrorDocument: "error"
   # https://aws.amazon.com/premiumsupport/knowledge-center/unable-validate-destination-s3/
   # needs to be commented out on first deploy
   NotificationConfiguration:
@@ -50,3 +50,6 @@ Properties:
         AllowedOrigins:
           - "*"
         MaxAge: 3000
+
+DependsOn:
+  - ResizeLambdaFunction
