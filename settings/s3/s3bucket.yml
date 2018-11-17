@@ -51,5 +51,5 @@ Properties:
           - "*"
         MaxAge: 3000
 
-DependsOn
+DependsOn:
   - ResizeLambdaFunction

@@ -40,3 +40,9 @@ export const removePage = `
     }
   }
 `;
+
+export const renderPages = `
+  mutation RenderPage {
+    renderPages
+  }
+`;
