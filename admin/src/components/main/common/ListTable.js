@@ -43,9 +43,9 @@ function FolderTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.data.map(n => {
+          {props.data.map((n, i) => {
             return (
-              <TableRow key={n.id}>
+              <TableRow key={i}>
                 <TableCell component="th" scope="row">
                   <Link
                     to={{
