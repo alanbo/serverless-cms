@@ -31,6 +31,8 @@ Properties:
               - s3:GetObject
               - s3:GetObjectAcl
               - s3:ListBucket
+              - s3:PutObject
+              - s3:PutObjectAcl
             Resource:
               - arn:aws:s3:::${self:service}-public/*
               - arn:aws:s3:::${self:service}-public
