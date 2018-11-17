@@ -9,6 +9,12 @@ custom:
   output:
     file: ./stack.yml
     handler: scripts/client.handler
+    
+  webpack:
+    includeModules: true # enable auto-packing of external modules
+
+package:
+  individually: true
 
 provider:
   name: aws
@@ -63,6 +69,17 @@ functions:
       GRAPHQL:
         Fn::GetAtt: ["graphQLApi", "GraphQLUrl"]
 
+  render:
+    handler: functions/renderPages.handler
+    role: resizeRole
+
+    environment:
+      BUCKET: ${self:service}-public
+      FRAGMENTS_TABLE: ${self:service}-fragments
+      GRAPHQL:
+        Fn::GetAtt: ["graphQLApi", "GraphQLUrl"]
+
+
   createPage:
     handler: functions/create-page.createPage
     role: createPageRole
@@ -99,6 +116,7 @@ resources:
     graphQLData: ${file(./settings/graphql-api/graphql-datasource.yml)}
     graphQLLambda: ${file(./settings/graphql-api/graphql-datasource-lambda.yml)}
     graphQLPageTypesDataSource: ${file(./settings/graphql-api/graphql-datasource-page-types.yml)}
+    graphQLRenderDataSource: ${file(./settings/graphql-api/graphql-datasource-render.yml)}
 
     # needs to be commented out on first deploy
     putMenu: ${file(./settings/graphql-api/resolvers/putMenu.yml)}
@@ -119,6 +137,8 @@ resources:
     getImageList: ${file(./settings/graphql-api/resolvers/getImageList.yml)}
     getGalleryList: ${file(./settings/graphql-api/resolvers/getGalleryList.yml)}
     getPageTypeList: ${file(./settings/graphql-api/resolvers/getPageTypeList.yml)}
+
+    renderPages: ${file(./settings/graphql-api/resolvers/renderPages.yml)}
 
     
     getText: ${file(./settings/graphql-api/resolvers/getText.yml)}

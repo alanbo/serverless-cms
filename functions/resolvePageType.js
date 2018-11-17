@@ -13,6 +13,8 @@ export const resolvePageType = async (event, context, callback) => {
 
   return page_types.map(name => ({
     name,
+    template: pages_data[name].template,
+    query: pages_data[name].query,
     inputs: pages_data[name].inputs
   }))
 }
