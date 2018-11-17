@@ -116,6 +116,7 @@ resources:
     graphQLData: ${file(./settings/graphql-api/graphql-datasource.yml)}
     graphQLLambda: ${file(./settings/graphql-api/graphql-datasource-lambda.yml)}
     graphQLPageTypesDataSource: ${file(./settings/graphql-api/graphql-datasource-page-types.yml)}
+    graphQLRenderDataSource: ${file(./settings/graphql-api/graphql-datasource-render.yml)}
 
     # needs to be commented out on first deploy
     putMenu: ${file(./settings/graphql-api/resolvers/putMenu.yml)}
@@ -136,6 +137,8 @@ resources:
     getImageList: ${file(./settings/graphql-api/resolvers/getImageList.yml)}
     getGalleryList: ${file(./settings/graphql-api/resolvers/getGalleryList.yml)}
     getPageTypeList: ${file(./settings/graphql-api/resolvers/getPageTypeList.yml)}
+
+    renderPages: ${file(./settings/graphql-api/resolvers/renderPages.yml)}
 
     
     getText: ${file(./settings/graphql-api/resolvers/getText.yml)}

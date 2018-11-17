@@ -33,8 +33,13 @@ const getData = gql`
 `;
 
 export const handler = async (event, context, callback) => {
-  await moveTemplatesToTemp();
+  await moveTemplatesToTemp()
+
   const { data: { page_type_list, page_list } } = await queryGQL(getData);
+
+  if (!page_type_list || !page_list) {
+    return false;
+  }
 
   const query_results = await Promise.all(page_list.map(async page => {
     const type = R.find(R.propEq('name', page.page_type))(page_type_list);
@@ -51,5 +56,11 @@ export const handler = async (event, context, callback) => {
     return { Key: page.name, Body: html };
   }));
 
-  return (await Promise.all(query_results.map(({ Key, Body }) => saveToS3(Key, Body))).catch(console.log));
+  if (!query_results) {
+    return false;
+  }
+
+  await Promise.all(query_results.map(({ Key, Body }) => saveToS3(Key, Body))).catch(console.log);
+
+  return true;
 }
