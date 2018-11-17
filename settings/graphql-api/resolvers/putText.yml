@@ -7,3 +7,6 @@ Properties:
   ApiId:
     Fn::GetAtt: ["graphQLApi", "ApiId"]
   FieldName: putText
+
+DependsOn:
+  - graphQLData
