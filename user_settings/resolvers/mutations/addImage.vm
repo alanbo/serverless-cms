@@ -6,8 +6,7 @@
     "version" : "2017-02-28",
     "operation" : "PutItem",
     "key" : {
-        "id": $util.dynamodb.toStringJson($util.autoId()),
-        "type": $util.dynamodb.toStringJson("image"),
+        "id": $util.dynamodb.toStringJson($util.autoId())
     },
     "attributeValues" : $util.dynamodb.toMapValuesJson($attrs)
 }
