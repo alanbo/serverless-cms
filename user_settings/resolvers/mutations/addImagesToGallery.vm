@@ -2,8 +2,7 @@
     "version" : "2017-02-28",
     "operation" : "UpdateItem",
     "key" : {
-        "id" : $util.dynamodb.toDynamoDBJson($ctx.args.id),
-        "type": { "S" : "gallery" }
+        "id" : $util.dynamodb.toDynamoDBJson($ctx.args.id)
     },
     "update" : {
         "expression" : "SET images = list_append(images, :image_ids)",

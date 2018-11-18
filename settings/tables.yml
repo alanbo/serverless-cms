@@ -1,18 +1,31 @@
 fragmentsTable:
   Type: AWS::DynamoDB::Table
   Properties:
-    TableName: ${self:service}-fragments
+    TableName: ${self:service}-fragments-table
     AttributeDefinitions:
       - AttributeName: id
         AttributeType: S
       - AttributeName: type
         AttributeType: S
+      - AttributeName: name
+        AttributeType: S
 
     KeySchema:
       - AttributeName: id
         KeyType: HASH
-      - AttributeName: type
-        KeyType: RANGE
+    
+    GlobalSecondaryIndexes:
+      - IndexName: ${self:service}-fragments-type-name
+        KeySchema:
+          - AttributeName: type
+            KeyType: HASH
+          - AttributeName: name
+            KeyType: RANGE
+        Projection:
+          ProjectionType: ALL
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1 
 
     ProvisionedThroughput:
       ReadCapacityUnits: 1
