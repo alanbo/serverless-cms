@@ -2,11 +2,12 @@ Type: "AWS::AppSync::Resolver"
 Properties:
   TypeName: Mutation
   DataSourceName: fragments_database
-  RequestMappingTemplate: ${file(./settings/graphql-api/templates/putFragment.vm)}
+  RequestMappingTemplate: ${file(./settings/graphql-api/templates/recoverFragment.vm)}
   ResponseMappingTemplate: ${file(./settings/graphql-api/templates/passthrough.vm)}
   ApiId:
     Fn::GetAtt: ["graphQLApi", "ApiId"]
-  FieldName: putPage
+  FieldName: recoverFragment
+
 DependsOn:
   - graphQLData
   - graphQLSchema

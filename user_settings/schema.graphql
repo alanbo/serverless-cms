@@ -1,11 +1,11 @@
+# Interfaces
 interface Fragment {
 	id: ID!
-	author: String
-	createdAt: Int!
-	lastUpdated: Int
+  name: String!
 }
 
-type Gallery {
+# Types
+type Gallery implements Fragment {
 	id: ID!
 	name: String!
 	images: [Image]
@@ -13,6 +13,7 @@ type Gallery {
 
 type Image implements Fragment {
 	id: ID!
+  name: String!
 	author: String
 	createdAt: Int!
 	lastUpdated: Int
@@ -21,10 +22,14 @@ type Image implements Fragment {
 	filename: String!
 }
 
-input ImageInput {
-	gallery: String!
-	paths: [ImagePathInput!]!
-	filename: String!
+type Text implements Fragment {
+	id: ID!
+  name: String!
+	author: String
+	createdAt: Int!
+	lastUpdated: Int
+	text: String!
+	is_rich: Boolean
 }
 
 type ImagePath {
@@ -32,21 +37,10 @@ type ImagePath {
 	type: String!
 }
 
-input ImagePathInput {
-	path: String!
-	type: String!
-}
-
-type Menu {
+type Menu implements Fragment {
 	id: ID!
 	name: String!
 	items: [MenuItem!]
-}
-
-input MenuInput {
-	id: ID
-	name: String!
-	items: [MenuItemInput]
 }
 
 type MenuItem {
@@ -55,41 +49,8 @@ type MenuItem {
 	items: [MenuItem]
 }
 
-input MenuItemInput {
-	id: ID
-	name: String!
-	href: String
-	items: [MenuItemInput]
-}
-
-type Mutation {
-	putText(text: String!, is_rich: Boolean): Text
-	updateText(text: String, id: ID!): Text
-	removeText(id: ID!): Text
-	addGallery(name: String!): Gallery
-	removeGallery(id: ID!): Gallery
-	addImageToGallery(image_id: ID!, id: ID!): Gallery
-	addImagesToGallery(image_ids: [ID]!, id: ID!): Gallery
-	removeImageFromGallery(image_number: Int!, id: ID!): Gallery
-	reorderImagesInGallery(image_ids: [ID]!, id: ID!): Gallery
-	addImage(input: ImageInput): Image
-	removeImage(id: ID!): Image
-	putMenu(menu: MenuInput!, id: ID): Menu
-	removeMenu(id: ID!): Menu
-	putPage(page_data: PageInput!): Page
-	removePage(id: ID!): Page
-	renderPages(id: [ID]): Boolean
-}
-
-type Page {
+type Page implements Fragment {
 	id: ID!
-	name: String!
-	page_type: String!
-	fragments: [ID]
-}
-
-input PageInput {
-	id: ID
 	name: String!
 	page_type: String!
 	fragments: [ID]
@@ -108,30 +69,81 @@ type PageTypeInput {
 	title: String!
 }
 
+# Inputs
+
+input ImageInput {
+	id: ID
+  type: String
+	name: String!
+	gallery: String!
+	paths: [ImagePathInput!]!
+	filename: String!
+}
+
+input ImagePathInput {
+	path: String!
+	type: String!
+}
+
+input PageInput {
+  id: ID
+  type: String
+  name: String!
+	page_type: String!
+	fragments: [ID]
+}
+
+input MenuInput {
+  id: ID
+  type: String
+	name: String!
+	items: [MenuItemInput]
+}
+
+input MenuItemInput {
+	name: String!
+	href: String
+	items: [MenuItemInput]
+}
+
+input TextInput {
+  id: ID
+  type: String
+  name: String!
+  is_rich: Boolean
+  text: String!
+}
+
+input GalleryInput {
+  id: ID
+  name: String!
+	images: [ID]
+}
+
+# Mutations
+type Mutation {
+	putText(input: TextInput!): Text
+	putGallery(input: GalleryInput!): Gallery
+	putImage(input: ImageInput!): Image
+	putMenu(input: MenuInput!): Menu
+	putPage(input: PageInput!): Page
+
+  deleteFragment(id: ID!): Fragment
+  recoverFragment(id: ID!): Fragment
+
+	renderPages(id: [ID]): Boolean
+}
+
+
+# Queries
 type Query {
-	getText(id: ID!): Text
-	getTextList: [Text]
-	getImage(id: ID!): Image
-	getMenu(id: ID!): Menu
-	getGallery(id: ID!): Gallery
-	getGalleryList: [Gallery]
-	getGalleryListId: [ID]
-	getImageList: [Image]
-	getMenuList: [Menu]!
 	getPageTypeList: [PageType]
-	getPage(id: ID!): Page
-	getPageList: [Page]
+	getFragmentList(type: String!): [Fragment]
+  getFragment(id: ID!): Fragment
 }
 
-type Text implements Fragment {
-	id: ID!
-	author: String
-	createdAt: Int!
-	lastUpdated: Int
-	text: String!
-	is_rich: Boolean
-}
 
+# schema
 schema {
 	query: Query
 	mutation: Mutation

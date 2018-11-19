@@ -2,11 +2,12 @@ Type: "AWS::AppSync::Resolver"
 Properties:
   TypeName: Query
   DataSourceName: page_types_lambda_resolver
-  RequestMappingTemplate: ${file(./user_settings/resolvers/lambdaInvoke.vm)}
-  ResponseMappingTemplate: ${file(./user_settings/resolvers/response/passthrough.vm)}
+  RequestMappingTemplate: ${file(./settings/graphql-api/templates/lambdaInvoke.vm)}
+  ResponseMappingTemplate: ${file(./settings/graphql-api/templates/passthrough.vm)}
   ApiId:
     Fn::GetAtt: ["graphQLApi", "ApiId"]
   FieldName: getPageTypeList
 
 DependsOn:
   - graphQLPageTypesDataSource
+  - graphQLSchema

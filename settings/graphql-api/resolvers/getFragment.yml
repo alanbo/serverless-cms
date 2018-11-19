@@ -1,0 +1,12 @@
+Type: "AWS::AppSync::Resolver"
+Properties:
+  TypeName: Query
+  DataSourceName: fragments_database
+  RequestMappingTemplate: ${file(./settings/graphql-api/templates/getFragment.vm)}
+  ResponseMappingTemplate: $file(./settings/graphql-api/templates/passthrough.vm)}
+  ApiId:
+    Fn::GetAtt: ["graphQLApi", "ApiId"]
+  FieldName: getFragment
+DependsOn:
+  - graphQLData
+  - graphQLSchema
