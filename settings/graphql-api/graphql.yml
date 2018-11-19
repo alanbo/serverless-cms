@@ -5,5 +5,5 @@ Properties:
       Ref: userPool
     AwsRegion: ${self:provider.region}
     DefaultAction: ALLOW
-  Name: ${self:service}-graphql-api
+  Name: ${self:service}
   AuthenticationType: AWS_IAM
