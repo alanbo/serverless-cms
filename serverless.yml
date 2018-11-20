@@ -126,6 +126,7 @@ resources:
     putPage:  ${file(./settings/graphql-api/resolvers/putPage.yml)}
 
     getFragment: ${file(./settings/graphql-api/resolvers/getFragment.yml)}
+    getFragmentList: ${file(./settings/graphql-api/resolvers/getFragmentList.yml)}
     deleteFragment: ${file(./settings/graphql-api/resolvers/deleteFragment.yml)}
     recoverFragment: ${file(./settings/graphql-api/resolvers/recoverFragment.yml)}
 
