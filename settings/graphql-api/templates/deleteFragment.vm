@@ -9,5 +9,8 @@
         "expressionValues" : {
             ":deleted" : { "BOOL": true }
         }
+    },
+    "condition" : {
+      "expression" : "attribute_exists(id)"
     }
 }
