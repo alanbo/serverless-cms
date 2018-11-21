@@ -73,7 +73,6 @@ type PageTypeInput {
 
 input ImageInput {
 	id: ID
-  type: String
 	name: String!
 	gallery: String!
 	paths: [ImagePathInput!]!
@@ -87,7 +86,6 @@ input ImagePathInput {
 
 input PageInput {
   id: ID
-  type: String
   name: String!
 	page_type: String!
 	fragments: [ID]
@@ -95,7 +93,6 @@ input PageInput {
 
 input MenuInput {
   id: ID
-  type: String
 	name: String!
 	items: [MenuItemInput]
 }
@@ -108,7 +105,6 @@ input MenuItemInput {
 
 input TextInput {
   id: ID
-  type: String
   name: String!
   is_rich: Boolean
   text: String!
@@ -133,7 +129,7 @@ type Mutation {
 	putPage(input: PageInput!): Page
 
   deleteFragment(id: ID!): FragmentsUnion
-  recoverFragment(id: ID!): Fragment
+  recoverFragment(id: ID!): FragmentsUnion
 
 	renderPages(id: [ID]): Boolean
 }
@@ -142,8 +138,21 @@ type Mutation {
 # Queries
 type Query {
 	getPageTypeList: [PageType]
-	getFragmentList(type: String!): [Fragment]
-  getFragment(id: ID!): Fragment
+
+	getPageList: [Page]
+  getPage(id: ID!): Page
+
+  getGalleryList: [Gallery]
+  getGallery(id: ID!): Gallery
+
+  getImageList: [Image]
+  getImage(id: ID!): Image
+
+  getMenuList: [Menu]
+  getMenu(id: ID!): Menu
+
+  getTextList: [Text]
+  getText(id: ID!): Text
 }
 
 
