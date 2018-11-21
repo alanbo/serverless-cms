@@ -4,13 +4,13 @@ const getListTemplate = type => ({
     TypeName: "Query",
     DataSourceName: "fragments_database",
     RequestMappingTemplate: `
-      {
-        "version": "2017-02-28",
-        "operation": "GetItem",
-        "key": {
-            "id": $util.dynamodb.toDynamoDBJson($ctx.args.id)
-        }
-      }`,
+{
+  "version": "2017-02-28",
+  "operation": "GetItem",
+  "key": {
+      "id": $util.dynamodb.toDynamoDBJson($ctx.args.id)
+  }
+}`,
     ResponseMappingTemplate: "$util.toJson($ctx.result.items)",
     ApiId: {
       "Fn::GetAtt": ["graphQLApi", "ApiId"]

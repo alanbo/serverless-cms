@@ -25,16 +25,8 @@ Resources:
   graphQLPageTypesDataSource: ${file(./settings/graphql-api/graphql-datasource-page-types.yml)}
   graphQLRenderDataSource: ${file(./settings/graphql-api/graphql-datasource-render.yml)}
 
-  # needs to be commented out on first deploy
-  putGallery:  ${file(./settings/graphql-api/resolvers/putGallery.yml)}
-  putText:  ${file(./settings/graphql-api/resolvers/putText.yml)}
-  putImage:  ${file(./settings/graphql-api/resolvers/putImage.yml)}
-  putMenu:  ${file(./settings/graphql-api/resolvers/putMenu.yml)}
-  putPage:  ${file(./settings/graphql-api/resolvers/putPage.yml)}
-  getFragmentList: ${file(./settings/graphql-api/resolvers/getFragmentList.yml)}
   deleteFragment: ${file(./settings/graphql-api/resolvers/deleteFragment.yml)}
   recoverFragment: ${file(./settings/graphql-api/resolvers/recoverFragment.yml)}
-
   getPageTypeList: ${file(./settings/graphql-api/resolvers/getPageTypeList.yml)}
   renderPages: ${file(./settings/graphql-api/resolvers/renderPages.yml)}
 
