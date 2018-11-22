@@ -26,7 +26,7 @@ module.exports = serverless => {
   console.log(serverless.service.service);
   const Resources = {};
 
-  TYPES.forEach(({ type, nested_list_fields }) => {
+  TYPES.forEach(({ type, nested_list_fields, nested_fields }) => {
     Resources[`get${type}`] = getTemplate(type);
     Resources[`get${type}List`] = getListTemplate(type, serverless.service.service);
     Resources[`put${type}`] = putTemplate(type);
@@ -34,6 +34,12 @@ module.exports = serverless => {
     if (Array.isArray(nested_list_fields)) {
       nested_list_fields.forEach(field => {
         Resources[`resolver${type}${field}`] = nestedListTemplate(type, field);
+      });
+    }
+
+    if (nested_fields) {
+      nested_fields.forEach(field => {
+        Resources[`resolver${type}${field}`] = nestedFieldTemplate(type, field);
       });
     }
   });
