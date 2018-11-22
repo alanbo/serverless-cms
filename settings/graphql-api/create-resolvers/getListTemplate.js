@@ -1,14 +1,23 @@
-const getListTemplate = type => ({
+const getListTemplate = (type, sls_name) => ({
   Type: "AWS::AppSync::Resolver",
   Properties: {
     TypeName: "Query",
     DataSourceName: "fragments_database",
     RequestMappingTemplate: `
 {
-  "version": "2017-02-28",
-  "operation": "GetItem",
-  "key": {
-      "id": $util.dynamodb.toDynamoDBJson($ctx.args.id)
+  "version" : "2017-02-28",
+  "operation" : "Query",
+  "index" : "${sls_name}-fragments-type-name",
+  "query" : {
+      "expression": "#type = :type",
+      "expressionNames" : {
+        "#type": "type"
+      },
+      "expressionValues": {
+        ":type": {
+            "S": "${type}"
+          }
+      }
   }
 }`,
     ResponseMappingTemplate: "$util.toJson($ctx.result.items)",
