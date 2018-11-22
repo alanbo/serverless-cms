@@ -1,23 +1,23 @@
 global.WebSocket = require('ws');
 global.window = global.window || {
-    setTimeout: setTimeout,
-    clearTimeout: clearTimeout,
-    WebSocket: global.WebSocket,
-    ArrayBuffer: global.ArrayBuffer,
-    addEventListener: function () { },
-    navigator: { onLine: true }
+  setTimeout: setTimeout,
+  clearTimeout: clearTimeout,
+  WebSocket: global.WebSocket,
+  ArrayBuffer: global.ArrayBuffer,
+  addEventListener: function () { },
+  navigator: { onLine: true }
 };
 global.localStorage = global.window.localStorage = {
-    store: {},
-    getItem: function (key) {
-        return this.store[key]
-    },
-    setItem: function (key, value) {
-        this.store[key] = value
-    },
-    removeItem: function (key) {
-        delete this.store[key]
-    }
+  store: {},
+  getItem: function (key) {
+    return this.store[key]
+  },
+  setItem: function (key, value) {
+    this.store[key] = value
+  },
+  removeItem: function (key) {
+    delete this.store[key]
+  }
 };
 
 import 'isomorphic-fetch';
@@ -33,40 +33,39 @@ const credentials = AWS.config.credentials;
 // Import gql helper and craft a GraphQL query
 const gql = require('graphql-tag');
 const mutation = gql(`
-  mutation AddImage($input: ImageInput) {
-    addImage(input: $input) {
-      id
-      paths {
-        path
-      }
-    }
+mutation PutImage($input: ImageInput!) {
+  putImage(input: $input) {
+    id
   }
+}
 `);
 
 // Set up Apollo client
 const client = new AWSAppSyncClient({
-    url: url,
-    region: region,
-    auth: {
-        type: type,
-        credentials: credentials,
-    }
+  url: url,
+  region: region,
+  auth: {
+    type: type,
+    credentials: credentials,
+  }
 });
 
 export default (metadata, filename, paths) => {
   const variables = {
-  input: {
-    gallery: metadata.gallery || 'general',
-    filename,
-    paths
+    input: {
+      name: metadata.name || filename,
+      gallery: metadata.gallery || 'general',
+      filename,
+      paths
     }
   };
 
-  client.hydrated().then(function (client) {
-      client.mutate({
-        mutation,
-        variables,
-        fetchPolicy: 'no-cache'
-      }) ;
+
+  return client.hydrated().then(function (client) {
+    return client.mutate({
+      mutation,
+      variables,
+      fetchPolicy: 'no-cache'
+    });
   });
 }
