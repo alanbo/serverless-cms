@@ -1,47 +1,33 @@
+const fs = require('fs');
+const path = require('path');
+
 const getTemplate = require('./create-resolvers/getTemplate');
 const getListTemplate = require('./create-resolvers/getListTemplate');
 const putTemplate = require('./create-resolvers/putTemplate');
 const nestedListTemplate = require('./create-resolvers/nestedListTemplate');
+const nestedFieldTemplate = require('./create-resolvers/nestedFieldTemplate');
+const getResolverConfig = require('./getResolverConfig');
 
-const TYPES = [
-  {
-    type: 'Text'
-  },
-  {
-    type: 'Gallery',
-    nested_list_fields: ['images']
-  },
-  {
-    type: 'Image'
-  },
-  {
-    type: 'Menu'
-  },
-  {
-    type: 'Page'
-  }
-];
 
 module.exports = serverless => {
-  console.log(serverless.service.service);
+  const sdlString = fs.readFileSync(path.resolve(__dirname, './schema.graphql')).toString('utf8');
+  const TYPES = getResolverConfig(sdlString);
   const Resources = {};
 
-  TYPES.forEach(({ type, nested_list_fields, nested_fields }) => {
-    Resources[`get${type}`] = getTemplate(type);
-    Resources[`get${type}List`] = getListTemplate(type, serverless.service.service);
-    Resources[`put${type}`] = putTemplate(type);
-
-    if (Array.isArray(nested_list_fields)) {
-      nested_list_fields.forEach(field => {
-        Resources[`resolver${type}${field}`] = nestedListTemplate(type, field);
-      });
+  TYPES.forEach(({ type, nested_list_fields = [], nested_fields = [], is_fragment }) => {
+    if (is_fragment) {
+      Resources[`get${type}`] = getTemplate(type);
+      Resources[`get${type}List`] = getListTemplate(type, serverless.service.service);
+      Resources[`put${type}`] = putTemplate(type);
     }
 
-    if (nested_fields) {
-      nested_fields.forEach(field => {
-        Resources[`resolver${type}${field}`] = nestedFieldTemplate(type, field);
-      });
-    }
+    nested_list_fields.forEach(field => {
+      Resources[`resolver${type}${field}`] = nestedListTemplate(type, field);
+    });
+
+    nested_fields.forEach(field => {
+      Resources[`resolver${type}${field}`] = nestedFieldTemplate(type, field);
+    });
   });
 
   return {

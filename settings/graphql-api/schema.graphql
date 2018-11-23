@@ -69,6 +69,21 @@ type PageTypeInput {
 	title: String!
 }
 
+type Testing1 {
+  name: String!
+  child1: Text!
+  child2: Menu
+  child3: [Menu!]
+}
+
+type TestingList {
+  name: String!
+  list: [Text!]
+  list2: [Text]!
+  list3: [Text!]!
+  list4: [Text]
+}
+
 # Inputs
 
 input ImageInput {
