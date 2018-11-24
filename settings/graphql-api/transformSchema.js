@@ -13,7 +13,8 @@ const {
   GraphQLNonNull,
   GraphQLBoolean,
   GraphQLInputObjectType,
-  GraphQLSchema
+  GraphQLSchema,
+  GraphQLID
 } = require("graphql");
 
 
@@ -26,6 +27,26 @@ const all_types = type_map_keys.map(key => {
 });
 
 const fragments = graphqlSchemaObj.getPossibleTypes(graphqlSchemaObj.getType('Fragment'));
+
+function createFragmentInput(fragment) {
+
+}
+
+const query_fields = {};
+
+fragments.forEach(fragment => {
+  query_fields[`get${fragment.name}List`] = {
+    type: new GraphQLNonNull(new GraphQLList(fragment))
+  }
+  query_fields[`get${fragment.name}`] = {
+    type: fragment,
+    args: {
+      id: {
+        type: new GraphQLNonNull(GraphQLID)
+      }
+    }
+  }
+});
 
 const new_input = new GraphQLInputObjectType({
   name: 'SampleInput',
@@ -41,9 +62,7 @@ console.log(new_input);
 const new_schema = new GraphQLSchema({
   query: new GraphQLObjectType({
     name: 'RootQuery',
-    fields: {
-      sample: { type: GraphQLBoolean }
-    }
+    fields: query_fields
   }),
   mutation: new GraphQLObjectType({
     name: 'RootMutation',
