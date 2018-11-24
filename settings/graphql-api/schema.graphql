@@ -137,11 +137,11 @@ union FragmentsUnion = Text | Gallery | Image | Menu | Page
 
 # Mutations
 type Mutation {
-	putText(input: TextInput!): Text
-	putGallery(input: GalleryInput!): Gallery
-	putImage(input: ImageInput!): Image
-	putMenu(input: MenuInput!): Menu
-	putPage(input: PageInput!): Page
+	# putText(input: TextInput!): Text
+	# putGallery(input: GalleryInput!): Gallery
+	# putImage(input: ImageInput!): Image
+	# putMenu(input: MenuInput!): Menu
+	# putPage(input: PageInput!): Page
 
   deleteFragment(id: ID!): FragmentsUnion
   recoverFragment(id: ID!): FragmentsUnion
@@ -154,20 +154,20 @@ type Mutation {
 type Query {
 	getPageTypeList: [PageType]
 
-	getPageList: [Page]
-  getPage(id: ID!): Page
+	# getPageList: [Page]
+  # getPage(id: ID!): Page
 
-  getGalleryList: [Gallery]
-  getGallery(id: ID!): Gallery
+  # getGalleryList: [Gallery]
+  # getGallery(id: ID!): Gallery
 
-  getImageList: [Image]
-  getImage(id: ID!): Image
+  # getImageList: [Image]
+  # getImage(id: ID!): Image
 
-  getMenuList: [Menu]
-  getMenu(id: ID!): Menu
+  # getMenuList: [Menu]
+  # getMenu(id: ID!): Menu
 
-  getTextList: [Text]
-  getText(id: ID!): Text
+  # getTextList: [Text]
+  # getText(id: ID!): Text
 }
 
 
