@@ -17,6 +17,7 @@
     "babel-preset-react": "6.24.1",
     "babel-preset-stage-0": "6.24.1",
     "graphql": "^0.11.7",
+    "graphql-tools": "^4.0.3",
     "serverless": "^1.33.1",
     "serverless-stack-output": "^0.2.3",
     "serverless-webpack": "^5.2.0",
