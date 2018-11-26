@@ -84,52 +84,6 @@ type TestingList {
   list4: [Text]
 }
 
-# Inputs
-
-input ImageInput {
-	id: ID
-	name: String!
-	gallery: String!
-	paths: [ImagePathInput!]!
-	filename: String!
-}
-
-input ImagePathInput {
-	path: String!
-	type: String!
-}
-
-input PageInput {
-  id: ID
-  name: String!
-	page_type: String!
-	fragments: [ID]
-}
-
-input MenuInput {
-  id: ID
-	name: String!
-	items: [MenuItemInput]
-}
-
-input MenuItemInput {
-	name: String!
-	href: String
-	items: [MenuItemInput]
-}
-
-input TextInput {
-  id: ID
-  name: String!
-  is_rich: Boolean
-  text: String!
-}
-
-input GalleryInput {
-  id: ID
-  name: String!
-	images: [ID]
-}
 
 # Unions
 
@@ -137,37 +91,14 @@ union FragmentsUnion = Text | Gallery | Image | Menu | Page
 
 # Mutations
 type Mutation {
-	# putText(input: TextInput!): Text
-	# putGallery(input: GalleryInput!): Gallery
-	# putImage(input: ImageInput!): Image
-	# putMenu(input: MenuInput!): Menu
-	# putPage(input: PageInput!): Page
-
   deleteFragment(id: ID!): FragmentsUnion
   recoverFragment(id: ID!): FragmentsUnion
-
 	renderPages(id: [ID]): Boolean
 }
-
 
 # Queries
 type Query {
 	getPageTypeList: [PageType]
-
-	# getPageList: [Page]
-  # getPage(id: ID!): Page
-
-  # getGalleryList: [Gallery]
-  # getGallery(id: ID!): Gallery
-
-  # getImageList: [Image]
-  # getImage(id: ID!): Image
-
-  # getMenuList: [Menu]
-  # getMenu(id: ID!): Menu
-
-  # getTextList: [Text]
-  # getText(id: ID!): Text
 }
 
 
