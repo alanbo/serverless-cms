@@ -84,53 +84,55 @@ function createField(type, is_root) {
   }
 }
 
-const query_fields = {};
-const mutation_fields = {};
+module.exports = () => {
+  const query_fields = {};
+  const mutation_fields = {};
 
-fragments.forEach(fragment => {
-  // add list queries
-  query_fields[`get${fragment.name}List`] = {
-    type: new GraphQLNonNull(new GraphQLList(fragment))
-  }
+  fragments.forEach(fragment => {
+    // add list queries
+    query_fields[`get${fragment.name}List`] = {
+      type: new GraphQLNonNull(new GraphQLList(fragment))
+    }
 
-  // add get item queries
-  query_fields[`get${fragment.name}`] = {
-    type: fragment,
-    args: {
-      id: {
-        type: new GraphQLNonNull(GraphQLID)
+    // add get item queries
+    query_fields[`get${fragment.name}`] = {
+      type: fragment,
+      args: {
+        id: {
+          type: new GraphQLNonNull(GraphQLID)
+        }
       }
     }
-  }
 
-  // add mutation fields and inputs
-  mutation_fields[`put${fragment.name}`] = {
-    type: fragment,
-    args: {
-      input: {
-        type: new GraphQLNonNull(createField(fragment, true))
+    // add mutation fields and inputs
+    mutation_fields[`put${fragment.name}`] = {
+      type: fragment,
+      args: {
+        input: {
+          type: new GraphQLNonNull(createField(fragment, true))
+        }
       }
     }
-  }
-});
+  });
 
-const new_schema = new GraphQLSchema({
-  query: new GraphQLObjectType({
-    name: 'RootQuery',
-    fields: query_fields
-  }),
+  const new_schema = new GraphQLSchema({
+    query: new GraphQLObjectType({
+      name: 'RootQuery',
+      fields: query_fields
+    }),
 
-  mutation: new GraphQLObjectType({
-    name: 'RootMutation',
-    fields: mutation_fields
-  })
-});
+    mutation: new GraphQLObjectType({
+      name: 'RootMutation',
+      fields: mutation_fields
+    })
+  });
 
-const schema = mergeSchemas({
-  schemas: [
-    graphqlSchemaObj,
-    new_schema
-  ],
-});
+  const schema = mergeSchemas({
+    schemas: [
+      graphqlSchemaObj,
+      new_schema
+    ],
+  });
 
-console.log(printSchema(schema));
+  return printSchema(schema);
+}
