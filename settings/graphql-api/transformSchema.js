@@ -103,21 +103,13 @@ fragments.forEach(fragment => {
     }
   }
 
+  // add mutation fields and inputs
   mutation_fields[`put${fragment.name}`] = {
     type: fragment,
     args: {
       input: {
         type: new GraphQLNonNull(createField(fragment, true))
       }
-    }
-  }
-});
-
-const new_input = new GraphQLInputObjectType({
-  name: 'SampleInput',
-  fields: {
-    sample: {
-      type: GraphQLBoolean
     }
   }
 });
