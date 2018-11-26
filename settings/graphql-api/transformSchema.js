@@ -23,14 +23,16 @@ const fragments = graphqlSchemaObj.getPossibleTypes(graphqlSchemaObj.getType('Fr
 
 const inputs_cache = new Map();
 
-function createField(type, is_root) {
+
+// a recursive function that creates inputs based on fields of the type
+function createInput(type, is_root) {
   switch (type.constructor) {
     case GraphQLScalarType:
       return type;
     case GraphQLNonNull:
-      return (new GraphQLNonNull(createField(type.ofType)));
+      return (new GraphQLNonNull(createInput(type.ofType)));
     case GraphQLList:
-      return (new GraphQLList(createField(type.ofType)));
+      return (new GraphQLList(createInput(type.ofType)));
     case GraphQLObjectType: {
       // check if it's a fragment
       const is_fragment = !!type.getInterfaces().filter((interface) => interface.name === 'Fragment').length;
@@ -68,8 +70,11 @@ function createField(type, is_root) {
           // makes sure that id on the root input is not nullable id type
           if (key === 'id' && is_root) {
             fields[key] = { type: GraphQLID };
+            // there is no need for lastModified input, it is added automatically
+          } else if (key === 'lastModified' && is_root) {
+            return;
           } else {
-            fields[key] = { type: createField(field.type) };
+            fields[key] = { type: createInput(field.type) };
           }
         });
 
@@ -109,11 +114,12 @@ module.exports = () => {
       type: fragment,
       args: {
         input: {
-          type: new GraphQLNonNull(createField(fragment, true))
+          type: new GraphQLNonNull(createInput(fragment, true))
         }
       }
     }
   });
+
 
   const new_schema = new GraphQLSchema({
     query: new GraphQLObjectType({

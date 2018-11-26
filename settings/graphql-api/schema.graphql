@@ -2,21 +2,21 @@
 interface Fragment {
 	id: ID!
   name: String!
+  lastModified: Int!
 }
 
 # Types
 type Gallery implements Fragment {
 	id: ID!
 	name: String!
+  lastModified: Int!
 	images: [Image]
 }
 
 type Image implements Fragment {
 	id: ID!
   name: String!
-	author: String
-	createdAt: Int!
-	lastUpdated: Int
+	lastModified: Int!
 	gallery: String!
 	paths: [ImagePath!]!
 	filename: String!
@@ -25,9 +25,7 @@ type Image implements Fragment {
 type Text implements Fragment {
 	id: ID!
   name: String!
-	author: String
-	createdAt: Int!
-	lastUpdated: Int
+	lastModified: Int!
 	text: String!
 	is_rich: Boolean
 }
@@ -40,6 +38,7 @@ type ImagePath {
 type Menu implements Fragment {
 	id: ID!
 	name: String!
+	lastModified: Int!
 	items: [MenuItem!]
 }
 
@@ -52,6 +51,7 @@ type MenuItem {
 type Page implements Fragment {
 	id: ID!
 	name: String!
+	lastModified: Int!
 	page_type: String!
 	fragments: [ID]
 }
@@ -69,31 +69,12 @@ type PageTypeInput {
 	title: String!
 }
 
-type Testing1 {
-  name: String!
-  child1: Text!
-  child2: Menu
-  child3: [Menu!]
-}
-
-type TestingList {
-  name: String!
-  list: [Text!]
-  list2: [Text]!
-  list3: [Text!]!
-  list4: [Text]
-}
-
-
-# Unions
-
-union FragmentsUnion = Text | Gallery | Image | Menu | Page
 
 # Mutations
 type Mutation {
-  deleteFragment(id: ID!): FragmentsUnion
-  recoverFragment(id: ID!): FragmentsUnion
-	renderPages(id: [ID]): Boolean
+  deleteFragment(id: ID!): ID!
+  recoverFragment(id: ID!): ID!
+	renderPages(id: [ID]): Boolean!
 }
 
 # Queries

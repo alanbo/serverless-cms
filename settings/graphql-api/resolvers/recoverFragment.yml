@@ -3,7 +3,7 @@ Properties:
   TypeName: Mutation
   DataSourceName: fragments_database
   RequestMappingTemplate: ${file(./settings/graphql-api/templates/recoverFragment.vm)}
-  ResponseMappingTemplate: ${file(./settings/graphql-api/templates/passthrough.vm)}
+  ResponseMappingTemplate: "$util.toJson($ctx.result.id)"
   ApiId:
     Fn::GetAtt: ["graphQLApi", "ApiId"]
   FieldName: recoverFragment
