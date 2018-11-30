@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -7,70 +8,50 @@ import Icon from '@material-ui/core/Icon';
 import { Link } from 'react-router-dom'
 import Divider from '@material-ui/core/Divider';
 
-export default ({ signOut }) => {
+type MenuLinkProps = {
+  to: string,
+  text: string,
+  icon: string
+}
+
+const MenuLink = ({ to, text, icon }: MenuLinkProps) => (
+  <Link to={ to }>
+    <ListItem button>
+      <ListItemIcon>
+        <Icon>{ icon }</Icon>
+      </ListItemIcon>
+      <ListItemText primary={ text } />
+    </ListItem>
+  </Link>
+);
+
+type DataItem = {
+  path: string,
+  type: string,
+  icon: string
+}
+
+type MenuListProps = {
+  signOut: Function,
+  fragments_list: Array<DataItem>
+}
+
+export default ({ signOut, fragments_list }: MenuListProps) => {
   return (
     <div>
       <List component="nav">
-        <Link to='/'>
-          <ListItem button>
-            <ListItemIcon>
-              <Icon>home</Icon>
-            </ListItemIcon>
-            <ListItemText primary="Dashboard" />
-          </ListItem>
-        </Link>
+        <MenuLink to='/' icon='home' text='Dashboard' />
         <Divider />
-        <Link to='/pages'>
-          <ListItem button>
-            <ListItemIcon>
-              <Icon>pages</Icon>
-            </ListItemIcon>
-            <ListItemText primary="Pages" />
-          </ListItem>
-        </Link>
-        <Link to='/blog'>
-          <ListItem button>
-            <ListItemIcon>
-              <Icon>recent_actors</Icon>
-            </ListItemIcon>
-            <ListItemText primary="Blog" />
-          </ListItem>
-        </Link>
-        <Link to='/photos'>
-          <ListItem button>
-            <ListItemIcon>
-              <Icon>photo_library</Icon>
-            </ListItemIcon>
-            <ListItemText primary="Photos" />
-          </ListItem>
-        </Link>
-        <Link to='/fragments'>
-          <ListItem button>
-            <ListItemIcon>
-              <Icon>widgets</Icon>
-            </ListItemIcon>
-            <ListItemText primary="Fragments" />
-          </ListItem>
-        </Link>
+        {
+          fragments_list.map(({ path, icon, type }) => (
+            <MenuLink to={ path } icon={ icon } text={ type } key={ type }/>
+          ))
+        }
       </List>
       <Divider />
       <List component="nav">
-        <Link to='/thrash'>
-          <ListItem button>
-            <ListItemIcon>
-              <Icon>delete_outline</Icon>
-            </ListItemIcon>
-            <ListItemText primary="Thrash" />
-          </ListItem>
-        </Link>
-        <Link to='/settings'>
-          <ListItem button>
-            <ListItemIcon>
-              <Icon>settings</Icon>
-            </ListItemIcon>
-            <ListItemText primary="Settings" />
-          </ListItem>
-        </Link>
+        <MenuLink to='/thrash' icon='delete_outline' text='Thrash' />
+        <MenuLink to='/settings' icon='settings' text='Settings' />
         <Divider />
         <ListItem button onClick={signOut}>
           <ListItemIcon>

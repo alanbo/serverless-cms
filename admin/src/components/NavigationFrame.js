@@ -12,6 +12,14 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import styles from './navigation-frame/styles';
 import MenuList from './navigation-frame/MenuList';
+import fg_config from '../fg-config';
+
+const fg_list = Object.keys(fg_config)
+  .map(key => {
+    const { type, icon } = fg_config[key];
+
+    return { type, icon, path: `/${key}` }
+  });
 
 class NavigationFrame extends React.Component {
   state = {
@@ -61,7 +69,7 @@ class NavigationFrame extends React.Component {
               {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
             </IconButton>
           </div>
-          <MenuList signOut={this.props.signOut} />
+          <MenuList signOut={this.props.signOut} fragments_list={ fg_list } />
         </Drawer>
         <main className={classes.content}>
           <div className={classes.toolbar} />

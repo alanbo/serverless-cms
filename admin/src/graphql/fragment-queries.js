@@ -8,15 +8,15 @@ export const putText = `
   }
 `;
 
-export const getTextList = `
-  {
-    getTextList {
-      id
-      text
-      is_rich
-    }
-  }
-`;
+// export const getTextList = `
+//   {
+//     getTextList {
+//       id
+//       text
+//       is_rich
+//     }
+//   }
+// `;
 
 export const updateText = `
   mutation UpdateText($text: String!, $id: ID!) {
@@ -90,30 +90,30 @@ export const putMenu = `
 `;
 
 
-export const getMenuList = `
-  {
-    getMenuList {
-      id
-      name
-      items {
-        name
-        href
-        items {
-          name
-          href
-          items {
-            name
-            href
-            items {
-              name
-              href
-            }
-          }
-        }
-      }
-    }
-  }
-`;
+// export const getMenuList = `
+//   {
+//     getMenuList {
+//       id
+//       name
+//       items {
+//         name
+//         href
+//         items {
+//           name
+//           href
+//           items {
+//             name
+//             href
+//             items {
+//               name
+//               href
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// `;
 
 export const removeMenu = `
   mutation RemoveMenu($id: ID!) {
@@ -130,3 +130,79 @@ export const removeMenu = `
     }
   }
 `;
+
+export const removeFragment = `
+  mutation RemoveFragment($id: ID!) {
+    removeFragment(id: $id) {
+      id
+    }
+  }
+`;
+
+export const getMenuList = `
+{
+  menu: getMenuList {
+    id
+    name
+    items {
+      name
+      href
+      items {
+        name
+        href
+        items {
+          name
+          href
+          items {
+            name
+            href
+          }
+        }
+      }
+    }
+  }
+}`;
+
+export const getTextList = `
+{
+  text: getTextList {
+    id
+    name
+    text
+    is_rich
+  }
+}`;
+  
+export const getImageList = `
+{
+  image: getImageList {
+    id
+    name
+    filename
+    paths {
+      path
+      type
+    }
+  }
+}`;
+
+export const getGalleryList = `
+{
+  gallery: getGalleryList {
+    id
+    name
+    images {
+      id
+    }
+  }
+}`;
+  
+export const getPageList = `
+{
+  page: getPageList {
+    id
+    name
+    fragments
+    page_type
+  }
+}`;

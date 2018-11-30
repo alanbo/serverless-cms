@@ -308,3 +308,7 @@ export const putPage = (page_data) => {
       .catch(console.log);
   }
 }
+
+export const getAll = () => {
+
+}
