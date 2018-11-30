@@ -1,4 +1,5 @@
-import React from 'react';
+// @flow
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
@@ -12,16 +13,38 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import styles from './navigation-frame/styles';
 import MenuList from './navigation-frame/MenuList';
+import type { DataItem } from './navigation-frame/MenuList';
 import fg_config from '../fg-config';
 
-const fg_list = Object.keys(fg_config)
+const fg_list: Array<DataItem> = Object.keys(fg_config)
   .map(key => {
     const { type, icon } = fg_config[key];
 
     return { type, icon, path: `/${key}` }
   });
 
-class NavigationFrame extends React.Component {
+type Props = {
+  classes: {
+    root: string,
+    appBar: string,
+    appBarShift: string,
+    menuButton: string,
+    hide: string,
+    flex: string,
+    drawerPaper: string,
+    drawerPaperClose: string,
+    toolbar: string,
+    content: string,
+  },
+  signOut: () => any,
+  children: React.Node
+}
+
+type State = {
+  open: boolean
+}
+
+class NavigationFrame extends React.Component<Props, State> {
   state = {
     open: false,
   };
@@ -35,7 +58,7 @@ class NavigationFrame extends React.Component {
   };
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes } = this.props;
 
     return (
       <div className={classes.root}>
@@ -66,7 +89,7 @@ class NavigationFrame extends React.Component {
         >
           <div className={classes.toolbar}>
             <IconButton onClick={this.handleDrawerClose}>
-              {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+               <ChevronLeftIcon />
             </IconButton>
           </div>
           <MenuList signOut={this.props.signOut} fragments_list={ fg_list } />
@@ -80,9 +103,4 @@ class NavigationFrame extends React.Component {
   }
 }
 
-NavigationFrame.propTypes = {
-  classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles, { withTheme: true })(NavigationFrame);
+export default withStyles(styles)(NavigationFrame);

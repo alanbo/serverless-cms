@@ -25,7 +25,7 @@ const MenuLink = ({ to, text, icon }: MenuLinkProps) => (
   </Link>
 );
 
-type DataItem = {
+export type DataItem = {
   path: string,
   type: string,
   icon: string
