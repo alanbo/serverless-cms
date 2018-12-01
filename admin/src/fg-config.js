@@ -1,3 +1,5 @@
+// @flow
+
 import {
   getPageList,
   getGalleryList,
@@ -5,7 +7,15 @@ import {
   getTextList
 } from './graphql/fragment-queries';
 
-export default {
+type Config = {
+  [path: string]: {
+    type: string,
+    query: string,
+    icon: string
+  }
+}
+
+const config: Config = {
   pages: {
     type: 'Page',
     query: getPageList,
@@ -34,3 +44,5 @@ export default {
     icon: 'notes'
   }
 }
+
+export default config;

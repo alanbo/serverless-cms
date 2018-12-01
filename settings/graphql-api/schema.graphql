@@ -55,6 +55,13 @@ type Page implements Fragment {
 	page_type: String!
 	fragments: [ID]
 }
+type Andrew implements Fragment {
+  id: ID!
+  name: String!
+  lastModified: Int!
+  text: Text
+  gallery: [Image]
+}
 
 type PageType {
 	name: String!
