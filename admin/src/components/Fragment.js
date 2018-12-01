@@ -1,16 +1,42 @@
+// @flow
 import React from 'react';
+import FragmentList from './FragmentList';
 import fg_config from '../fg-config';
 import { getFragmentList } from '../actions';
 import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
 
-class Fragment extends React.Component {
-  componentWillMount() {
-    const type = this.props.match.params.fragment_type;
-    const data = fg_config[type];
+type FragmentItem = {
+  id: string,
+  name: string,
+  type: string,
+  [string]: any
+}
 
-    this.props.getFragmentList(data.query);
+type Props = {
+  match: {
+    params: {
+      fragment_type: string;
+    }
+  },
+  fragments: Array<FragmentItem>
+}
+
+const selectFragments: (Object) => Object = state => state.fragments;
+const selectTypeFromRoute: (Object, Object) => Object = (state, props) => props.match.params.fragment_type;
+
+const getFragmentsByType: (Object, Object) => Array<FragmentItem> = createSelector(
+  [selectFragments, selectTypeFromRoute], (fragments, route_type) => {
+    const type = fg_config[route_type].type;
+
+    return Object.keys(fragments)
+      .map(key => fragments[key])
+      .filter(item => item.type === type);
   }
+);
 
+
+class Fragment extends React.Component<Props> {
   render() {
     const type = this.props.match.params.fragment_type;
     const data = fg_config[type];
@@ -22,14 +48,22 @@ class Fragment extends React.Component {
     return (
       <div>
         <h1>{ data.type }</h1>
+        <FragmentList
+          addFragment={ console.log }
+          removeFragment={ console.log }
+          editFragment={ console.log }
+          fragments={ this.props.fragments }
+        />
       </div>
     );
   }
 };
 
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
+  const fragments = getFragmentsByType(state, props); 
+
   return {
-    fragments: state.fragments
+    fragments
   }
 }
 

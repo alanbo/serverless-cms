@@ -11,6 +11,7 @@ import Main from './components/Main'
 import aws_exports from './cognito';
 import aws_vars from './aws-stack-vars';
 import './App.css';
+import fg_config from './fg-config';
 
 // window.LOG_LEVEL = 'DEBUG';
 
@@ -34,6 +35,13 @@ Amplify.configure(amp_config);
 class App extends Component {
   state = {
     user: ''
+  }
+
+  componentWillMount() {
+    Object.keys(fg_config).forEach(key => {
+      const data = fg_config[key];
+      this.props.getFragmentList(data);
+    });
   }
 
   componentDidMount() {

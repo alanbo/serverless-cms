@@ -310,18 +310,20 @@ export const putPage = (page_data) => {
   }
 }
 
-export const getFragmentList = query => dispatch => {
+export const getFragmentList = ({ query, type }) => dispatch => {
   API.graphql(graphqlOperation(query))
     .then(result => {
       const { data } = result;
-      console.log(data);
 
       // there is only one property, get it
       const key = Object.keys(data)[0];
+      console.log(key);
+      console.log({ ...data[key] });
+
 
       dispatch({
         type: get_fragment_list,
-        payload: data[key]
+        payload: data[key].map(item => Object.assign(item, { type }))
       });
     })
     .catch(console.log);
