@@ -47,7 +47,8 @@ import {
   get_page_type_list,
   get_page_list,
   remove_page,
-  put_page
+  put_page,
+  get_fragment_list
 } from '../actions/types';
 
 export const fetchImageList = () => {
@@ -309,6 +310,19 @@ export const putPage = (page_data) => {
   }
 }
 
-export const getAll = () => {
+export const getFragmentList = query => dispatch => {
+  API.graphql(graphqlOperation(query))
+    .then(result => {
+      const { data } = result;
+      console.log(data);
 
+      // there is only one property, get it
+      const key = Object.keys(data)[0];
+
+      dispatch({
+        type: get_fragment_list,
+        payload: data[key]
+      });
+    })
+    .catch(console.log);
 }

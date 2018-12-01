@@ -41,12 +41,12 @@ class App extends Component {
       .then(data => this.setState({ user: data.username }))
       .catch(err => console.log(err));
 
-    this.props.fetchImageList();
-    this.props.fetchGalleryList();
-    this.props.getTextList();
-    this.props.getMenuList();
-    this.props.getPageTypeList();
-    this.props.getPageList();
+    // this.props.fetchImageList();
+    // this.props.fetchGalleryList();
+    // this.props.getTextList();
+    // this.props.getMenuList();
+    // this.props.getPageTypeList();
+    // this.props.getPageList();
   }
 
   signOut() {

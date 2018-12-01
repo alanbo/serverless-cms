@@ -1,7 +1,16 @@
 import React from 'react';
 import fg_config from '../fg-config';
+import { getFragmentList } from '../actions';
+import { connect } from 'react-redux';
 
 class Fragment extends React.Component {
+  componentWillMount() {
+    const type = this.props.match.params.fragment_type;
+    const data = fg_config[type];
+
+    this.props.getFragmentList(data.query);
+  }
+
   render() {
     const type = this.props.match.params.fragment_type;
     const data = fg_config[type];
@@ -18,4 +27,10 @@ class Fragment extends React.Component {
   }
 };
 
-export default Fragment;
+function mapStateToProps(state) {
+  return {
+    fragments: state.fragments
+  }
+}
+
+export default connect(mapStateToProps, { getFragmentList })(Fragment);
