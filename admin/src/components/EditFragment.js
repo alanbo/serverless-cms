@@ -13,7 +13,7 @@ class EditFragment extends React.Component {
 
     return (
       <div>
-        <h1>E{ data.type }</h1>
+        <h1>Edit { data.type }</h1>
       </div>
     );
   }

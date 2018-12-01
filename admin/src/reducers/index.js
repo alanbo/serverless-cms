@@ -5,6 +5,7 @@ import textList from './textList';
 import menuList from './menuList';
 import pageTypeList from './pageTypeList';
 import pageList from './pageList';
+import fragments from './fragments';
 
 const serverless = combineReducers({
   imageList,
@@ -12,7 +13,8 @@ const serverless = combineReducers({
   textList,
   menuList,
   pageTypeList,
-  pageList
+  pageList,
+  fragments
 });
 
 export default serverless;
