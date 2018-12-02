@@ -34,7 +34,7 @@ interface FgState {
 const selectFragments: (state: FgState) => Fragments = state => state.fragments;
 const selectTypeFromRoute: (state: FgState, props: MatchFgType) => string = (state, props) => props.match.params.fragment_type;
 
-const getFragmentsByType: (state: object, props: MatchFgType) => Array<FragmentItem> = createSelector(
+const getFragmentsByType = createSelector(
   [selectFragments, selectTypeFromRoute], (fragments, route_type) => {
     const type = fg_config[route_type].type;
 
@@ -68,8 +68,7 @@ class Fragment extends React.Component<Props> {
     );
   }
 };
-
-function mapStateToProps(state, props) {
+function mapStateToProps(state: FgState, props: MatchFgType) {
   const fragments = getFragmentsByType(state, props);
 
   return {
