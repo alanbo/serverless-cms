@@ -8,33 +8,34 @@ import Icon from '@material-ui/core/Icon';
 import { Link } from 'react-router-dom'
 import Divider from '@material-ui/core/Divider';
 
-type MenuLinkProps = {
+interface MenuLinkProps {
   to: string,
   text: string,
   icon: string
 }
 
 const MenuLink = ({ to, text, icon }: MenuLinkProps) => (
-  <Link to={ to }>
+  <Link to={to}>
     <ListItem button>
       <ListItemIcon>
-        <Icon>{ icon }</Icon>
+        <Icon>{icon}</Icon>
       </ListItemIcon>
-      <ListItemText primary={ text } />
+      <ListItemText primary={text} />
     </ListItem>
   </Link>
 );
 
-export type DataItem = {
+export interface DataItem {
   path: string,
   type: string,
   icon: string
 }
 
 type MenuListProps = {
-  signOut: Function,
+  signOut: () => any,
   fragments_list: Array<DataItem>
 }
+
 
 export default ({ signOut, fragments_list }: MenuListProps) => {
   return (
@@ -44,7 +45,7 @@ export default ({ signOut, fragments_list }: MenuListProps) => {
         <Divider />
         {
           fragments_list.map(({ path, icon, type }) => (
-            <MenuLink to={ path } icon={ icon } text={ type } key={ type }/>
+            <MenuLink to={path} icon={icon} text={type} key={type} />
           ))
         }
       </List>

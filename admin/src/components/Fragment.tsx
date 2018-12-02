@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import FragmentList from './FragmentList';
 import fg_config from '../fg-config';
@@ -6,26 +5,36 @@ import { getFragmentList } from '../actions';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-type FragmentItem = {
+interface FragmentItem {
   id: string,
   name: string,
-  type: string,
-  [string]: any
+  type: string
 }
 
-type Props = {
+interface MatchFgType {
   match: {
     params: {
       fragment_type: string;
     }
-  },
+  }
+}
+
+interface Props extends MatchFgType {
   fragments: Array<FragmentItem>
 }
 
-const selectFragments: (Object) => Object = state => state.fragments;
-const selectTypeFromRoute: (Object, Object) => Object = (state, props) => props.match.params.fragment_type;
+interface Fragments {
+  [id: string]: FragmentItem
+}
 
-const getFragmentsByType: (Object, Object) => Array<FragmentItem> = createSelector(
+interface FgState {
+  fragments: Fragments
+}
+
+const selectFragments: (state: FgState) => Fragments = state => state.fragments;
+const selectTypeFromRoute: (state: FgState, props: MatchFgType) => string = (state, props) => props.match.params.fragment_type;
+
+const getFragmentsByType: (state: object, props: MatchFgType) => Array<FragmentItem> = createSelector(
   [selectFragments, selectTypeFromRoute], (fragments, route_type) => {
     const type = fg_config[route_type].type;
 
@@ -47,20 +56,21 @@ class Fragment extends React.Component<Props> {
 
     return (
       <div>
-        <h1>{ data.type }</h1>
+        <h1>{data.type}</h1>
         <FragmentList
-          addFragment={ console.log }
-          removeFragment={ console.log }
-          editFragment={ console.log }
-          fragments={ this.props.fragments }
+          addFragment={console.log}
+          removeFragment={console.log}
+          editFragment={console.log}
+          fragments={this.props.fragments}
         />
+
       </div>
     );
   }
 };
 
 function mapStateToProps(state, props) {
-  const fragments = getFragmentsByType(state, props); 
+  const fragments = getFragmentsByType(state, props);
 
   return {
     fragments
