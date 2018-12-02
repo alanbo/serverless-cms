@@ -6,9 +6,10 @@ import AddIcon from '@material-ui/icons/Add';
 import TextField from '@material-ui/core/TextField';
 import ListTable from './main/common/ListTable';
 import styles from './main/common/btn_styles';
+import { FragmentItem } from '../types';
 
 interface Props {
-  fragments: { name: string, id: string, number?: number }[],
+  fragments: FragmentItem[],
   removeFragment: (id: String) => void,
   editFragment: (id: String) => void,
   addFragment: () => void,

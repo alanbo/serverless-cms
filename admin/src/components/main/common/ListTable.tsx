@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -9,23 +8,41 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import { Link } from 'react-router-dom';
+import { createStyles } from '@material-ui/core/styles';
 
-const styles = theme => ({
+import { FragmentItem } from '../../../types';
+
+const styles = theme => createStyles({
   root: {
-    width: '100%',
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
+    display: 'flex',
   },
   table: {
     minWidth: 400,
   },
+  smallCell: {
+    width: '5%',
+    textAlign: 'center',
+  }
 });
 
 
-function FolderTable(props) {
+interface Props {
+  classes: {
+    root: string,
+    table: string,
+    smallCell: string
+  },
+  data: Array<FragmentItem>
+  onDelete: (id: string) => void
+}
+
+
+function FolderTable(props: Props) {
   const { classes } = props;
-  const has_files = props.data[0] && props.data[0].files;
 
   return (
     <Paper className={classes.root}>
@@ -33,13 +50,8 @@ function FolderTable(props) {
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>
-            {
-              has_files
-                ? (
-                  <TableCell numeric>Number of files</TableCell>
-                ) : null
-            }
-            <TableCell>Delete</TableCell>
+            <TableCell className={classes.smallCell}>Edit</TableCell>
+            <TableCell className={classes.smallCell}>Delete</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -49,19 +61,25 @@ function FolderTable(props) {
                 <TableCell component="th" scope="row">
                   <Link
                     to={{
-                      pathname: `/${props.root_path}/${n.name}`,
+                      pathname: `/${n.type}/${n.id}`,
                       state: { id: n.id }
                     }}
                   >{n.name}</Link>
                 </TableCell>
-                {
-                  has_files
-                    ? (
-                      <TableCell numeric>{n.files}</TableCell>
-                    ) : null
-                }
                 <TableCell>
-                  <IconButton aria-label="Delete" onClick={() => props.onDelete(n)}>
+                  <Link
+                    to={{
+                      pathname: `/${n.type}/${n.id}`,
+                      state: { id: n.id }
+                    }}
+                  >
+                    <IconButton aria-label='Edit'>
+                      <EditIcon />
+                    </IconButton>
+                  </Link>
+                </TableCell>
+                <TableCell>
+                  <IconButton aria-label="Delete" onClick={() => props.onDelete(n.id)}>
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
@@ -73,9 +91,5 @@ function FolderTable(props) {
     </Paper>
   );
 }
-
-FolderTable.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 export default withStyles(styles)(FolderTable);
