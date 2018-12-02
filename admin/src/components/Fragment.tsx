@@ -58,6 +58,7 @@ class Fragment extends React.Component<Props> {
           removeFragment={console.log}
           editFragment={console.log}
           fragments={this.props.fragments}
+          type_path={type}
         />
 
       </div>
