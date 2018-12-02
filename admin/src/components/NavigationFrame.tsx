@@ -1,6 +1,4 @@
-// @flow
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -10,10 +8,8 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import styles from './navigation-frame/styles';
-import MenuList from './navigation-frame/MenuList';
-import type { DataItem } from './navigation-frame/MenuList';
+import MenuList, { DataItem } from './navigation-frame/MenuList';
 import fg_config from '../fg-config';
 
 const fg_list: Array<DataItem> = Object.keys(fg_config)
@@ -23,7 +19,7 @@ const fg_list: Array<DataItem> = Object.keys(fg_config)
     return { type, icon, path: `/${key}` }
   });
 
-type Props = {
+interface Props {
   classes: {
     root: string,
     appBar: string,
@@ -37,10 +33,10 @@ type Props = {
     content: string,
   },
   signOut: () => any,
-  children: React.Node
+  children: React.ReactNode
 }
 
-type State = {
+interface State {
   open: boolean
 }
 
@@ -89,10 +85,10 @@ class NavigationFrame extends React.Component<Props, State> {
         >
           <div className={classes.toolbar}>
             <IconButton onClick={this.handleDrawerClose}>
-               <ChevronLeftIcon />
+              <ChevronLeftIcon />
             </IconButton>
           </div>
-          <MenuList signOut={this.props.signOut} fragments_list={ fg_list } />
+          <MenuList signOut={this.props.signOut} fragments_list={fg_list} />
         </Drawer>
         <main className={classes.content}>
           <div className={classes.toolbar} />

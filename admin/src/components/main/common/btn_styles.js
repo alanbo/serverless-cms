@@ -1,4 +1,6 @@
-export default theme => ({
+import { createStyles } from '@material-ui/core/styles';
+
+export default theme => createStyles({
   button: {
     position: 'absolute',
     bottom: theme.spacing.unit * 2,

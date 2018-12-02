@@ -7,12 +7,12 @@ import TextField from '@material-ui/core/TextField';
 import ListTable from './main/common/ListTable';
 import styles from './main/common/btn_styles';
 
-type Props = {
-  fragments: { name: String, id: String, number?: Number }[],
+interface Props {
+  fragments: { name: string, id: string, number?: number }[],
   removeFragment: (id: String) => void,
   editFragment: (id: String) => void,
   addFragment: () => void,
-  classes: { button: String }
+  classes: { button: string }
 };
 
 class FragmentList extends Component<Props> {
@@ -21,7 +21,7 @@ class FragmentList extends Component<Props> {
 
     return (
       <div>
-        <ListTable data={this.props.fragments} onDelete={ this.props.removeFragment } />
+        <ListTable data={this.props.fragments} onDelete={this.props.removeFragment} />
         <Button variant="fab" color="primary" aria-label="add" className={classes.button} onClick={console.log}>
           <AddIcon />
         </Button>

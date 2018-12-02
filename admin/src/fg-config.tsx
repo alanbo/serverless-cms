@@ -1,5 +1,3 @@
-// @flow
-
 import {
   getPageList,
   getGalleryList,
@@ -7,7 +5,7 @@ import {
   getTextList
 } from './graphql/fragment-queries';
 
-type Config = {
+interface Config {
   [path: string]: {
     type: string,
     query: string,
