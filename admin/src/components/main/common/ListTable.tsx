@@ -36,13 +36,14 @@ interface Props {
     table: string,
     smallCell: string
   },
-  data: Array<FragmentItem>
+  data: Array<FragmentItem>,
+  type_path: string,
   onDelete: (id: string) => void
 }
 
 
-function FolderTable(props: Props) {
-  const { classes } = props;
+function ListTable(props: Props) {
+  const { classes, type_path } = props;
 
   return (
     <Paper className={classes.root}>
@@ -61,7 +62,7 @@ function FolderTable(props: Props) {
                 <TableCell component="th" scope="row">
                   <Link
                     to={{
-                      pathname: `/${n.type}/${n.id}`,
+                      pathname: `/${type_path}/${n.id}`,
                       state: { id: n.id }
                     }}
                   >{n.name}</Link>
@@ -69,7 +70,7 @@ function FolderTable(props: Props) {
                 <TableCell>
                   <Link
                     to={{
-                      pathname: `/${n.type}/${n.id}`,
+                      pathname: `/${type_path}/${n.id}`,
                       state: { id: n.id }
                     }}
                   >
@@ -92,4 +93,4 @@ function FolderTable(props: Props) {
   );
 }
 
-export default withStyles(styles)(FolderTable);
+export default withStyles(styles)(ListTable);

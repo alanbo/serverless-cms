@@ -13,16 +13,17 @@ interface Props {
   removeFragment: (id: String) => void,
   editFragment: (id: String) => void,
   addFragment: () => void,
+  type_path: string,
   classes: { button: string }
 };
 
 class FragmentList extends Component<Props> {
   render() {
-    const { classes } = this.props;
+    const { classes, type_path } = this.props;
 
     return (
       <div>
-        <ListTable data={this.props.fragments} onDelete={this.props.removeFragment} />
+        <ListTable data={this.props.fragments} onDelete={this.props.removeFragment} type_path={type_path} />
         <Button variant="fab" color="primary" aria-label="add" className={classes.button} onClick={console.log}>
           <AddIcon />
         </Button>
