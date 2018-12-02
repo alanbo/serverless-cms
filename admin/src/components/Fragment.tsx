@@ -4,12 +4,8 @@ import fg_config from '../fg-config';
 import { getFragmentList } from '../actions';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
+import { FragmentItem } from '../types';
 
-interface FragmentItem {
-  id: string,
-  name: string,
-  type: string
-}
 
 interface MatchFgType {
   match: {
