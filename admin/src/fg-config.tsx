@@ -6,21 +6,17 @@ import {
   getTextList
 } from './graphql/fragment-queries';
 
-interface InputProps {
-  onChange: () => any,
-  input: {
-    id?: string,
-    name?: string,
-    [element: string]: any
-  }
-}
+import TextInput from './components/inputs/texts/TextInput';
+
+import { InputProps } from './types';
+
 
 interface Config {
   [path: string]: {
     type: string,
     query: string,
     icon: string,
-    input: React.FunctionComponent<InputProps> | React.ComponentClass<InputProps>
+    input: React.FunctionComponent<any> | React.ComponentClass<any>
   }
 }
 
@@ -49,7 +45,7 @@ const config: Config = {
   texts: {
     type: 'Text',
     query: getTextList,
-    input: (props: InputProps) => <div>texts input</div>,
+    input: TextInput,
     icon: 'notes'
   }
 }
