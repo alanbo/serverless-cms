@@ -31,7 +31,7 @@ class EditFragment extends React.Component<Props, State> {
       return (
         <div>
           <h1>Edit {data.type}</h1>
-          <Input onChange={console.log} input={{ id: 'data' }} />
+          <Input onChange={input => this.setState({ input })} value={this.state.input} />
         </div>
       );
     }
