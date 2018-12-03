@@ -19,4 +19,6 @@ export const get_page_list = 'GET_PAGE';
 export const remove_page = 'REMOVE_PAGE';
 
 export const get_fragment_list = 'GET_FRAGMENT_LIST';
+export const put_fragment = 'PUT_FRAGMENT';
+export const remove_fragment = 'REMOVE_FRAGMENT';
 

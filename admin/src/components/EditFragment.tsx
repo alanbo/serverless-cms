@@ -1,5 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import fg_config from '../fg-config';
+import { putFragment, removeFragment } from '../actions';
+import SaveCancelButtons from './main/common/SaveCancelButtons';
 
 interface Props {
   match: {
@@ -7,7 +10,12 @@ interface Props {
       fragment_type: string,
       id?: string
     }
-  }
+  },
+  history: {
+    push: (path: string) => any
+  },
+  putFragment: (input: any, type: string) => any,
+  removeFragment: (id: string) => any
 }
 
 interface State {
@@ -30,8 +38,12 @@ class EditFragment extends React.Component<Props, State> {
     if (data && id || is_new) {
       return (
         <div>
-          <h1>Edit {data.type}</h1>
+          <h1>{`${is_new ? 'Add' : 'Edit'} ${data.type}`}</h1>
           <Input onChange={input => this.setState({ input })} value={this.state.input} />
+          <SaveCancelButtons
+            onSave={() => this.props.putFragment(this.state.input, data.type)}
+            onCancel={() => this.props.history.push(`/${fragment_type}`)}
+          />
         </div>
       );
     }
@@ -40,4 +52,8 @@ class EditFragment extends React.Component<Props, State> {
   }
 };
 
-export default EditFragment;
+function mapStateToProps(state, props) {
+  return {};
+}
+
+export default connect(mapStateToProps, { putFragment, removeFragment })(EditFragment);
