@@ -1,4 +1,5 @@
 import { API, graphqlOperation } from 'aws-amplify';
+import * as R from 'ramda';
 
 import {
   putFragmentMutation,
@@ -16,12 +17,8 @@ export const getFragmentList = ({ query, type }) => dispatch => {
   API.graphql(graphqlOperation(query))
     .then(result => {
       const { data } = result;
-
       // there is only one property, get it
       const key = Object.keys(data)[0];
-      console.log(key);
-      console.log({ ...data[key] });
-
 
       dispatch({
         type: get_fragment_list,
@@ -34,14 +31,12 @@ export const getFragmentList = ({ query, type }) => dispatch => {
 export const putFragment = (input, type) => dispatch => {
   const mutation = putFragmentMutation(type);
 
-  console.log(mutation);
-
   API.graphql(graphqlOperation(mutation, { input }))
     .then(result => {
       console.log(result);
       dispatch({
         type: put_fragment,
-        payload: Object.assign(input, result.data[`put${type}`])
+        payload: R.mergeAll([input, { type }, result.data[`put${type}`]])
       });
     })
     .catch(console.log);

@@ -36,7 +36,8 @@ const getFragmentsByType = createSelector(
 
     return Object.keys(fragments)
       .map(key => fragments[key])
-      .filter(item => item.type === type);
+      .filter(item => item.type === type)
+      .sort((a, b) => (a.lastModified - b.lastModified));
   }
 );
 

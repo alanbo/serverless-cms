@@ -144,6 +144,7 @@ export const getMenuList = `
   menu: getMenuList {
     id
     name
+    lastModified
     items {
       name
       href
@@ -169,7 +170,7 @@ export const getTextList = `
     id
     name
     text
-    is_rich
+    lastModified
   }
 }`;
 
@@ -178,6 +179,7 @@ export const getImageList = `
   image: getImageList {
     id
     name
+    lastModified
     filename
     paths {
       path
@@ -191,6 +193,7 @@ export const getGalleryList = `
   gallery: getGalleryList {
     id
     name
+    lastModified
     images {
       id
     }
@@ -202,6 +205,7 @@ export const getPageList = `
   page: getPageList {
     id
     name
+    lastModified
     fragments
     page_type
   }
