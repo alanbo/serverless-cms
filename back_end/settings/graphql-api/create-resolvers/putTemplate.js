@@ -11,8 +11,8 @@ const putTemplate = type => ({
 
 #set( $id = '' )
 
-#if( $ctx.args.id )
-  #set( $id = $util.dynamodb.toDynamoDBJson($ctx.args.id) )
+#if( $attrs.id )
+  #set( $id = $util.dynamodb.toDynamoDBJson($attrs.id) )
 #else
   #set( $id = $util.dynamodb.toDynamoDBJson($util.autoId()) )
 #end

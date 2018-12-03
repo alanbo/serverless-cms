@@ -1,7 +1,8 @@
 export interface FragmentItem {
   id: string,
   name: string,
-  type: string
+  type: string,
+  lastModified: number
 }
 
 interface FragmentInput {

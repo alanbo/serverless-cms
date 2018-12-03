@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import fg_config from '../fg-config';
 import { putFragment, removeFragment } from '../actions';
 import SaveCancelButtons from './main/common/SaveCancelButtons';
+import * as R from 'ramda';
 
 interface Props {
   match: {
@@ -29,6 +30,16 @@ class EditFragment extends React.Component<Props, State> {
     input: {}
   }
 
+  static getDerivedStateFromProps(props, state) {
+    if (!Object.keys(state.input).length) {
+      return {
+        input: props.input_data
+      };
+    }
+
+    return null;
+  }
+
   render() {
     const { fragment_type, id } = this.props.match.params;
     const data = fg_config[fragment_type];
@@ -39,9 +50,12 @@ class EditFragment extends React.Component<Props, State> {
       return (
         <div>
           <h1>{`${is_new ? 'Add' : 'Edit'} ${data.type}`}</h1>
-          <Input onChange={input => this.setState({ input })} value={this.state.input} />
+          <Input onChange={input => this.setState({ input })} value={this.state.input || {}} />
           <SaveCancelButtons
-            onSave={() => this.props.putFragment(this.state.input, data.type)}
+            onSave={() => {
+              this.props.putFragment(this.state.input, data.type);
+              this.props.history.push(`/${fragment_type}`);
+            }}
             onCancel={() => this.props.history.push(`/${fragment_type}`)}
           />
         </div>
@@ -53,7 +67,12 @@ class EditFragment extends React.Component<Props, State> {
 };
 
 function mapStateToProps(state, props) {
-  return {};
+  const id = props.match.params.id;
+  const input_data = R.dissoc('lastModified', R.dissoc('type', state.fragments[id]));
+
+  return {
+    input_data
+  };
 }
 
 export default connect(mapStateToProps, { putFragment, removeFragment })(EditFragment);
