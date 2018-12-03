@@ -1,10 +1,10 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, WithStyles, createStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import CancelIcon from '@material-ui/icons/Cancel';
 import SaveIcon from '@material-ui/icons/Save';
 
-const styles = theme => ({
+const styles = theme => createStyles({
   buttons: {
     position: 'absolute',
     bottom: theme.spacing.unit * 2,
@@ -15,7 +15,12 @@ const styles = theme => ({
   }
 });
 
-const SaveCancelButtons = props => (
+interface Props extends WithStyles<typeof styles> {
+  onCancel: () => any,
+  onSave: () => any
+};
+
+const SaveCancelButtons = (props: Props) => (
   <div className={props.classes.buttons} >
     <Button
       variant="fab"

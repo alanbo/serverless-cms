@@ -131,7 +131,7 @@ export const removeMenu = `
   }
 `;
 
-export const removeFragment = `
+export const removeFragmentMutation = `
   mutation RemoveFragment($id: ID!) {
     removeFragment(id: $id) {
       id
@@ -172,7 +172,7 @@ export const getTextList = `
     is_rich
   }
 }`;
-  
+
 export const getImageList = `
 {
   image: getImageList {
@@ -196,7 +196,7 @@ export const getGalleryList = `
     }
   }
 }`;
-  
+
 export const getPageList = `
 {
   page: getPageList {
@@ -204,5 +204,13 @@ export const getPageList = `
     name
     fragments
     page_type
+  }
+}`;
+
+export const putFragmentMutation = type => `
+mutation Put${type}($input: ${type}Input!) {
+  put${type}(input: $input) {
+    id
+    lastModified
   }
 }`;
