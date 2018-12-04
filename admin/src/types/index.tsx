@@ -2,7 +2,8 @@ export interface FragmentItem {
   id: string,
   name: string,
   type: string,
-  lastModified: number
+  lastModified: number,
+  is_deleted?: boolean
 }
 
 interface FragmentInput {

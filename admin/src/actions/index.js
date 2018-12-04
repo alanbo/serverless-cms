@@ -33,7 +33,6 @@ export const putFragment = (input, type) => dispatch => {
 
   API.graphql(graphqlOperation(mutation, { input }))
     .then(result => {
-      console.log(result);
       dispatch({
         type: put_fragment,
         payload: R.mergeAll([input, { type }, result.data[`put${type}`]])
@@ -48,7 +47,7 @@ export const removeFragment = id => {
       .then(result => {
         dispatch({
           type: remove_fragment,
-          payload: result.data.id
+          payload: result.data.deleteFragment
         });
       })
       .catch(console.log);

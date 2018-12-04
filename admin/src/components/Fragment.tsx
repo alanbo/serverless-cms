@@ -1,7 +1,7 @@
 import React from 'react';
 import FragmentList from './FragmentList';
 import fg_config from '../fg-config';
-import { getFragmentList } from '../actions';
+import { removeFragment } from '../actions';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { FragmentItem } from '../types';
@@ -13,10 +13,14 @@ interface MatchFgType {
       fragment_type: string;
     }
   }
+  history: {
+    push: (path: string) => any
+  }
 }
 
 interface Props extends MatchFgType {
   fragments: Array<FragmentItem>
+  removeFragment: (id: string) => any,
 }
 
 interface Fragments {
@@ -24,7 +28,7 @@ interface Fragments {
 }
 
 interface FgState {
-  fragments: Fragments
+  fragments: Fragments,
 }
 
 const selectFragments: (state: FgState) => Fragments = state => state.fragments;
@@ -36,13 +40,18 @@ const getFragmentsByType = createSelector(
 
     return Object.keys(fragments)
       .map(key => fragments[key])
-      .filter(item => item.type === type)
-      .sort((a, b) => (a.lastModified - b.lastModified));
+      .filter(item => item.type === type && !item.is_deleted)
+      .sort((a, b) => (b.lastModified - a.lastModified));
   }
 );
 
 
 class Fragment extends React.Component<Props> {
+  addFragment = () => {
+    const type = this.props.match.params.fragment_type;
+    this.props.history.push(`/${type}/add_new`)
+  }
+
   render() {
     const type = this.props.match.params.fragment_type;
     const data = fg_config[type];
@@ -55,9 +64,8 @@ class Fragment extends React.Component<Props> {
       <div>
         <h1>{data.type}</h1>
         <FragmentList
-          addFragment={console.log}
-          removeFragment={console.log}
-          editFragment={console.log}
+          addFragment={this.addFragment}
+          removeFragment={this.props.removeFragment}
           fragments={this.props.fragments}
           type_path={type}
         />
@@ -74,4 +82,4 @@ function mapStateToProps(state: FgState, props: MatchFgType) {
   }
 }
 
-export default connect(mapStateToProps, { getFragmentList })(Fragment);
+export default connect(mapStateToProps, { removeFragment })(Fragment);
