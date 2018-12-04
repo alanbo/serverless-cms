@@ -7,6 +7,7 @@ import {
 } from './graphql/fragment-queries';
 
 import TextInput from './components/inputs/texts/TextInput';
+import MenuInput from './components/inputs/menus/MenuInput';
 
 import { InputProps } from './types';
 
@@ -38,7 +39,7 @@ const config: Config = {
   menus: {
     type: 'Menu',
     query: getMenuList,
-    input: (props: InputProps) => <div>menu input</div>,
+    input: MenuInput,
     icon: 'menu'
   },
 
