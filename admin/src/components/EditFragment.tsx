@@ -50,7 +50,7 @@ class EditFragment extends React.Component<Props, State> {
       return (
         <div>
           <h1>{`${is_new ? 'Add' : 'Edit'} ${data.type}`}</h1>
-          <Input onChange={input => this.setState({ input })} value={this.state.input || {}} />
+          <Input onChange={(input, callback) => this.setState({ input }, callback)} value={this.state.input || {}} />
           <SaveCancelButtons
             onSave={() => {
               this.props.putFragment(this.state.input, data.type);
