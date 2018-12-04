@@ -10,8 +10,7 @@ import { FragmentItem } from '../types';
 
 interface Props {
   fragments: FragmentItem[],
-  removeFragment: (id: String) => void,
-  editFragment: (id: String) => void,
+  removeFragment: (id: string) => any,
   addFragment: () => void,
   type_path: string,
   classes: { button: string }
@@ -24,7 +23,7 @@ class FragmentList extends Component<Props> {
     return (
       <div>
         <ListTable data={this.props.fragments} onDelete={this.props.removeFragment} type_path={type_path} />
-        <Button variant="fab" color="primary" aria-label="add" className={classes.button} onClick={console.log}>
+        <Button variant="fab" color="primary" aria-label="add" className={classes.button} onClick={this.props.addFragment}>
           <AddIcon />
         </Button>
       </div>

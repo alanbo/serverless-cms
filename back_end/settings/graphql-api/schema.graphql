@@ -3,6 +3,7 @@ interface Fragment {
 	id: ID!
   name: String!
   lastModified: Int!
+  is_deleted: Boolean
 }
 
 # Types
@@ -10,6 +11,7 @@ type Gallery implements Fragment {
 	id: ID!
 	name: String!
   lastModified: Int!
+  is_deleted: Boolean
 	images: [Image]
 }
 
@@ -17,6 +19,7 @@ type Image implements Fragment {
 	id: ID!
   name: String!
 	lastModified: Int!
+  is_deleted: Boolean
 	gallery: String!
 	paths: [ImagePath!]!
 	filename: String!
@@ -26,6 +29,7 @@ type Text implements Fragment {
 	id: ID!
   name: String!
 	lastModified: Int!
+  is_deleted: Boolean
 	text: String!
 	is_rich: Boolean
 }
@@ -39,6 +43,7 @@ type Menu implements Fragment {
 	id: ID!
 	name: String!
 	lastModified: Int!
+  is_deleted: Boolean
 	items: [MenuItem!]
 }
 
@@ -52,15 +57,9 @@ type Page implements Fragment {
 	id: ID!
 	name: String!
 	lastModified: Int!
+  is_deleted: Boolean
 	page_type: String!
 	fragments: [ID]
-}
-type Andrew implements Fragment {
-  id: ID!
-  name: String!
-  lastModified: Int!
-  text: Text
-  gallery: [Image]
 }
 
 type PageType {

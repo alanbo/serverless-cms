@@ -3,7 +3,8 @@ import * as R from 'ramda';
 
 import {
   get_fragment_list,
-  put_fragment
+  put_fragment,
+  remove_fragment
 } from '../actions/types';
 
 
@@ -21,6 +22,9 @@ function fragmentList(state = {}, action) {
 
     case put_fragment:
       return R.assoc(action.payload.id, action.payload, state);
+
+    case remove_fragment:
+      return R.assocPath([action.payload, 'is_deleted'], true, state);
 
     default:
       return state
