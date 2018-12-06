@@ -11,7 +11,7 @@ exports.handler = async (event) => {
 
   const images_uniq = R.uniq(event);
 
-  const Keys = images_uniq.map(id => ({ id, type: 'image' }))
+  const Keys = images_uniq.map(id => ({ id }))
 
   var params = {
     RequestItems: {
