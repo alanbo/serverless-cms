@@ -36,6 +36,12 @@ const mutation = gql(`
 mutation PutImage($input: ImageInput!) {
   putImage(input: $input) {
     id
+    name
+    filename
+    paths {
+      path
+      type
+    }
   }
 }
 `);
@@ -53,8 +59,7 @@ const client = new AWSAppSyncClient({
 export default (metadata, filename, paths) => {
   const variables = {
     input: {
-      name: metadata.name || filename,
-      gallery: metadata.gallery || 'general',
+      name: metadata.name || `${metadata.gallery || 'general'}/${filename}`,
       filename,
       paths
     }

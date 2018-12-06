@@ -6,9 +6,13 @@ import settings from './resize-images/settings';
 import storeImageDataGraphQL from './resize-images/storeImageDataGraphQL';
 
 // eslint-disable-next-line import/prefer-default-export
-export const resizeImages = async function(event, context, callback) {
-  const bucket = event.Records[0].s3.bucket.name;
-  const src_key = event.Records[0].s3.object.key;
+export const resizeImages = async function (event, context, callback) {
+  // const bucket = event.Records[0].s3.bucket.name;
+  // const src_key = event.Records[0].s3.object.key;
+
+  const bucket = process.env.BUCKET;
+  const { path: src_key } = event;
+
   const filename = src_key.split('/').pop();
 
   const random_str = Math.round(Math.random() * 1000000000).toString(16);
@@ -18,7 +22,7 @@ export const resizeImages = async function(event, context, callback) {
   const create_path = key => {
     return {
       type: key,
-      path: `public/images/${resized_filename}-${key}-${random_str}.${ext}`
+      path: `public/images/${random_str}-${resized_filename}-${key}.${ext}`
     };
   };
 
@@ -31,10 +35,10 @@ export const resizeImages = async function(event, context, callback) {
     const content_type = s3_image.ContentType;
     const images = await transformImages(buffer);
     await uploadImages({ images, paths, metadata, bucket, filename, content_type });
-    await storeImageDataGraphQL(metadata, filename, paths);
-  } catch(e) {
-    console.log(e);
+    const image_data = await storeImageDataGraphQL(metadata, filename, paths);
+    callback(null, image_data.data.putImage);
+  } catch (err) {
+    console.log(err);
+    callback(err)
   }
-
-  callback(null, 'Image successfully resized');
 };

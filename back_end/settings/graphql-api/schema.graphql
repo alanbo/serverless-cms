@@ -20,7 +20,6 @@ type Image implements Fragment {
   name: String!
 	lastModified: Int!
   is_deleted: Boolean
-	gallery: String!
 	paths: [ImagePath!]!
 	filename: String!
 }
@@ -81,6 +80,7 @@ type Mutation {
   deleteFragment(id: ID!): ID!
   recoverFragment(id: ID!): ID!
 	renderPages(id: [ID]): Boolean!
+  resizeImage(path: String!): Image!
 }
 
 # Queries

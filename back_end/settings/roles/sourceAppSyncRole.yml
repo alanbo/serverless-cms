@@ -21,3 +21,4 @@ Properties:
               - Fn::GetAtt: ["ResolveAppSyncLambdaFunction", "Arn"]
               - Fn::GetAtt: ["ResolvePageTypeLambdaFunction", "Arn"]
               - Fn::GetAtt: ["RenderLambdaFunction", "Arn"]
+              - Fn::GetAtt: ["ResizeLambdaFunction", "Arn"]
