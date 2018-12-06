@@ -24,11 +24,11 @@ Resources:
   graphQLLambda: ${file(./settings/graphql-api/graphql-datasource-lambda.yml)}
   graphQLPageTypesDataSource: ${file(./settings/graphql-api/graphql-datasource-page-types.yml)}
   graphQLRenderDataSource: ${file(./settings/graphql-api/graphql-datasource-render.yml)}
-  graphQLResizeDataSource: ${file(./settings/graphql-api/graphql-datasource-resize-image.yml)}
+  graphQLResizeDataSource: ${file(./settings/graphql-api/graphql-datasource-resize-images.yml)}
 
   deleteFragment: ${file(./settings/graphql-api/resolvers/deleteFragment.yml)}
   recoverFragment: ${file(./settings/graphql-api/resolvers/recoverFragment.yml)}
   getPageTypeList: ${file(./settings/graphql-api/resolvers/getPageTypeList.yml)}
   renderPages: ${file(./settings/graphql-api/resolvers/renderPages.yml)}
-  resizeImage: ${file(./settings/graphql-api/resolvers/resizeImage.yml)}
+  resizeImages: ${file(./settings/graphql-api/resolvers/resizeImages.yml)}
 

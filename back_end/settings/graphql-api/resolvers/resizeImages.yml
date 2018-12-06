@@ -6,7 +6,7 @@ Properties:
   ResponseMappingTemplate: ${file(./settings/graphql-api/templates/passthrough.vm)}
   ApiId:
     Fn::GetAtt: ["graphQLApi", "ApiId"]
-  FieldName: resizeImage
+  FieldName: resizeImages
 DependsOn:
   - graphQLRenderDataSource
   - graphQLSchema

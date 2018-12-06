@@ -80,7 +80,7 @@ type Mutation {
   deleteFragment(id: ID!): ID!
   recoverFragment(id: ID!): ID!
 	renderPages(id: [ID]): Boolean!
-  resizeImage(path: String!): Image!
+  resizeImages(paths: [String!]!): [Image!]!
 }
 
 # Queries
