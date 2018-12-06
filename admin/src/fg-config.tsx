@@ -8,6 +8,7 @@ import {
 
 import TextInput from './components/inputs/texts/TextInput';
 import MenuInput from './components/inputs/menus/MenuInput';
+import GalleryInput from './components/inputs/galleries/GalleryInput';
 
 import { InputProps } from './types';
 
@@ -32,7 +33,7 @@ const config: Config = {
   galleries: {
     type: 'Gallery',
     query: getGalleryList,
-    input: (props: InputProps) => <div>galleries input</div>,
+    input: GalleryInput,
     icon: 'photo_library',
   },
 
