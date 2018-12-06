@@ -3,7 +3,8 @@ export interface FragmentItem {
   name: string,
   type: string,
   lastModified: number,
-  is_deleted?: boolean
+  is_deleted?: boolean,
+  [field: string]: any
 }
 
 interface FragmentInput {
