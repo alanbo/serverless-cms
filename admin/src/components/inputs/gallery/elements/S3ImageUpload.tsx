@@ -1,9 +1,8 @@
-import React from 'react';
+import * as React from 'react';
 import { Storage } from 'aws-amplify';
 
 
 function onChange(e, parentOnChange) {
-  console.log(e.target.files);
   const storage = [...e.target.files].map(file => {
     return Storage.put(`temp/${file.name}`, file)
   });
@@ -13,7 +12,13 @@ function onChange(e, parentOnChange) {
     .catch(err => console.log(err));
 };
 
-const S3ImageUpload = React.forwardRef((props, ref) => (
+interface Props {
+  onChange: Function
+};
+
+type Ref = HTMLInputElement;
+
+const S3ImageUpload = React.forwardRef<Ref, Props>((props: Props, ref) => (
   <input
     type='file'
     accept='image/png image/jpeg'
