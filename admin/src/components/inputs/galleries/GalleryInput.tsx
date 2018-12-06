@@ -27,7 +27,7 @@ interface Gallery {
 
 interface Props extends GalleryStyle {
   value: Gallery,
-  onchange: (value: Gallery) => any,
+  onChange: (value: Gallery) => any,
   fragments: {
     [id: string]: FragmentItem
   }
@@ -120,7 +120,7 @@ class ImageGallery extends Component<Props, State> {
 
     images.splice(i, 0, dragged_img);
 
-    this.props.onchange(R.assoc('images', images, this.state.value));
+    this.props.onChange(R.assoc('images', images, this.state.value));
   }
 
 
@@ -188,7 +188,7 @@ class ImageGallery extends Component<Props, State> {
               <TextField
                 value={this.state.value.name}
                 onChange={e => {
-                  this.props.onchange(R.assoc('name', e.target.value, this.props.value));
+                  this.props.onChange(R.assoc('name', e.target.value, this.props.value));
                 }}
               />
             </ListSubheader>
