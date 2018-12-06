@@ -29,8 +29,8 @@ functions:
     role: readS3role
     environment:
       BUCKET: ${self:service}-public
-  resolveAppSync:
-    handler: functions/resolveAppSync.handler
+  resolveNestedFragments:
+    handler: functions/resolveNestedFragments.handler
     role: updateDbRole
     environment:
       FRAGMENTS_TABLE: ${self:service}-fragments

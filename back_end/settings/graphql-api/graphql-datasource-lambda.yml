@@ -9,4 +9,4 @@ Properties:
   Name: app_sync_lambda_resolver
   LambdaConfig:
     LambdaFunctionArn:
-      Fn::GetAtt: ["ResolveAppSyncLambdaFunction", "Arn"]
+      Fn::GetAtt: ["ResolveNestedFragmentsLambdaFunction", "Arn"]

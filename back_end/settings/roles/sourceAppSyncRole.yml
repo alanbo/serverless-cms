@@ -18,7 +18,7 @@ Properties:
             Action:
               - lambda:invokeFunction
             Resource:
-              - Fn::GetAtt: ["ResolveAppSyncLambdaFunction", "Arn"]
+              - Fn::GetAtt: ["ResolveNestedFragmentsLambdaFunction", "Arn"]
               - Fn::GetAtt: ["ResolvePageTypeLambdaFunction", "Arn"]
               - Fn::GetAtt: ["RenderLambdaFunction", "Arn"]
               - Fn::GetAtt: ["ResizeLambdaFunction", "Arn"]
