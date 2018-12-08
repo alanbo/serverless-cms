@@ -79,3 +79,11 @@ export const getFragmentListQuery = (type, gql_props) => `
     ${gql_props}
   }
 }`;
+
+export const resize_images_mutation = `
+mutation ResizeImages($paths: [String!]!) {
+  resizeImages(paths: $paths) {
+    ${image_props}
+  }
+}
+`;

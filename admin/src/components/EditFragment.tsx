@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import fg_config from '../fg-config';
-import { putFragment, removeFragment } from '../actions';
+import { putFragment, removeFragment, resizeImages } from '../actions';
 import SaveCancelButtons from './main/common/SaveCancelButtons';
 import * as R from 'ramda';
 import { FragmentItem, AwsVars } from '../types';
@@ -20,6 +20,7 @@ interface Props {
   },
   putFragment: (input: any, type: string) => any,
   removeFragment: (id: string) => any,
+  resizeImages: (paths: string[]) => any,
   fragments: {
     [id: string]: FragmentItem
   }
@@ -54,6 +55,10 @@ class EditFragment extends React.Component<Props, State> {
     return null;
   }
 
+  resizeImages = paths => {
+    this.props.resizeImages(paths);
+  }
+
   render() {
     const { fragment_type, id } = this.props.match.params;
     const config = fg_config[fragment_type];
@@ -70,6 +75,7 @@ class EditFragment extends React.Component<Props, State> {
             value={input_data || {}}
             fragments={this.props.fragments}
             aws_vars={aws_vars as AwsVars}
+            resizeImages={this.resizeImages}
           />
           <SaveCancelButtons
             onSave={() => {
@@ -96,4 +102,4 @@ function mapStateToProps(state, props) {
   };
 }
 
-export default connect(mapStateToProps, { putFragment, removeFragment })(EditFragment);
+export default connect(mapStateToProps, { putFragment, removeFragment, resizeImages })(EditFragment);

@@ -3,13 +3,15 @@ import * as R from 'ramda';
 
 import {
   putFragmentMutation,
-  removeFragmentMutation
+  removeFragmentMutation,
+  resize_images_mutation
 } from '../graphql/fragment-queries';
 
 import {
   get_fragment_list,
   put_fragment,
-  remove_fragment
+  remove_fragment,
+  resize_images
 } from './types';
 
 import {
@@ -25,8 +27,6 @@ Object.keys(config).forEach(key => {
 
   type_to_gql_props[type] = config[key].gql_props
 });
-
-console.log(type_to_gql_props);
 
 
 export const getFragmentList = type => dispatch => {
@@ -75,4 +75,19 @@ export const removeFragment = id => {
       })
       .catch(console.log);
   }
+}
+
+export const resizeImages = paths => dispatch => {
+  console.log(resize_images_mutation);
+
+  API.graphql(graphqlOperation(resize_images_mutation, { paths }))
+    .then(result => {
+      console.log(result);
+
+      dispatch({
+        type: resize_images,
+        payload: result.data.resizeImages
+      });
+    })
+    .catch(console.log);
 }

@@ -4,7 +4,8 @@ import * as R from 'ramda';
 import {
   get_fragment_list,
   put_fragment,
-  remove_fragment
+  remove_fragment,
+  resize_images
 } from '../actions/types';
 
 
@@ -25,6 +26,13 @@ function fragmentList(state = {}, action) {
 
     case remove_fragment:
       return R.assocPath([action.payload, 'is_deleted'], true, state);
+
+    case resize_images:
+      return R.pipe(
+        R.map(obj => ({ [obj.id]: obj })),
+        R.mergeAll,
+        R.merge(state)
+      )(action.payload);
 
     default:
       return state

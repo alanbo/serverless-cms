@@ -37,6 +37,7 @@ mutation PutImage($input: ImageInput!) {
   putImage(input: $input) {
     id
     name
+    lastModified
     filename
     paths {
       path

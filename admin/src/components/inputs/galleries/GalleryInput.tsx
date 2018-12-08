@@ -36,6 +36,7 @@ export interface GalleryInput {
 interface Props extends GalleryStyle {
   value: GalleryInput,
   onChange: (value: Gallery) => any,
+  resizeImages: (paths: string[]) => any,
   fragments: {
     [id: string]: FragmentItem
   },
@@ -142,6 +143,11 @@ class ImageGallery extends Component<Props, State> {
     this.props.onChange(R.assoc('images', images, this.props.value));
   }
 
+  onUpload = paths => {
+    console.log('here', paths);
+    this.props.resizeImages(paths);
+  }
+
 
   renderImageTiles() {
     const { classes, aws_vars, value: { images } } = this.props;
@@ -230,7 +236,7 @@ class ImageGallery extends Component<Props, State> {
 
         <S3ImageUpload
           ref={this.fileInputRef}
-          onChange={console.log}
+          onChange={this.onUpload}
         />
       </div>
     );
