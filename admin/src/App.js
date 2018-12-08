@@ -40,7 +40,7 @@ class App extends Component {
   componentWillMount() {
     Object.keys(fg_config).forEach(key => {
       const data = fg_config[key];
-      this.props.getFragmentList(data);
+      this.props.getFragmentList(data.type);
     });
   }
 

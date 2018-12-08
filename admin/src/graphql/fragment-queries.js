@@ -4,13 +4,14 @@ export const removeFragmentMutation = `
   }
 `;
 
-export const getMenuList = `
-{
-  menu: getMenuList {
-    id
+export const menu_props = `
+  id
+  name
+  lastModified
+  is_deleted
+  items {
     name
-    lastModified
-    is_deleted
+    href
     items {
       name
       href
@@ -20,71 +21,61 @@ export const getMenuList = `
         items {
           name
           href
-          items {
-            name
-            href
-          }
         }
       }
     }
   }
-}`;
+`;
 
-export const getTextList = `
-{
-  text: getTextList {
-    id
-    name
-    text
-    lastModified
-    is_deleted
+export const text_props = `
+  id
+  name
+  text
+  lastModified
+  is_deleted
+`;
+
+export const image_props = `
+  id
+  name
+  lastModified
+  is_deleted
+  filename
+  paths {
+    path
+    type
   }
-}`;
+`;
 
-export const getImageList = `
-{
-  image: getImageList {
+export const gallery_props = `
+  id
+  name
+  lastModified
+  is_deleted
+  images {
     id
-    name
-    lastModified
-    is_deleted
-    filename
-    paths {
-      path
-      type
-    }
   }
-}`;
+`;
 
-export const getGalleryList = `
-{
-  gallery: getGalleryList {
-    id
-    name
-    lastModified
-    is_deleted
-    images {
-      id
-    }
-  }
-}`;
+export const page_props = `
+  id
+  name
+  lastModified
+  is_deleted
+  fragments
+  page_type
+`;
 
-export const getPageList = `
-{
-  page: getPageList {
-    id
-    name
-    lastModified
-    is_deleted
-    fragments
-    page_type
-  }
-}`;
-
-export const putFragmentMutation = type => `
+export const putFragmentMutation = (type, gql_props) => `
 mutation Put${type}($input: ${type}Input!) {
   put${type}(input: $input) {
-    id
-    lastModified
+    ${gql_props}
+  }
+}`;
+
+export const getFragmentListQuery = (type, gql_props) => `
+{
+  get${type}List {
+    ${gql_props}
   }
 }`;
