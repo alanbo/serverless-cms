@@ -8,7 +8,15 @@ function onChange(e, parentOnChange) {
   });
 
   Promise.all(storage)
-    .then(result => typeof parentOnChange === 'function' ? parentOnChange() : undefined)
+    .then(result => {
+      const res = result as { key: string }[];
+      const paths = res
+        .map(obj => obj.key)
+        .filter(item => !!item)
+        .map(path => `public/${path}`);
+
+      typeof parentOnChange === 'function' && parentOnChange(paths);
+    })
     .catch(err => console.log(err));
 };
 

@@ -17,3 +17,11 @@ export interface InputProps {
   onChange: (value: FragmentInput) => any,
   value: FragmentInput
 }
+
+export interface AwsVars {
+  endpoint: string,
+  graphqlApiId: string,
+  bucket: string,
+  graphql_endpoint: string,
+  region: string
+}
