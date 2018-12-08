@@ -4,7 +4,9 @@ import fg_config from '../fg-config';
 import { putFragment, removeFragment } from '../actions';
 import SaveCancelButtons from './main/common/SaveCancelButtons';
 import * as R from 'ramda';
-import { FragmentItem } from '../types';
+import { FragmentItem, AwsVars } from '../types';
+import aws_vars from '../aws-stack-vars';
+import { Storage } from 'aws-amplify';
 
 interface Props {
   match: {
@@ -63,7 +65,12 @@ class EditFragment extends React.Component<Props, State> {
       return (
         <div>
           <h1>{`${is_new ? 'Add' : 'Edit'} ${config.type}`}</h1>
-          <Input onChange={(input, callback) => this.setState({ input }, callback)} value={input_data || {}} fragments={this.props.fragments} />
+          <Input
+            onChange={(input, callback) => this.setState({ input }, callback)}
+            value={input_data || {}}
+            fragments={this.props.fragments}
+            aws_vars={aws_vars as AwsVars}
+          />
           <SaveCancelButtons
             onSave={() => {
               this.props.putFragment(this.state.input, config.type);

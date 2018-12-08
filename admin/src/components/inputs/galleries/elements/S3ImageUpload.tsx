@@ -16,9 +16,7 @@ interface Props {
   onChange: Function
 };
 
-type Ref = HTMLInputElement;
-
-const S3ImageUpload = React.forwardRef<Ref, Props>((props: Props, ref) => (
+const S3ImageUpload = React.forwardRef<HTMLInputElement, Props>((props: Props, ref) => (
   <input
     type='file'
     accept='image/png image/jpeg'
