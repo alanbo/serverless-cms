@@ -36,6 +36,24 @@ const styles = theme => createStyles({
   draggedOver: {
     opacity: 0.4,
     filter: 'grayscale(100%)'
+  },
+
+  nameField: {
+    marginBottom: theme.spacing.unit * 4,
+    width: '100%'
+  },
+
+  addIcon: {
+    position: 'relative',
+    top: '50%',
+    transform: 'translateY(-50%)',
+  },
+
+  addIconTile: {
+    backgroundColor: 'rgba(200, 200, 200, 0.7)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 });
 

@@ -6,16 +6,18 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import AddIcon from '@material-ui/icons/Add';
 import TextField from '@material-ui/core/TextField';
+import { StorageClass } from 'aws-amplify';
+import S3ImageUpload from './elements/S3ImageUpload';
 
 import * as R from 'ramda';
 
-import aws_vars from '../../../aws-stack-vars';
 import styles, { GalleryStyle } from './gallery-style';
 import { FragmentItem } from '../../../types';
 
 
-function makeImgPath(path) {
+function makeImgPath(path, aws_vars) {
   return `https://s3-${aws_vars.region}.amazonaws.com/${aws_vars.bucket}/${path}`;
 }
 
@@ -36,7 +38,12 @@ interface Props extends GalleryStyle {
   onChange: (value: Gallery) => any,
   fragments: {
     [id: string]: FragmentItem
-  }
+  },
+  aws_vars: {
+    region: string,
+    bucket: string
+  },
+  Storage: StorageClass
 };
 
 interface State {
@@ -57,6 +64,8 @@ class ImageGallery extends Component<Props, State> {
   }
 
   galleryRef = React.createRef<HTMLDivElement>();
+  fileInputRef = React.createRef<HTMLInputElement>();
+
   current_dragged = NaN;
 
   selectedToArr() {
@@ -135,7 +144,7 @@ class ImageGallery extends Component<Props, State> {
 
 
   renderImageTiles() {
-    const { classes, value: { images } } = this.props;
+    const { classes, aws_vars, value: { images } } = this.props;
 
     if (!Array.isArray(images)) {
       return;
@@ -167,7 +176,7 @@ class ImageGallery extends Component<Props, State> {
           onDragOver={e => e.preventDefault()}
         >
           <img
-            src={image && image.paths && makeImgPath(image.paths[0].path)}
+            src={image && image.paths && makeImgPath(image.paths[0].path, aws_vars)}
             alt={image.filename}
             className={classes.image}
           />
@@ -202,11 +211,27 @@ class ImageGallery extends Component<Props, State> {
                 onChange={e => {
                   this.props.onChange(R.assoc('name', e.target.value, this.props.value));
                 }}
+                className={classes.nameField}
               />
             </ListSubheader>
           </GridListTile>
           {this.renderImageTiles()}
+          <GridListTile className={classes.addIconTile}>
+            <IconButton className={classes.addIcon} onClick={() => {
+              if (this.fileInputRef && this.fileInputRef.current) {
+                this.fileInputRef.current.click();
+              }
+            }}>
+              <AddIcon />
+            </IconButton>
+
+          </GridListTile>
         </GridList>
+
+        <S3ImageUpload
+          ref={this.fileInputRef}
+          onChange={console.log}
+        />
       </div>
     );
   }
