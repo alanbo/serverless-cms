@@ -13,10 +13,10 @@ import MenuList, { DataItem } from './navigation-frame/MenuList';
 import fg_config from '../fg-config';
 
 const fg_list: Array<DataItem> = Object.keys(fg_config)
+  .filter(key => fg_config[key].icon && fg_config[key].input)
   .map(key => {
     const { type, icon } = fg_config[key];
-
-    return { type, icon, path: `/${key}` }
+    return { type, icon, path: `/${key}` } as DataItem;
   });
 
 interface Props {

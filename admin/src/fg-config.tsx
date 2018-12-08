@@ -1,54 +1,69 @@
 import * as React from 'react';
+import * as R from 'ramda';
 import {
-  getPageList,
-  getGalleryList,
-  getMenuList,
-  getTextList
+  page_props,
+  gallery_props,
+  menu_props,
+  text_props,
+  image_props
 } from './graphql/fragment-queries';
 
 import TextInput from './components/inputs/texts/TextInput';
 import MenuInput from './components/inputs/menus/MenuInput';
-import GalleryInput from './components/inputs/galleries/GalleryInput';
+import ImageGalleryInput, { Gallery, GalleryInput } from './components/inputs/galleries/GalleryInput';
 
-import { InputProps } from './types';
+import { InputProps, FragmentItem, FragmentInput } from './types';
 
 
 interface Config {
   [path: string]: {
     type: string,
-    query: string,
-    icon: string,
-    input: React.FunctionComponent<any> | React.ComponentClass<any>
+    gql_props: string,
+    icon?: string,
+    input?: React.FunctionComponent<any> | React.ComponentClass<any>,
+    transformer?: (item: any) => any
   }
 }
 
 const config: Config = {
   pages: {
     type: 'Page',
-    query: getPageList,
+    gql_props: page_props,
     input: (props: InputProps) => <div>this is input</div>,
     icon: 'pages',
   },
 
   galleries: {
     type: 'Gallery',
-    query: getGalleryList,
-    input: GalleryInput,
+    gql_props: gallery_props,
+    input: ImageGalleryInput,
     icon: 'photo_library',
+    transformer: (data: Gallery): GalleryInput => {
+      return R.assoc(
+        'images',
+        data.images.map(obj => obj.id),
+        data
+      )
+    }
   },
 
   menus: {
     type: 'Menu',
-    query: getMenuList,
+    gql_props: menu_props,
     input: MenuInput,
     icon: 'menu'
   },
 
   texts: {
     type: 'Text',
-    query: getTextList,
+    gql_props: text_props,
     input: TextInput,
     icon: 'notes'
+  },
+
+  images: {
+    type: 'Image',
+    gql_props: image_props,
   }
 }
 

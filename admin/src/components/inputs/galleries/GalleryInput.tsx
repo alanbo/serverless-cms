@@ -19,14 +19,20 @@ function makeImgPath(path) {
   return `https://s3-${aws_vars.region}.amazonaws.com/${aws_vars.bucket}/${path}`;
 }
 
-interface Gallery {
+export interface Gallery {
+  id?: string,
+  name: string,
+  images: { id: string }[]
+}
+
+export interface GalleryInput {
   id?: string,
   name: string,
   images: string[]
 }
 
 interface Props extends GalleryStyle {
-  value: Gallery,
+  value: GalleryInput,
   onChange: (value: Gallery) => any,
   fragments: {
     [id: string]: FragmentItem
@@ -120,17 +126,15 @@ class ImageGallery extends Component<Props, State> {
 
     images.splice(i, 0, dragged_img);
 
-    this.props.onChange(R.assoc('images', images, this.state.value));
+    this.props.onChange(R.assoc('images', images, this.props.value));
   }
 
 
   renderImageTiles() {
-    const { classes } = this.props;
-    const gallery = this.state.value;
-    let images = [];
+    const { classes, value: { images } } = this.props;
 
-    if (gallery && Object.keys(gallery.images).length) {
-      images = gallery.images.map(image_id => gallery.images[image_id])
+    if (!Array.isArray(images)) {
+      return;
     }
 
     return images.map((img_id, i) => {
@@ -141,6 +145,10 @@ class ImageGallery extends Component<Props, State> {
       const dragged_over_class = dragged_over ? classes.draggedOver : '';
       const final_class = `gallery-tile ${selected_class} ${dragged_over_class}`;
       const image = this.props.fragments[img_id];
+
+      if (!image) {
+        return;
+      }
 
       return (
         <GridListTile
@@ -155,7 +163,7 @@ class ImageGallery extends Component<Props, State> {
           onDragOver={e => e.preventDefault()}
         >
           <img
-            src={makeImgPath(image.paths[0].path)}
+            src={image && image.paths && makeImgPath(image.paths[0].path)}
             alt={image.filename}
             className={classes.image}
           />
@@ -186,7 +194,7 @@ class ImageGallery extends Component<Props, State> {
           <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
             <ListSubheader component="div">
               <TextField
-                value={this.state.value.name}
+                value={this.props.value.name || ''}
                 onChange={e => {
                   this.props.onChange(R.assoc('name', e.target.value, this.props.value));
                 }}

@@ -7,7 +7,7 @@ export interface FragmentItem {
   [field: string]: any
 }
 
-interface FragmentInput {
+export interface FragmentInput {
   id?: string,
   name?: string,
   [element: string]: any

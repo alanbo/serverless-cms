@@ -12,8 +12,26 @@ import {
   remove_fragment
 } from './types';
 
+import {
+  getFragmentListQuery
+} from '../graphql/fragment-queries';
 
-export const getFragmentList = ({ query, type }) => dispatch => {
+import config from '../fg-config';
+
+let type_to_gql_props = {};
+
+Object.keys(config).forEach(key => {
+  const type = config[key].type;
+
+  type_to_gql_props[type] = config[key].gql_props
+});
+
+console.log(type_to_gql_props);
+
+
+export const getFragmentList = type => dispatch => {
+  const query = getFragmentListQuery(type, type_to_gql_props[type]);
+
   API.graphql(graphqlOperation(query))
     .then(result => {
       const { data } = result;
@@ -29,13 +47,18 @@ export const getFragmentList = ({ query, type }) => dispatch => {
 }
 
 export const putFragment = (input, type) => dispatch => {
-  const mutation = putFragmentMutation(type);
+  const mutation = putFragmentMutation(type, type_to_gql_props[type]);
+  console.log(mutation);
 
   API.graphql(graphqlOperation(mutation, { input }))
     .then(result => {
+      const payload = Object.assign({}, result.data[`put${type}`], {
+        type
+      });
+
       dispatch({
         type: put_fragment,
-        payload: R.mergeAll([input, { type }, result.data[`put${type}`]])
+        payload
       });
     })
     .catch(console.log);
