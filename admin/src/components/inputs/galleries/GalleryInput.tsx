@@ -66,7 +66,11 @@ class ImageGallery extends Component<Props, State> {
   }
 
   removeImage = (id, i) => {
-    console.log(id);
+    const filtered = R.remove(i, 1, this.props.value.images);
+
+    this.props.onChange(
+      R.assoc('images', filtered, this.props.value)
+    );
   }
 
   onTileClick = (img, i) => {
