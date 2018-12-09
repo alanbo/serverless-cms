@@ -6,7 +6,6 @@ import SaveCancelButtons from './main/common/SaveCancelButtons';
 import * as R from 'ramda';
 import { FragmentItem, AwsVars } from '../types';
 import aws_vars from '../aws-stack-vars';
-import { Storage } from 'aws-amplify';
 
 interface Props {
   match: {
@@ -20,7 +19,7 @@ interface Props {
   },
   putFragment: (input: any, type: string) => any,
   removeFragment: (id: string) => any,
-  resizeImages: (paths: string[]) => any,
+  resizeImages: (paths: string[], callback: (images: FragmentItem[]) => any) => any,
   fragments: {
     [id: string]: FragmentItem
   }
@@ -55,8 +54,8 @@ class EditFragment extends React.Component<Props, State> {
     return null;
   }
 
-  resizeImages = paths => {
-    this.props.resizeImages(paths);
+  resizeImages = (paths, callback) => {
+    this.props.resizeImages(paths, callback);
   }
 
   render() {
