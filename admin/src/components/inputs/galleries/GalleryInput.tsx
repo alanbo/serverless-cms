@@ -36,7 +36,7 @@ export interface GalleryInput {
 interface Props extends GalleryStyle {
   value: GalleryInput,
   onChange: (value: Gallery) => any,
-  resizeImages: (paths: string[]) => any,
+  resizeImages: (paths: string[], callback: (images: FragmentItem[]) => any) => any
   fragments: {
     [id: string]: FragmentItem
   },
@@ -144,8 +144,15 @@ class ImageGallery extends Component<Props, State> {
   }
 
   onUpload = paths => {
-    console.log('here', paths);
-    this.props.resizeImages(paths);
+    this.props.resizeImages(paths, images => {
+      this.props.onChange(
+        R.assoc(
+          'images',
+          R.concat(this.props.value.images || [], R.map(img => img.id, images)),
+          this.props.value
+        )
+      );
+    });
   }
 
 

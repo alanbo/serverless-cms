@@ -48,7 +48,6 @@ export const getFragmentList = type => dispatch => {
 
 export const putFragment = (input, type) => dispatch => {
   const mutation = putFragmentMutation(type, type_to_gql_props[type]);
-  console.log(mutation);
 
   API.graphql(graphqlOperation(mutation, { input }))
     .then(result => {
@@ -77,12 +76,12 @@ export const removeFragment = id => {
   }
 }
 
-export const resizeImages = paths => dispatch => {
-  console.log(resize_images_mutation);
-
+export const resizeImages = (paths, callback) => dispatch => {
   API.graphql(graphqlOperation(resize_images_mutation, { paths }))
     .then(result => {
-      console.log(result);
+      if (typeof callback === 'function') {
+        callback(result.data.resizeImages);
+      }
 
       dispatch({
         type: resize_images,
