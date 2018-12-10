@@ -9,7 +9,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
 import TextField from '@material-ui/core/TextField';
 import { StorageClass } from 'aws-amplify';
-import S3ImageUpload from './elements/S3ImageUpload';
+import S3ImageUpload, { uploadFiles } from './elements/S3ImageUpload';
 
 import * as R from 'ramda';
 
@@ -50,7 +50,8 @@ interface Props extends GalleryStyle {
 interface State {
   selected_images: string[],
   dragged_over: number,
-  selectable: boolean
+  selectable: boolean,
+  is_file_drag: boolean
 }
 
 class ImageGallery extends Component<Props, State> {
@@ -58,6 +59,7 @@ class ImageGallery extends Component<Props, State> {
     selected_images: [],
     dragged_over: NaN,
     selectable: false,
+    is_file_drag: false,
     value: {
       name: '',
       images: []
@@ -101,21 +103,17 @@ class ImageGallery extends Component<Props, State> {
     }
   }
 
-  onDragEnter = event => {
-    const tile = event.currentTarget;
+  onDragEnter = (e, i) => {
+    const types = e.dataTransfer && e.dataTransfer.types;
 
-    if (tile.tagName === 'LI') {
-      tile.style.opacity = 0.4;
-      tile.style.filter = 'grayscale(100%)';
+    if (types.indexOf('Files') >= 0) {
+      return;
     }
-  }
 
-  onDragLeave = event => {
-    const tile = event.currentTarget;
+    e.stopPropagation();
 
-    if (tile.tagName === 'LI') {
-      tile.style.opacity = '';
-      tile.style.filter = '';
+    if (!e.dataTransfer.files.length) {
+      this.setState({ dragged_over: i });
     }
   }
 
@@ -135,6 +133,12 @@ class ImageGallery extends Component<Props, State> {
 
 
   onDrop = (e, i) => {
+    const types = e.dataTransfer && e.dataTransfer.types;
+
+    if (types.indexOf('Files') >= 0) {
+      return;
+    }
+
     const { images } = this.props.value;
     const dragged_img = images.splice(this.current_dragged, 1)[0];
 
@@ -155,6 +159,21 @@ class ImageGallery extends Component<Props, State> {
     });
   }
 
+  onDropFile = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+
+    if (e.dataTransfer.items && e.dataTransfer.items.length) {
+      const files = R.values(e.dataTransfer.items)
+        .filter(item => item.kind === 'file')
+        .map(file => file.getAsFile());
+
+      uploadFiles(files, this.onUpload);
+    }
+  }
+
+  onDragOverFile = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  }
 
   renderImageTiles() {
     const { classes, aws_vars, value: { images } } = this.props;
@@ -182,11 +201,17 @@ class ImageGallery extends Component<Props, State> {
           onClick={() => this.onTileClick(img_id, i)}
           className={final_class}
           draggable={true}
-          onDragEnter={() => this.setState({ dragged_over: i })}
+          onDragEnter={e => this.onDragEnter(e, i)}
+          onDragLeave={e => e.stopPropagation()}
           onDragStart={e => this.onDragStart(e, i)}
           onDragEnd={this.onDragEnd}
           onDrop={e => this.onDrop(e, i)}
           onDragOver={e => e.preventDefault()}
+          onMouseOut={() => {
+            if (this.state.dragged_over === i) {
+              this.setState({ dragged_over: NaN })
+            }
+          }}
         >
           <img
             src={image && image.paths && makeImgPath(image.paths[0].path, aws_vars)}
@@ -215,7 +240,12 @@ class ImageGallery extends Component<Props, State> {
     const { classes } = this.props;
 
     return (
-      <div className={classes.root} ref={this.galleryRef}>
+      <div
+        className={classes.root}
+        ref={this.galleryRef}
+        onDrop={this.onDropFile}
+        onDragOverCapture={this.onDragOverFile}
+      >
         <GridList cellHeight={180} className={classes.gridList}>
           <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
             <ListSubheader component="div">
