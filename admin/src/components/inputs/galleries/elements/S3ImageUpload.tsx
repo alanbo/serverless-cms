@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Storage } from 'aws-amplify';
 
 
-function onChange(e, parentOnChange) {
-  const storage = [...e.target.files].map(file => {
+function uploadFiles(file_arr: File[], parentOnChange) {
+  const storage = file_arr.map(file => {
     return Storage.put(`temp/${file.name}`, file)
   });
 
@@ -18,6 +18,12 @@ function onChange(e, parentOnChange) {
       typeof parentOnChange === 'function' && parentOnChange(paths);
     })
     .catch(err => console.log(err));
+};
+
+export { uploadFiles };
+
+function onChange(e, parentOnChange) {
+  uploadFiles([...e.target.files], parentOnChange);
 };
 
 interface Props {

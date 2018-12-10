@@ -54,6 +54,14 @@ const styles = theme => createStyles({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+
+  fileover: {
+    opacity: 0.3,
+
+    '& $gridList': {
+      pointerEvents: 'none'
+    }
   }
 });
 
