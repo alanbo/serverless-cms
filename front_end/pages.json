@@ -5,22 +5,22 @@
     "inputs": [
       {
         "name": "menu_id",
-        "type": "menu",
+        "type": "Menu",
         "title": "Choose page menu:"
       },
       {
         "name": "image_id_1",
-        "type": "image",
+        "type": "Image",
         "title": "Choose page image 1:"
       },
       {
         "name": "image_id_2",
-        "type": "image",
+        "type": "Image",
         "title": "Choose page image 1:"
       },
       {
         "name": "text_id",
-        "type": "rich_text",
+        "type": "Text",
         "title": "Choose page text:"
       }
     ]
@@ -31,12 +31,12 @@
     "inputs": [
       {
         "name": "gallery_id",
-        "type": "gallery",
+        "type": "Gallery",
         "title": "Choose gallery:"
       },
       {
         "name": "menu_id",
-        "type": "menu",
+        "type": "Menu",
         "title": "Choose menu:"
       }
     ]

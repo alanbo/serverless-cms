@@ -4,7 +4,7 @@ import fg_config from '../fg-config';
 import { putFragment, removeFragment, resizeImages } from '../actions';
 import SaveCancelButtons from './main/common/SaveCancelButtons';
 import * as R from 'ramda';
-import { FragmentItem, AwsVars } from '../types';
+import { FragmentItem, AwsVars, PageTypeConfig } from '../types';
 import aws_vars from '../aws-stack-vars';
 
 interface Props {
@@ -22,7 +22,8 @@ interface Props {
   resizeImages: (paths: string[], callback: (images: FragmentItem[]) => any) => any,
   fragments: {
     [id: string]: FragmentItem
-  }
+  },
+  page_type_config: PageTypeConfig
 }
 
 interface State {
@@ -75,6 +76,7 @@ class EditFragment extends React.Component<Props, State> {
             fragments={this.props.fragments}
             aws_vars={aws_vars as AwsVars}
             resizeImages={this.resizeImages}
+            page_type_config={this.props.page_type_config}
           />
           <SaveCancelButtons
             onSave={() => {
@@ -97,7 +99,8 @@ function mapStateToProps(state, props) {
 
   return {
     input_data,
-    fragments: state.fragments
+    fragments: state.fragments,
+    page_type_config: state.page_type_config
   };
 }
 
