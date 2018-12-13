@@ -8,10 +8,15 @@ import {
 } from '../graphql/fragment-queries';
 
 import {
+  getPageTypeList as get_page_type_list_query
+} from '../graphql/page-queries';
+
+import {
   get_fragment_list,
   put_fragment,
   remove_fragment,
-  resize_images
+  resize_images,
+  get_page_type_list
 } from './types';
 
 import {
@@ -41,6 +46,23 @@ export const getFragmentList = type => dispatch => {
       dispatch({
         type: get_fragment_list,
         payload: data[key].map(item => Object.assign(item, { type }))
+      });
+    })
+    .catch(console.log);
+}
+
+
+
+export const getPageTypeList = () => dispatch => {
+  API.graphql(graphqlOperation(get_page_type_list_query))
+    .then(result => {
+      const { data } = result;
+      // there is only one property, get it
+      const key = Object.keys(data)[0];
+
+      dispatch({
+        type: get_page_type_list,
+        payload: data[key]
       });
     })
     .catch(console.log);

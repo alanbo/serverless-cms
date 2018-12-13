@@ -25,3 +25,20 @@ export interface AwsVars {
   graphql_endpoint: string,
   region: string
 }
+
+interface PageTypeInput {
+  name: string
+  type: string
+  title: string
+}
+
+interface PageType {
+  name: string
+  template: string
+  query: string
+  inputs: Array<PageTypeInput>
+}
+
+export interface PageTypeConfig {
+  [type: string]: PageType
+}

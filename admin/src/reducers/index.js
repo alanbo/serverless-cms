@@ -3,7 +3,7 @@ import pageTypeList from './pageTypeList';
 import fragments from './fragments';
 
 const serverless = combineReducers({
-  pageTypeList,
+  page_type_config: pageTypeList,
   fragments
 });
 

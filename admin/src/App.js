@@ -42,6 +42,8 @@ class App extends Component {
       const data = fg_config[key];
       this.props.getFragmentList(data.type);
     });
+
+    this.props.getPageTypeList();
   }
 
   componentDidMount() {
@@ -53,7 +55,6 @@ class App extends Component {
     // this.props.fetchGalleryList();
     // this.props.getTextList();
     // this.props.getMenuList();
-    // this.props.getPageTypeList();
     // this.props.getPageList();
   }
 
