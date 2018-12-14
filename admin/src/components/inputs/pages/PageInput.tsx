@@ -25,18 +25,24 @@ interface State {
 
 }
 
-class EditPage extends Component<Props, State> {
+class PageInput extends Component<Props, State> {
 
   renderInputs() {
 
     const {
       value,
       page_type_config: config,
-      fragments
+      fragments,
+      onChange
     } = this.props;
 
+    if (R.isEmpty(value) || R.isEmpty(config) || R.isEmpty(fragments)) {
+      return;
+    }
+
     const page_type_name = value.page_type;
-    const { inputs } = config[page_type_name] || [];
+    const inputs = config[page_type_name] ? config[page_type_name].inputs : [];
+
 
     return inputs.map((input, i) => {
       const { type } = input;
@@ -47,85 +53,88 @@ class EditPage extends Component<Props, State> {
 
       if (fg_id_list && fg_id_list[i]) {
         const id = fg_id_list[i];
+
+        if (!fragments[id]) {
+          return;
+        }
+
         input_value = { label: fragments[id].name, value: id }
       }
 
-      return <AutocompleteSelect
-        key={input.name}
-        options={options}
-        onChange={val => this.changeInputFragment(val.value, i)}
-        label={input.title || ''}
-        value={input_value}
-      />
+      return (
+        <div key={input.name}>
+          <h3>{input.title}</h3>
+
+          <AutocompleteSelect
+            options={options}
+            onChange={val => this.changeInputFragment(val.value, i, inputs.length)}
+            value={input_value}
+          />
+        </div>
+      );
     });
   }
 
-  changeInputFragment = (id, index) => {
-    const data = this.state.page_data || { fragments: [] };
-    const fragments = R.update(index, id, data.fragments);
-    const updated_page_data = R.assoc('fragments', fragments, data);
+  changeInputFragment = (id, index, length) => {
+    const { value } = this.props;
+    let fragments = value.fragments ? value.fragments : R.times(() => '', length);
 
-    this.setState({
-      page_data: updated_page_data
-    });
+    fragments = R.update(index, id, fragments);
+    const updated_page_data = R.assoc('fragments', fragments, value);
+
+    this.props.onChange(updated_page_data);
   }
 
-  changePageType = val => {
-    // if the same page type, do not proceed
-    if (val.value === this.state.page_data) {
-      return;
-    }
+  changePageType = type => {
+    const new_value = R.assoc(
+      'page_type',
+      R.prop('value', type),
+      this.props.value
+    );
 
-    const inputs_length = this.props.page_types[val.value].inputs.length;
-
-    const updated_page_data = R.pipe(
-      R.assoc('page_type', val.value),
-      R.assoc('fragments', R.repeat('', inputs_length))
-    )(this.state.page_data);
-
-    this.setState({
-      page_data: updated_page_data
-    });
+    this.props.onChange(new_value);
   }
 
   getPageTypeVal = () => {
+    const label = this.props.value.page_type;
 
-    return ({ label, value });
+    return ({ label, value: label });
   }
 
   render() {
-    const name = this.props.match.params.page_name;
-    const id = this.props.location.state ? this.props.location.state.id : null;
-
     const {
-      page_types,
       value,
-      onChange
-      classes
+      onChange,
+      classes,
+      page_type_config
     } = this.props;
 
-    const options = Object.keys(page_types)
-      .map(type => ({ label: page_types[type].name, value: type }));
+    const options = Object.keys(page_type_config)
+      .map(key => ({ label: key, value: key }));
+
 
     return (
       <div>
-        <h1>Edit Page</h1>
-        {
-          id ? <h2>{name}</h2> : (
-            <TextField
-              onChange={e => onChange(R.assoc('name', e.target.value, value))}
-              value={value.name || ''}
-              label='Name'
-              className={classes.name_input}
-            />
-          )
-        }
-
-        <AutocompleteSelect
-          options={options}
-          value={this.getPageTypeVal()}
-          onChange={this.changePageType}
+        <TextField
+          onChange={e => onChange(R.assoc('name', e.target.value, value))}
+          value={value.name || ''}
+          label='Name'
+          className={classes.name_input}
         />
+
+        {
+          R.isEmpty(options) ? null :
+
+            <div>
+              <h3>Choose page type: </h3>
+
+              <AutocompleteSelect
+                options={options}
+                value={this.getPageTypeVal()}
+                onChange={this.changePageType}
+              />
+            </div>
+        }
 
         {this.renderInputs()}
       </div>
@@ -138,15 +147,16 @@ function toLabelValue(fragments = {}, type) {
     R.values(),
     R.filter(fg => fg.type === type),
     R.groupBy(item => item.type),
-    R.mapObjectIndexed(
+    R.mapObjIndexed(
       R.map(obj => ({
         label: obj.name,
         value: obj.id
       })),
-    )
+    ),
+    R.prop(type)
   )(fragments);
 }
 
 
-withStyles(styles, { withTheme: true })(EditPage);
+export default withStyles(styles, { withTheme: true })(PageInput);
 

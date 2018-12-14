@@ -10,6 +10,7 @@ import {
 
 import TextInput from './components/inputs/texts/TextInput';
 import MenuInput from './components/inputs/menus/MenuInput';
+import PageInput from './components/inputs/pages/PageInput';
 import ImageGalleryInput, { Gallery, GalleryInput } from './components/inputs/galleries/GalleryInput';
 
 import { InputProps, FragmentItem, FragmentInput } from './types';
@@ -29,7 +30,7 @@ const config: Config = {
   pages: {
     type: 'Page',
     gql_props: page_props,
-    input: (props: InputProps) => <div>this is input</div>,
+    input: PageInput,
     icon: 'pages',
   },
 

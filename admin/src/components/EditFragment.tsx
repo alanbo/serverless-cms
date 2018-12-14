@@ -99,7 +99,7 @@ function mapStateToProps(state, props) {
 
   return {
     input_data,
-    fragments: state.fragments,
+    fragments: R.filter(fg => !fg.is_deleted, state.fragments),
     page_type_config: state.page_type_config
   };
 }
