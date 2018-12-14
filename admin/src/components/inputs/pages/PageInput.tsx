@@ -77,20 +77,28 @@ class PageInput extends Component<Props, State> {
 
   changeInputFragment = (id, index, length) => {
     const { value } = this.props;
-    let fragments = value.fragments ? value.fragments : R.times(() => '', length);
 
-    fragments = R.update(index, id, fragments);
+    const fragments = R.update(index, id, value.fragments);
     const updated_page_data = R.assoc('fragments', fragments, value);
 
     this.props.onChange(updated_page_data);
   }
 
   changePageType = type => {
-    const new_value = R.assoc(
-      'page_type',
-      R.prop('value', type),
-      this.props.value
-    );
+    const {
+      value,
+      page_type_config
+    } = this.props;
+
+    const type_value = R.prop('value', type);
+    const length = (page_type_config[type_value].inputs || []).length;
+
+    let empty_fragments = R.times(() => '', length);
+
+    const new_value = R.pipe(
+      R.assoc('page_type', type_value),
+      R.assoc('fragments', empty_fragments)
+    )(value);
 
     this.props.onChange(new_value);
   }
