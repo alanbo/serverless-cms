@@ -7,6 +7,7 @@ import * as R from 'ramda';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import Button from '@material-ui/core/Button';
 import { withStyles, createStyles, WithStyles } from '@material-ui/core/styles';
+import { restoreFragment } from '../../actions';
 
 const styles = theme => createStyles({
   button: {
@@ -18,6 +19,7 @@ const styles = theme => createStyles({
 
 interface Props extends WithStyles<typeof styles> {
   deleted_fragments: Array<FragmentItem>
+  restoreFragment: (id: string) => any
 }
 
 
@@ -48,7 +50,7 @@ const ThrashList = (props: Props) => {
       <ListTableThrash
         data={props.deleted_fragments}
         onDelete={console.log}
-        onRestore={console.log}
+        onRestore={props.restoreFragment}
       />
 
       <Button
@@ -69,7 +71,7 @@ function mapStateToProps(state) {
   }
 }
 
-const Thrash = connect(mapStateToProps)(withStyles(styles)(ThrashList));
+const Thrash = connect(mapStateToProps, { restoreFragment })(withStyles(styles)(ThrashList));
 
 
 export { Thrash };
