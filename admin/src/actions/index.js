@@ -4,7 +4,8 @@ import * as R from 'ramda';
 import {
   putFragmentMutation,
   removeFragmentMutation,
-  resize_images_mutation
+  resize_images_mutation,
+  restore_fragment_mutation
 } from '../graphql/fragment-queries';
 
 import {
@@ -16,7 +17,8 @@ import {
   put_fragment,
   remove_fragment,
   resize_images,
-  get_page_type_list
+  get_page_type_list,
+  restore_fragment
 } from './types';
 
 import {
@@ -92,6 +94,19 @@ export const removeFragment = id => {
         dispatch({
           type: remove_fragment,
           payload: result.data.deleteFragment
+        });
+      })
+      .catch(console.log);
+  }
+}
+
+export const restoreFragment = id => {
+  return dispatch => {
+    API.graphql(graphqlOperation(restore_fragment_mutation, { id }))
+      .then(result => {
+        dispatch({
+          type: restore_fragment,
+          payload: result.data.recoverFragment
         });
       })
       .catch(console.log);

@@ -5,7 +5,8 @@ import {
   get_fragment_list,
   put_fragment,
   remove_fragment,
-  resize_images
+  resize_images,
+  restore_fragment
 } from '../actions/types';
 
 
@@ -26,6 +27,9 @@ function fragmentList(state = {}, action) {
 
     case remove_fragment:
       return R.assocPath([action.payload, 'is_deleted'], true, state);
+
+    case restore_fragment:
+      return R.assocPath([action.payload, 'is_deleted'], false, state);
 
     case resize_images:
       return R.pipe(
