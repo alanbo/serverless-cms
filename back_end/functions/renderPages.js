@@ -53,7 +53,9 @@ export const handler = async (event, context, callback) => {
     const { data } = await queryGQL(gql(query), gql_params);
     const html = pug.renderFile(path.resolve('/tmp/templates', type.template), Object.assign({}, data));
 
-    return { Key: page.name, Body: html };
+    const Key = page.name.replace(/(\W+$)|(^\W+)/g, '').replace(/\W+/g, "_");
+
+    return { Key, Body: html };
   }));
 
   if (!query_results) {
