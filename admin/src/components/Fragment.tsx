@@ -4,7 +4,7 @@ import fg_config from '../fg-config';
 import { removeFragment } from '../actions';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import { FragmentItem } from '../types';
+import { FragmentItem, Fragments, FgState } from '../types';
 
 
 interface MatchFgType {
@@ -21,14 +21,6 @@ interface MatchFgType {
 interface Props extends MatchFgType {
   fragments: Array<FragmentItem>
   removeFragment: (id: string) => any,
-}
-
-interface Fragments {
-  [id: string]: FragmentItem
-}
-
-interface FgState {
-  fragments: Fragments,
 }
 
 const selectFragments: (state: FgState) => Fragments = state => state.fragments;

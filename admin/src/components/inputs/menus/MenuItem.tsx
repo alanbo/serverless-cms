@@ -19,12 +19,15 @@ import { Item } from './types';
 import styles from './menu-styles';
 import { WithStyles } from '@material-ui/core';
 
+import AutocompleteSelect from '../../main/common/AutocompleteSelect';
+
 interface Root extends WithStyles<typeof styles> {
   current_index_path: number[],
   empty_name_path: number[] | null,
   updateMenuData: (path: number[], property: string, value: string) => any,
   updatePath: (path: number[]) => any,
   deleteItem: (path: number[]) => any,
+  pages: Array<{ label: string, value: string }>
 }
 
 interface Props {
@@ -101,7 +104,8 @@ class MenuItem extends Component<Props, State> {
         updatePath,
         empty_name_path,
         deleteItem,
-        classes
+        classes,
+        pages
       }
     } = this.props;
 
@@ -120,6 +124,12 @@ class MenuItem extends Component<Props, State> {
           className={classes.expansionPanel}
           expanded={on_path}
           onChange={() => this.onExpandChange()}
+          CollapseProps={{
+            className: classes.visible
+          }}
+          classes={{
+            expanded: classes.visible
+          }}
         >
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <Typography className={classes.heading}>{name}</Typography>
@@ -141,12 +151,12 @@ class MenuItem extends Component<Props, State> {
                 margin='normal'
                 className={classes.text_field}
               />
-              <TextField
-                label='Url'
-                value={href || ''}
-                onChange={e => updateMenuData(index_path, 'href', e.target.value)}
-                margin='normal'
-                className={classes.text_field}
+
+              <AutocompleteSelect
+                options={pages}
+                onChange={val => updateMenuData(index_path, 'href', val.value)}
+                value={R.find(R.propEq('value', href), pages)}
+                placeholder='Choose a page'
               />
             </Paper>
 
