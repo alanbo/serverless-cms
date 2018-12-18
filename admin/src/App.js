@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import Amplify, { Auth } from 'aws-amplify';
+import Snackbar from '@material-ui/core/Snackbar';
 import { withAuthenticator } from 'aws-amplify-react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import * as actionCreators from './actions/index';
+import { getPageTypeList, getFragmentList, clearNotification } from './actions/index';
 
 import NavigationFrame from './components/NavigationFrame';
 import Main from './components/Main'
@@ -65,16 +66,41 @@ class App extends Component {
   }
 
   render() {
+    const { notification, clearNotification } = this.props;
+
     return (
       <div className="App">
         <NavigationFrame signOut={this.signOut}>
           <Main />
         </NavigationFrame>
+        <Snackbar
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          open={!!notification}
+          onClose={clearNotification}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">{notification && notification.msg}</span>}
+        />
       </div>
     );
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    notification: state.notification
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getFragmentList: type => dispatch(getFragmentList(type)),
+    getPageTypeList: () => dispatch(getPageTypeList()),
+    clearNotification: () => dispatch(clearNotification())
+  }
+}
+
 export default withAuthenticator(
-  withRouter(connect(null, actionCreators)(App))
+  withRouter(connect(mapStateToProps, mapDispatchToProps)(App))
 );

@@ -19,7 +19,8 @@ import {
   resize_images,
   get_page_type_list,
   restore_fragment,
-  delete_occurs_in_error
+  delete_occurs_in_error,
+  clear_notification
 } from './types';
 
 import {
@@ -173,3 +174,7 @@ export const resizeImages = (paths, callback) => dispatch => {
     })
     .catch(console.log);
 }
+
+export const clearNotification = () => ({
+  type: clear_notification
+});
