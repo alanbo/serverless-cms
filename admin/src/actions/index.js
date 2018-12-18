@@ -18,7 +18,8 @@ import {
   remove_fragment,
   resize_images,
   get_page_type_list,
-  restore_fragment
+  restore_fragment,
+  delete_occurs_in_error
 } from './types';
 
 import {
@@ -87,8 +88,53 @@ export const putFragment = (input, type) => dispatch => {
     .catch(console.log);
 }
 
+function checkIfIDReferedTo(id, fields) {
+  if (id === fields) {
+    return true;
+  }
+
+  else if (R.type(fields) === 'Object') {
+    return Object.keys(fields)
+      .filter(key => key !== 'id')
+      .map(key => fields[key])
+      .map(field => checkIfIDReferedTo(id, field))
+      .filter(field => field)[0];
+  } else if (R.type(fields) === 'Array') {
+    return fields
+      .map(field => checkIfIDReferedTo(id, field))
+      .filter(field => field)[0];
+  }
+
+  return false;
+}
+
 export const removeFragment = id => {
-  return dispatch => {
+  return (dispatch, getState) => {
+    const { fragments } = getState();
+
+    // temporary solution to prevent dletion of fragments, 
+    // that are refered to
+    // when aws supports transations
+    // for dynamodb appsync resolvers
+    // use that
+    const occurs_in = R.values(fragments)
+      .map(fg => {
+        const is_refered = checkIfIDReferedTo(id, fg);
+
+        return is_refered ? fg : null
+      })
+      .filter(item => !!item);
+
+    if (occurs_in.length) {
+      dispatch({
+        type: delete_occurs_in_error,
+        payload: occurs_in
+      });
+
+      return;
+    }
+
+
     API.graphql(graphqlOperation(removeFragmentMutation, { id }))
       .then(result => {
         dispatch({
