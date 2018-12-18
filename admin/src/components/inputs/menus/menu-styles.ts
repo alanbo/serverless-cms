@@ -18,6 +18,7 @@ export default theme => createStyles({
 
   root: {
     width: '100%',
+    // overflow: 'hidden'
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -32,6 +33,11 @@ export default theme => createStyles({
   expansionPanel: {
     marginTop: 20,
     marginBottom: 20,
+    overflow: 'hidden'
+  },
+
+  visible: {
+    overflow: 'visible'
   },
 
   expansionPanelDetails: {

@@ -42,3 +42,11 @@ interface PageType {
 export interface PageTypeConfig {
   [type: string]: PageType
 }
+
+export interface Fragments {
+  [id: string]: FragmentItem
+}
+
+export interface FgState {
+  fragments: Fragments,
+}

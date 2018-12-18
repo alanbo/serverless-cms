@@ -2,7 +2,7 @@ import React from 'react';
 import ListTableThrash from './thrash/ListTableThrash';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import { FragmentItem } from '../../types';
+import { FragmentItem, Fragments, FgState } from '../../types';
 import * as R from 'ramda';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import Button from '@material-ui/core/Button';
@@ -20,15 +20,6 @@ const styles = theme => createStyles({
 interface Props extends WithStyles<typeof styles> {
   deleted_fragments: Array<FragmentItem>
   restoreFragment: (id: string) => any
-}
-
-
-interface Fragments {
-  [id: string]: FragmentItem
-}
-
-interface FgState {
-  fragments: Fragments,
 }
 
 const selectFragments: (state: FgState) => Fragments = state => state.fragments;

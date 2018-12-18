@@ -3,6 +3,7 @@ import { withStyles, WithStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import TextField from '@material-ui/core/TextField';
+import { createSelector } from 'reselect';
 
 import * as R from 'ramda';
 
@@ -10,11 +11,28 @@ import MenuItem from './MenuItem';
 import { isNameEmpty, getUpdatedMenuData, getDissocMenuData, NEW_ITEM } from './helpers';
 import menu_styles from './menu-styles';
 import { Item } from './types';
+import { FragmentItem, Fragments, FgState } from '../../../types';
+
+const selectFragments = R.identity;
+
+const getPageFragments = createSelector(
+  [selectFragments], fragments => {
+    return R.pipe(
+      R.values(),
+      R.filter(fg => fg.type === 'Page'),
+      R.map(page => ({
+        label: page.name,
+        value: `/${page.name.replace(/(\W+$)|(^\W+)/g, '').replace(/\W+/g, "_")}`
+      }))
+    )(fragments)
+  }
+);
 
 
 interface Props extends WithStyles<typeof menu_styles> {
   value: Item,
-  onChange: (value: Item, callback?: () => any) => any
+  onChange: (value: Item, callback?: () => any) => any,
+  fragments: FragmentItem[]
 }
 
 interface State {
@@ -74,7 +92,8 @@ class MenuInput extends Component<Props, State> {
       updateMenuData: this.updateMenuData,
       empty_name_path: this.state.empty_name_path,
       deleteItem: this.deleteItem,
-      classes: this.props.classes
+      classes: this.props.classes,
+      pages: getPageFragments(this.props.fragments)
     }
 
     if (!data.items) {
