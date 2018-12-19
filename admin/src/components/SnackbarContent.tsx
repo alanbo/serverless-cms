@@ -40,8 +40,11 @@ const styles = theme => createStyles({
   },
   message: {
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'center'
   },
+  messageWrapper: {
+    width: `calc(100% - ${theme.spacing.unit * 8}px)`
+  }
 });
 
 interface Props extends WithStyles<typeof styles> {
@@ -75,6 +78,9 @@ function MySnackbarContent(props: Props) {
           <CloseIcon className={classes.icon} />
         </IconButton>
       }
+      classes={{
+        message: classes.messageWrapper
+      }}
     />
   );
 }

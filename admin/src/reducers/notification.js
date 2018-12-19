@@ -13,7 +13,7 @@ function notification(state = {}, action) {
       let msg = 'Can\'t delete element as it occurs in:';
 
       action.payload.forEach(fg => {
-        msg += `\n${fg.type}: ${fg.name}, `
+        msg += `${fg.type}: ${fg.name}, `
       });
 
       return {
@@ -34,7 +34,8 @@ function notification(state = {}, action) {
     case save_success:
       return {
         type: 'success',
-        msg: `Successfully saved ${action.payload.type}: "${action.payload.name}".`
+        msg: `Successfully saved ${action.payload.type}: "${action.payload.name}".`,
+        timeout: 2000
       };
 
     default:

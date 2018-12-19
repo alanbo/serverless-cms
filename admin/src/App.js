@@ -94,6 +94,7 @@ class App extends Component {
         <Snackbar
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
           open={this.state.notification_open}
+          autoHideDuration={notification && notification.timeout || null}
           onClose={() => this.setState({ notification_open: false, closing: true })}
           onExited={() => {
             this.setState({ closing: false });
@@ -104,7 +105,7 @@ class App extends Component {
           }}
         >
           <SnackbarContent
-            message={<span id="message-id">{notification && notification.msg}</span>}
+            message={(<span id="message-id">{notification && notification.msg}</span>)}
             variant={notification && notification.type || 'info'}
             onClose={() => this.setState({ notification_open: false, closing: true })}
           />
