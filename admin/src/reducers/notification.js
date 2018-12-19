@@ -21,7 +21,7 @@ function notification(state = {}, action) {
     }
 
     case clear_notification:
-      return null
+      return {};
 
     default:
       return state;
