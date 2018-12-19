@@ -8,6 +8,7 @@ import { getPageTypeList, getFragmentList, clearNotification } from './actions/i
 import * as R from 'ramda';
 import NavigationFrame from './components/NavigationFrame';
 import Main from './components/Main'
+import SnackbarContent from './components/SnackbarContent';
 
 import aws_exports from './cognito';
 import aws_vars from './aws-stack-vars';
@@ -80,8 +81,13 @@ class App extends Component {
           ContentProps={{
             'aria-describedby': 'message-id',
           }}
-          message={<span id="message-id">{notification && notification.msg}</span>}
-        />
+        >
+          <SnackbarContent
+            message={<span id="message-id">{notification && notification.msg}</span>}
+            variant={notification && notification.type || 'info'}
+            onClose={clearNotification}
+          />
+        </ Snackbar>
       </div>
     );
   }
