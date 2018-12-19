@@ -6,4 +6,6 @@ export const resize_images = 'RESIZE_IMAGES';
 export const restore_fragment = 'RESTORE_FRAGMENT';
 export const delete_occurs_in_error = 'DELETE_OCCURS_IN_ERROR';
 export const clear_notification = 'CLEAR_NOTIFICATION';
+export const save_success = 'SAVE_SUCCESS';
+export const save_failure = 'SAVE_FAILURE';
 

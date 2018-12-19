@@ -20,7 +20,9 @@ import {
   get_page_type_list,
   restore_fragment,
   delete_occurs_in_error,
-  clear_notification
+  clear_notification,
+  save_failure,
+  save_success
 } from './types';
 
 import {
@@ -35,6 +37,16 @@ Object.keys(config).forEach(key => {
   const type = config[key].type;
 
   type_to_gql_props[type] = config[key].gql_props
+});
+
+export const saveWasSuccessful = (type, name) => ({
+  type: save_success,
+  payload: { type, name }
+});
+
+export const saveHasFailed = (type, name) => ({
+  type: save_failure,
+  payload: { type, name }
 });
 
 
@@ -85,8 +97,13 @@ export const putFragment = (input, type) => dispatch => {
         type: put_fragment,
         payload
       });
+
+      dispatch(saveWasSuccessful(type, input.name));
     })
-    .catch(console.log);
+    .catch(err => {
+      dispatch(saveHasFailed(type, input.name));
+      console.log(err);
+    });
 }
 
 function checkIfIDReferedTo(id, fields) {
