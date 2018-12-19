@@ -5,7 +5,7 @@ import { withAuthenticator } from 'aws-amplify-react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { getPageTypeList, getFragmentList, clearNotification } from './actions/index';
-
+import * as R from 'ramda';
 import NavigationFrame from './components/NavigationFrame';
 import Main from './components/Main'
 
@@ -75,7 +75,7 @@ class App extends Component {
         </NavigationFrame>
         <Snackbar
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-          open={!!notification}
+          open={R.has('msg', notification)}
           onClose={clearNotification}
           ContentProps={{
             'aria-describedby': 'message-id',
