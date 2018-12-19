@@ -36,22 +36,39 @@ Amplify.configure(amp_config);
 
 class App extends Component {
   state = {
-    user: ''
+    user: '',
+    notification_open: false,
+    closing: false
   }
 
-  componentWillMount() {
+  static getDerivedStateFromProps(props, state) {
+    if (R.has('msg', props.notification) && !state.closing) {
+      return { notification_open: true }
+    }
+
+    return null;
+  }
+
+  // componentWillMount() {
+  //   Object.keys(fg_config).forEach(key => {
+  //     const data = fg_config[key];
+  //     this.props.getFragmentList(data.type);
+  //   });
+
+  //   this.props.getPageTypeList();
+  // }
+
+  componentDidMount() {
+    Auth.currentAuthenticatedUser()
+      .then(data => this.setState({ user: data.username }))
+      .catch(err => console.log(err));
+
     Object.keys(fg_config).forEach(key => {
       const data = fg_config[key];
       this.props.getFragmentList(data.type);
     });
 
     this.props.getPageTypeList();
-  }
-
-  componentDidMount() {
-    Auth.currentAuthenticatedUser()
-      .then(data => this.setState({ user: data.username }))
-      .catch(err => console.log(err));
 
     // this.props.fetchImageList();
     // this.props.fetchGalleryList();
@@ -76,8 +93,12 @@ class App extends Component {
         </NavigationFrame>
         <Snackbar
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-          open={R.has('msg', notification)}
-          onClose={clearNotification}
+          open={this.state.notification_open}
+          onClose={() => this.setState({ notification_open: false, closing: true })}
+          onExited={() => {
+            this.setState({ closing: false });
+            clearNotification();
+          }}
           ContentProps={{
             'aria-describedby': 'message-id',
           }}
@@ -85,7 +106,7 @@ class App extends Component {
           <SnackbarContent
             message={<span id="message-id">{notification && notification.msg}</span>}
             variant={notification && notification.type || 'info'}
-            onClose={clearNotification}
+            onClose={() => this.setState({ notification_open: false, closing: true })}
           />
         </ Snackbar>
       </div>
