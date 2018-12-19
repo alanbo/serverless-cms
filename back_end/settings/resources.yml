@@ -27,6 +27,7 @@ Resources:
   graphQLResizeDataSource: ${file(./settings/graphql-api/graphql-datasource-resize-images.yml)}
 
   deleteFragment: ${file(./settings/graphql-api/resolvers/deleteFragment.yml)}
+  permanentlyDeleteFragment: ${file(./settings/graphql-api/resolvers/permanentlyDeleteFragment.yml)}
   recoverFragment: ${file(./settings/graphql-api/resolvers/recoverFragment.yml)}
   getPageTypeList: ${file(./settings/graphql-api/resolvers/getPageTypeList.yml)}
   renderPages: ${file(./settings/graphql-api/resolvers/renderPages.yml)}
