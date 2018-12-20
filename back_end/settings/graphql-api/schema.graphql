@@ -78,7 +78,7 @@ type PageTypeInput {
 # Mutations
 type Mutation {
   deleteFragment(id: ID!): ID!
-  permanentlyDeleteFragment(id: ID!): ID!
+  permanentlyDeleteFragments(ids: [ID!]!): [ID]!
   recoverFragment(id: ID!): ID!
 	renderPages(id: [ID]): Boolean!
   resizeImages(paths: [String!]!): [Image!]!

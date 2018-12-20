@@ -1,0 +1,8 @@
+#set($deleted = $ctx.result.data["${self:service}-fragments"])
+#set($ids = [])
+
+#foreach( $fg in $deleted )
+	$util.qr($ids.add($fg.id))
+#end
+
+$util.toJson($ids)
