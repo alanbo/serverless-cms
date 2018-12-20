@@ -91,5 +91,9 @@ mutation ResizeImages($paths: [String!]!) {
 export const restore_fragment_mutation = `
 mutation RecoverFragment($id: ID!) {
   recoverFragment(id: $id)
-}
-`;
+}`;
+
+export const permanently_delete_fragments_mutation = `
+mutation PermanentlyDeleteFragments($ids: [ID!]!) {
+  permanentlyDeleteFragments(ids: $ids)
+}`;

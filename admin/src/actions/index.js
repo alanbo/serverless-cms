@@ -5,7 +5,8 @@ import {
   putFragmentMutation,
   removeFragmentMutation,
   resize_images_mutation,
-  restore_fragment_mutation
+  restore_fragment_mutation,
+  permanently_delete_fragments_mutation
 } from '../graphql/fragment-queries';
 
 import {
@@ -22,7 +23,10 @@ import {
   delete_occurs_in_error,
   clear_notification,
   save_failure,
-  save_success
+  save_success,
+  permanently_delete_fragments,
+  permanent_delete_success,
+  permanent_delete_failure
 } from './types';
 
 import {
@@ -195,3 +199,23 @@ export const resizeImages = (paths, callback) => dispatch => {
 export const clearNotification = () => ({
   type: clear_notification
 });
+
+export const permanentlyDeleteFragments = ids => {
+  return dispatch => {
+    API.graphql(graphqlOperation(permanently_delete_fragments_mutation, { ids }))
+      .then(result => {
+        dispatch({
+          type: permanently_delete_fragments,
+          payload: result.data.permanentlyDeleteFragments
+        });
+
+        dispatch({
+          type: permanent_delete_success
+        })
+      })
+      .catch(err => {
+        console.log(err);
+        dispatch({ type: permanent_delete_failure });
+      });
+  }
+}

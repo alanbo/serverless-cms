@@ -6,7 +6,8 @@ import {
   put_fragment,
   remove_fragment,
   resize_images,
-  restore_fragment
+  restore_fragment,
+  permanently_delete_fragments
 } from '../actions/types';
 
 
@@ -37,6 +38,9 @@ function fragmentList(state = {}, action) {
         R.mergeAll,
         R.merge(state)
       )(action.payload);
+
+    case permanently_delete_fragments:
+      return R.omit(action.payload, state);
 
     default:
       return state
