@@ -8,4 +8,7 @@ export const delete_occurs_in_error = 'DELETE_OCCURS_IN_ERROR';
 export const clear_notification = 'CLEAR_NOTIFICATION';
 export const save_success = 'SAVE_SUCCESS';
 export const save_failure = 'SAVE_FAILURE';
+export const permanently_delete_fragments = 'PERMANENTLY_DELETE_FRAGMENTS';
+export const permanent_delete_success = 'PERMANENT_DELETE_SUCCESS';
+export const permanent_delete_failure = 'PERMANENT_DELETE_FAILURE';
 

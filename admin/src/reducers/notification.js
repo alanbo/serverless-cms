@@ -4,7 +4,9 @@ import {
   delete_occurs_in_error,
   clear_notification,
   save_failure,
-  save_success
+  save_success,
+  permanent_delete_failure,
+  permanent_delete_success
 } from '../actions/types';
 
 function notification(state = {}, action) {
@@ -36,6 +38,19 @@ function notification(state = {}, action) {
         type: 'success',
         msg: `Successfully saved ${action.payload.type}: "${action.payload.name}".`,
         timeout: 2000
+      };
+
+    case permanent_delete_success:
+      return {
+        type: 'success',
+        msg: 'Successfully performed removing items from th trash',
+        timeout: 2000
+      };
+
+    case permanent_delete_failure:
+      return {
+        type: 'success',
+        msg: 'Failed to empty items from the trash'
       };
 
     default:
