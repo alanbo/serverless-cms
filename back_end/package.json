@@ -49,6 +49,7 @@
     "redux": "^4.0.0",
     "redux-devtools-extension": "^2.13.5",
     "redux-thunk": "^2.3.0",
+    "serverless-s3-sync": "^1.7.1",
     "uuid": "^3.3.2",
     "ws": "^3.3.1"
   }
