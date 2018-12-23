@@ -28,7 +28,14 @@ const selectTypeFromRoute: (state: FgState, props: MatchFgType) => string = (sta
 
 const getFragmentsByType = createSelector(
   [selectFragments, selectTypeFromRoute], (fragments, route_type) => {
-    const type = fg_config[route_type].type;
+
+    const type_config = fg_config[route_type];
+
+    if (!type_config) {
+      return [];
+    }
+
+    const type = type_config.type;
 
     return Object.keys(fragments)
       .map(key => fragments[key])
