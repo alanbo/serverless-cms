@@ -10,7 +10,8 @@ import {
 } from '../graphql/fragment-queries';
 
 import {
-  getPageTypeList as get_page_type_list_query
+  getPageTypeList as get_page_type_list_query,
+  renderPages as render_pages_mutation
 } from '../graphql/page-queries';
 
 import {
@@ -26,7 +27,9 @@ import {
   save_success,
   permanently_delete_fragments,
   permanent_delete_success,
-  permanent_delete_failure
+  permanent_delete_failure,
+  render_error,
+  render_success
 } from './types';
 
 import {
@@ -218,4 +221,21 @@ export const permanentlyDeleteFragments = ids => {
         dispatch({ type: permanent_delete_failure });
       });
   }
+}
+
+export const renderPages = () => dispatch => {
+  const mutation = API.graphql(graphqlOperation(render_pages_mutation));
+
+  mutation.then(result => {
+    dispatch({
+      type: render_success
+    })
+  })
+    .catch(err => {
+      console.log(err);
+
+      dispatch({
+        type: render_error
+      })
+    });
 }

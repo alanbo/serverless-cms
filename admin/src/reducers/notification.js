@@ -6,7 +6,9 @@ import {
   save_failure,
   save_success,
   permanent_delete_failure,
-  permanent_delete_success
+  permanent_delete_success,
+  render_success,
+  render_error
 } from '../actions/types';
 
 function notification(state = {}, action) {
@@ -52,6 +54,19 @@ function notification(state = {}, action) {
         type: 'success',
         msg: 'Failed to empty items from the trash'
       };
+
+    case render_error:
+      return {
+        type: 'error',
+        msg: 'Failed to render pages'
+      }
+
+    case render_success:
+      return {
+        type: 'success',
+        msg: 'Successfully rendered the pages',
+        timeout: 2000
+      }
 
     default:
       return state;
