@@ -27,6 +27,12 @@ query GetGalleryPage(
     }
     name
   }
+  
+  head: getHeadSettings(id: "head_settings") {
+    title
+    description
+    keywords
+  }
 }
 
 # SAMPLE RESPONSE

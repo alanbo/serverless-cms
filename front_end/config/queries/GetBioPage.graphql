@@ -36,6 +36,12 @@ query GetBioPage(
   bio_text: getText(id: $text_id) {
     text
   }
+
+  head: getHeadSettings(id: "head_settings") {
+    title
+    description
+    keywords
+  }
 }
 
 # SAMPLE OUTPUT:
