@@ -1,0 +1,118 @@
+service:
+  name: serverless-testing-site
+
+# Add the serverless-webpack plugin
+plugins:
+  - serverless-webpack
+  - serverless-stack-output
+  - serverless-s3-sync
+custom:
+  output:
+    file: ./stack.yml
+    handler: scripts/client.handler
+    
+  webpack:
+    includeModules: true # enable auto-packing of external modules
+
+  s3Sync:
+    - bucketName: ${self:service}-public
+      bucketPrefix: templates/
+      localDir: front_end/config/
+    - bucketName: ${self:service}-public
+      bucketPrefix: dist/
+      localDir: front_end/public/
+      acl: public-read # optional
+      followSymlinks: true # optional
+    - bucketName: ${self:service}-public
+      bucketPrefix: admin/
+      localDir: admin/build/
+      acl: public-read # optional
+      followSymlinks: true # optional
+      defaultContentType: text/html # optional
+      params: # optional
+        - index.html:
+            ContentType: text/html
+        - "*.css":
+            ContentType: text/css 
+
+package:
+  individually: true
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+
+  stage: dev
+  region: us-west-2
+
+functions:
+  resolvePageType:
+    handler: functions/resolvePageType.resolvePageType
+    role: readS3role
+    environment:
+      BUCKET: ${self:service}-public
+  resolveNestedFragments:
+    handler: functions/resolveNestedFragments.handler
+    role: updateDbRole
+    environment:
+      FRAGMENTS_TABLE: ${self:service}-fragments
+
+  update_data:
+    handler: functions/update-data.updateData
+    role: updateDbRole
+    events:
+      - http:
+          method: put
+          path: fragment
+          authorizer: aws_iam
+          cors: true
+      - http:
+          method: patch
+          path: fragment/{id}
+          authorizer: aws_iam
+          cors: true
+      - http:
+          method: delete
+          path: fragment/{id}
+          authorizer: aws_iam
+          cors: true
+
+    environment:
+      FRAGMENTS_TABLE: ${self:service}-fragments
+
+  resize:
+    handler: functions/resize-images.resizeImages
+    role: resizeRole
+
+    environment:
+      BUCKET: ${self:service}-public
+      IMG_TABLE: ${self:service}-images
+      FRAGMENTS_TABLE: ${self:service}-fragments
+      GRAPHQL:
+        Fn::GetAtt: ["graphQLApi", "GraphQLUrl"]
+
+  render:
+    handler: functions/renderPages.handler
+    role: resizeRole
+
+    environment:
+      BUCKET: ${self:service}-public
+      FRAGMENTS_TABLE: ${self:service}-fragments
+      GRAPHQL:
+        Fn::GetAtt: ["graphQLApi", "GraphQLUrl"]
+
+
+  createPage:
+    handler: functions/create-page.createPage
+    role: createPageRole
+    environment:
+      BUCKET: ${self:service}
+      IMG_TABLE: ${self:service}-images
+      PAGES_TABLE: ${self:service}-pages
+      MENUS_TABLE: ${self:service}-menus
+
+
+resources:
+  - ${file(./settings/resources.yml)}
+  - ${file(./settings/graphql-api/createResolvers.js)}
+  - ${file(./settings/outputs.yml)}

@@ -1,0 +1,13 @@
+Type: "AWS::AppSync::Resolver"
+Properties:
+  TypeName: Mutation
+  DataSourceName: fragments_database
+  RequestMappingTemplate: ${file(./settings/graphql-api/templates/recoverFragment.vm)}
+  ResponseMappingTemplate: "$util.toJson($ctx.result.id)"
+  ApiId:
+    Fn::GetAtt: ["graphQLApi", "ApiId"]
+  FieldName: recoverFragment
+
+DependsOn:
+  - graphQLData
+  - graphQLSchema

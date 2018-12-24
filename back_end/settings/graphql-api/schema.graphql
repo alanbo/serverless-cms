@@ -1,0 +1,107 @@
+# Interfaces
+interface Fragment {
+	id: ID!
+  name: String!
+  lastModified: Int!
+  is_deleted: Boolean
+}
+
+# Types
+type Gallery implements Fragment {
+	id: ID!
+	name: String!
+  lastModified: Int!
+  is_deleted: Boolean
+	images: [Image]
+}
+
+type Image implements Fragment {
+	id: ID!
+  name: String!
+	lastModified: Int!
+  is_deleted: Boolean
+	paths: [ImagePath!]!
+	filename: String!
+}
+
+type Text implements Fragment {
+	id: ID!
+  name: String!
+	lastModified: Int!
+  is_deleted: Boolean
+	text: String!
+	is_rich: Boolean
+}
+
+type HeadSettings implements Fragment {
+	id: ID!
+  name: String!
+	lastModified: Int!
+  is_deleted: Boolean
+  keywords: String
+  description: String
+  title: String
+}
+
+type ImagePath {
+	path: String!
+	type: String!
+}
+
+type Menu implements Fragment {
+	id: ID!
+	name: String!
+	lastModified: Int!
+  is_deleted: Boolean
+	items: [MenuItem!]
+}
+
+type MenuItem {
+	name: String!
+	href: String
+	items: [MenuItem]
+}
+
+type Page implements Fragment {
+	id: ID!
+	name: String!
+	lastModified: Int!
+  is_deleted: Boolean
+	page_type: String!
+	fragments: [ID]
+}
+
+type PageType {
+	name: String!
+	template: String!
+	query: String!
+	inputs: [PageTypeInput]
+}
+
+type PageTypeInput {
+	name: String!
+	type: String!
+	title: String!
+}
+
+
+# Mutations
+type Mutation {
+  deleteFragment(id: ID!): ID!
+  permanentlyDeleteFragments(ids: [ID!]!): [ID]!
+  recoverFragment(id: ID!): ID!
+	renderPages(id: [ID]): Boolean!
+  resizeImages(paths: [String!]!): [Image!]!
+}
+
+# Queries
+type Query {
+	getPageTypeList: [PageType]
+}
+
+
+# schema
+schema {
+	query: Query
+	mutation: Mutation
+}

@@ -1,0 +1,192 @@
+query GetGalleryPage(
+  $gallery_id: ID!,
+  $menu_id: ID!,
+) {
+  main_menu: getMenu(id: $menu_id) {
+    name
+    items {
+      name
+      href
+      items {
+        name
+        href
+      }
+    }
+  }
+  
+  gallery: getGallery(id: $gallery_id) {
+    id
+    name
+    images {
+      id
+      filename
+      paths {
+        path
+        type
+      }
+    }
+    name
+  }
+  
+  head: getHeadSettings(id: "head_settings") {
+    title
+    description
+    keywords
+  }
+}
+
+# SAMPLE RESPONSE
+# {
+#   "data": {
+#     "main_menu": {
+#       "name": "my menu",
+#       "items": [
+#         {
+#           "name": "first",
+#           "href": null,
+#           "items": null
+#         },
+#         {
+#           "name": "second",
+#           "href": null,
+#           "items": null
+#         },
+#         {
+#           "name": "third",
+#           "href": null,
+#           "items": [
+#             {
+#               "name": "nested",
+#               "href": null
+#             },
+#             {
+#               "name": "nested2",
+#               "href": null
+#             }
+#           ]
+#         },
+#         {
+#           "name": "fourth",
+#           "href": null,
+#           "items": null
+#         }
+#       ]
+#     },
+#     "gallery": {
+#       "id": "82308a84-e711-40bc-93fe-0b6836b4aed8",
+#       "name": "new",
+#       "images": [
+#         {
+#           "id": "840f3745-38c9-4249-a604-4b14d3f1851f",
+#           "filename": "food5.jpg",
+#           "paths": [
+#             {
+#               "path": "public/images/food5-thumbnail-33e3b580.jpg",
+#               "type": "thumbnail"
+#             },
+#             {
+#               "path": "public/images/food5-mobile-33e3b580.jpg",
+#               "type": "mobile"
+#             },
+#             {
+#               "path": "public/images/food5-desktop-33e3b580.jpg",
+#               "type": "desktop"
+#             },
+#             {
+#               "path": "public/images/food5-retina-33e3b580.jpg",
+#               "type": "retina"
+#             }
+#           ]
+#         },
+#         {
+#           "id": "840f3745-38c9-4249-a604-4b14d3f1851f",
+#           "filename": "food5.jpg",
+#           "paths": [
+#             {
+#               "path": "public/images/food5-thumbnail-33e3b580.jpg",
+#               "type": "thumbnail"
+#             },
+#             {
+#               "path": "public/images/food5-mobile-33e3b580.jpg",
+#               "type": "mobile"
+#             },
+#             {
+#               "path": "public/images/food5-desktop-33e3b580.jpg",
+#               "type": "desktop"
+#             },
+#             {
+#               "path": "public/images/food5-retina-33e3b580.jpg",
+#               "type": "retina"
+#             }
+#           ]
+#         },
+#         {
+#           "id": "ffe87e6d-82ae-4932-acb5-83177011560f",
+#           "filename": "food1.jpg",
+#           "paths": [
+#             {
+#               "path": "public/images/food1-thumbnail-170cf2ca.jpg",
+#               "type": "thumbnail"
+#             },
+#             {
+#               "path": "public/images/food1-mobile-170cf2ca.jpg",
+#               "type": "mobile"
+#             },
+#             {
+#               "path": "public/images/food1-desktop-170cf2ca.jpg",
+#               "type": "desktop"
+#             },
+#             {
+#               "path": "public/images/food1-retina-170cf2ca.jpg",
+#               "type": "retina"
+#             }
+#           ]
+#         },
+#         {
+#           "id": "afc035f6-8f51-491e-937d-cb5c970d059a",
+#           "filename": "food6.jpg",
+#           "paths": [
+#             {
+#               "path": "public/images/food6-thumbnail-1ef473be.jpg",
+#               "type": "thumbnail"
+#             },
+#             {
+#               "path": "public/images/food6-mobile-1ef473be.jpg",
+#               "type": "mobile"
+#             },
+#             {
+#               "path": "public/images/food6-desktop-1ef473be.jpg",
+#               "type": "desktop"
+#             },
+#             {
+#               "path": "public/images/food6-retina-1ef473be.jpg",
+#               "type": "retina"
+#             }
+#           ]
+#         },
+#         {
+#           "id": "840f3745-38c9-4249-a604-4b14d3f1851f",
+#           "filename": "food5.jpg",
+#           "paths": [
+#             {
+#               "path": "public/images/food5-thumbnail-33e3b580.jpg",
+#               "type": "thumbnail"
+#             },
+#             {
+#               "path": "public/images/food5-mobile-33e3b580.jpg",
+#               "type": "mobile"
+#             },
+#             {
+#               "path": "public/images/food5-desktop-33e3b580.jpg",
+#               "type": "desktop"
+#             },
+#             {
+#               "path": "public/images/food5-retina-33e3b580.jpg",
+#               "type": "retina"
+#             }
+#           ]
+#         }
+#       ]
+#     }
+#   }
+# }

@@ -1,0 +1,12 @@
+Type: "AWS::AppSync::DataSource"
+Properties:
+  Type: AWS_LAMBDA
+  Description: Lambda resolver to resize an image.
+  ServiceRoleArn:
+    Fn::GetAtt: ["sourceAppSyncRole", "Arn"]
+  ApiId:
+    Fn::GetAtt: ["graphQLApi", "ApiId"]
+  Name: resize_image_lambda_resolver
+  LambdaConfig:
+    LambdaFunctionArn:
+      Fn::GetAtt: ["ResizeLambdaFunction", "Arn"]
