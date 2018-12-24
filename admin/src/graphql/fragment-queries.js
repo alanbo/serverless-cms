@@ -66,6 +66,16 @@ export const page_props = `
   page_type
 `;
 
+export const head_settings_props = `
+  id
+  name
+  lastModified
+  is_deleted
+  title
+  description
+  keywords
+`;
+
 export const putFragmentMutation = (type, gql_props) => `
 mutation Put${type}($input: ${type}Input!) {
   put${type}(input: $input) {
@@ -96,4 +106,18 @@ mutation RecoverFragment($id: ID!) {
 export const permanently_delete_fragments_mutation = `
 mutation PermanentlyDeleteFragments($ids: [ID!]!) {
   permanentlyDeleteFragments(ids: $ids)
+}`;
+
+export const get_head_settings_query = `
+{
+  getHeadSettings(id: "main_head_settings") {
+    ${head_settings_props}
+  }
+}`;
+
+export const put_head_settings_mutation = `
+mutation {
+  putHeadSettings(id: "main_head_settings") {
+    ${head_settings_props}
+  }
 }`;

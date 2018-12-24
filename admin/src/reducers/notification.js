@@ -8,7 +8,9 @@ import {
   permanent_delete_failure,
   permanent_delete_success,
   render_success,
-  render_error
+  render_error,
+  put_head_settings_error,
+  put_head_settings_success
 } from '../actions/types';
 
 function notification(state = {}, action) {
@@ -65,6 +67,19 @@ function notification(state = {}, action) {
       return {
         type: 'success',
         msg: 'Successfully rendered the pages',
+        timeout: 2000
+      }
+
+    case put_head_settings_error:
+      return {
+        type: 'error',
+        msg: 'Failed to save the settings',
+      }
+
+    case put_head_settings_success:
+      return {
+        type: 'success',
+        msg: 'Successfully saved the settings',
         timeout: 2000
       }
 

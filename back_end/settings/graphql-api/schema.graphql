@@ -33,6 +33,16 @@ type Text implements Fragment {
 	is_rich: Boolean
 }
 
+type HeadSettings implements Fragment {
+	id: ID!
+  name: String!
+	lastModified: Int!
+  is_deleted: Boolean
+  keywords: String
+  description: String
+  title: String
+}
+
 type ImagePath {
 	path: String!
 	type: String!
