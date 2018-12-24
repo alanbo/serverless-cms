@@ -4,7 +4,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import { withAuthenticator } from 'aws-amplify-react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getPageTypeList, getFragmentList, clearNotification } from './actions/index';
+import { getPageTypeList, getFragmentList, clearNotification, getHeadSettings } from './actions/index';
 import * as R from 'ramda';
 import NavigationFrame from './components/NavigationFrame';
 import Main from './components/Main'
@@ -69,6 +69,7 @@ class App extends Component {
     });
 
     this.props.getPageTypeList();
+    this.props.getHeadSettings();
 
     // this.props.fetchImageList();
     // this.props.fetchGalleryList();
@@ -125,7 +126,8 @@ function mapDispatchToProps(dispatch) {
   return {
     getFragmentList: type => dispatch(getFragmentList(type)),
     getPageTypeList: () => dispatch(getPageTypeList()),
-    clearNotification: () => dispatch(clearNotification())
+    clearNotification: () => dispatch(clearNotification()),
+    getHeadSettings: () => dispatch(getHeadSettings())
   }
 }
 

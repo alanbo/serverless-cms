@@ -246,8 +246,13 @@ export const renderPages = () => dispatch => {
     });
 }
 
-export const putHeadSettings = () => dispatch => {
-  const mutation = API.graphql(graphqlOperation(put_head_settings_mutation));
+export const putHeadSettings = (settings) => dispatch => {
+  const input = Object.assign({}, settings, {
+    name: 'head settings',
+    id: 'head_settings'
+  });
+
+  const mutation = API.graphql(graphqlOperation(put_head_settings_mutation, { input }));
 
   mutation.then(result => {
     dispatch({
