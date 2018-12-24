@@ -13,4 +13,8 @@ export const permanent_delete_success = 'PERMANENT_DELETE_SUCCESS';
 export const permanent_delete_failure = 'PERMANENT_DELETE_FAILURE';
 export const render_error = 'RENDER_ERROR';
 export const render_success = 'RENDER_SUCCESS';
+export const put_head_settings = 'PUT_HEAD_SETTINGS';
+export const get_head_settings = 'GET_HEAD_SETTINGS';
+export const put_head_settings_success = 'PUT_HEAD_SETTINGS_SUCCESS';
+export const put_head_settings_error = 'PUT_HEAD_SETTINGS_ERROR';
 

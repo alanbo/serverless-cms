@@ -6,7 +6,9 @@ import {
   removeFragmentMutation,
   resize_images_mutation,
   restore_fragment_mutation,
-  permanently_delete_fragments_mutation
+  permanently_delete_fragments_mutation,
+  put_head_settings_mutation,
+  get_head_settings_query
 } from '../graphql/fragment-queries';
 
 import {
@@ -29,7 +31,11 @@ import {
   permanent_delete_success,
   permanent_delete_failure,
   render_error,
-  render_success
+  render_success,
+  put_head_settings,
+  get_head_settings,
+  put_head_settings_error,
+  put_head_settings_success
 } from './types';
 
 import {
@@ -239,3 +245,41 @@ export const renderPages = () => dispatch => {
       })
     });
 }
+
+export const putHeadSettings = () => dispatch => {
+  const mutation = API.graphql(graphqlOperation(put_head_settings_mutation));
+
+  mutation.then(result => {
+    dispatch({
+      type: put_head_settings_success
+    })
+
+    dispatch({
+      type: put_head_settings,
+      payload: result.data.putHeadSettings
+    })
+  })
+    .catch(err => {
+      console.log(err);
+
+      dispatch({
+        type: put_head_settings_error
+      })
+    });
+}
+
+
+export const getHeadSettings = () => dispatch => {
+  API.graphql(graphqlOperation(get_head_settings_query))
+    .then(result => {
+
+      dispatch({
+        type: get_head_settings,
+        payload: result.data.getHeadSettings
+      });
+    })
+    .catch(console.log);
+}
+
+
+
