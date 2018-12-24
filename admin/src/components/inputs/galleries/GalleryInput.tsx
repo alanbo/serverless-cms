@@ -167,7 +167,7 @@ class ImageGallery extends Component<Props, State> {
         .filter(item => item.kind === 'file')
         .map(file => file.getAsFile());
 
-      uploadFiles(files, this.onUpload);
+      uploadFiles(files, this.props.value.name, this.onUpload);
     }
   }
 
@@ -237,7 +237,7 @@ class ImageGallery extends Component<Props, State> {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, value } = this.props;
 
     return (
       <div
@@ -274,6 +274,7 @@ class ImageGallery extends Component<Props, State> {
         <S3ImageUpload
           ref={this.fileInputRef}
           onChange={this.onUpload}
+          gallery={value.name}
         />
       </div>
     );

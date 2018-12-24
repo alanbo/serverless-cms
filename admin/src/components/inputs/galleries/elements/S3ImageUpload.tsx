@@ -2,9 +2,17 @@ import * as React from 'react';
 import { Storage } from 'aws-amplify';
 
 
-function uploadFiles(file_arr: File[], parentOnChange) {
+function uploadFiles(file_arr: File[], gallery: string, parentOnChange) {
   const storage = file_arr.map(file => {
-    return Storage.put(`temp/${file.name}`, file)
+    let options: { [opts: string]: any } = { contentType: 'image/jpeg' };
+
+    if (gallery) {
+      options.metadata = {
+        gallery
+      }
+    }
+
+    return Storage.put(`temp/${file.name}`, file, options);
   });
 
   Promise.all(storage)
@@ -22,19 +30,20 @@ function uploadFiles(file_arr: File[], parentOnChange) {
 
 export { uploadFiles };
 
-function onChange(e, parentOnChange) {
-  uploadFiles([...e.target.files], parentOnChange);
+function onChange(e, gallery, parentOnChange) {
+  uploadFiles([...e.target.files], gallery, parentOnChange);
 };
 
 interface Props {
-  onChange: Function
+  onChange: Function,
+  gallery: string
 };
 
 const S3ImageUpload = React.forwardRef<HTMLInputElement, Props>((props: Props, ref) => (
   <input
     type='file'
     accept='image/png image/jpeg'
-    onChange={e => onChange(e, props.onChange)}
+    onChange={e => onChange(e, props.gallery, props.onChange)}
     ref={ref}
     style={{ position: 'fixed', left: '-99999px' }}
     multiple
