@@ -110,14 +110,14 @@ mutation PermanentlyDeleteFragments($ids: [ID!]!) {
 
 export const get_head_settings_query = `
 {
-  getHeadSettings(id: "main_head_settings") {
+  getHeadSettings(id: "head_settings") {
     ${head_settings_props}
   }
 }`;
 
 export const put_head_settings_mutation = `
-mutation {
-  putHeadSettings(id: "main_head_settings") {
+mutation PutHeadSettings($input: HeadSettingsInput!) {
+  putHeadSettings(input: $input) {
     ${head_settings_props}
   }
 }`;
