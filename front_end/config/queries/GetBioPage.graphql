@@ -1,0 +1,129 @@
+query GetBioPage(
+  $menu_id: ID!,
+  $image_id_1: ID!,
+  $image_id_2: ID!,
+  $text_id: ID!
+) {
+  main_menu: getMenu(id: $menu_id) {
+    name
+    items {
+      name
+      href
+      items {
+        name
+        href
+      }
+    }
+  }
+  
+  bio_img_1: getImage(id: $image_id_1) {
+    filename
+    paths {
+      type
+      path
+    }
+  }
+  
+  bio_img_2: getImage(id: $image_id_2) {
+    filename
+    paths {
+      type
+      path
+      
+    }
+  }
+  
+  bio_text: getText(id: $text_id) {
+    text
+  }
+
+  head: getHeadSettings(id: "head_settings") {
+    title
+    description
+    keywords
+  }
+}
+
+# SAMPLE OUTPUT:
+#   "data": {
+#     "main_menu": {
+#       "name": "my menu",
+#       "items": [
+#         {
+#           "name": "first",
+#           "href": null,
+#           "items": null
+#         },
+#         {
+#           "name": "second",
+#           "href": null,
+#           "items": null
+#         },
+#         {
+#           "name": "third",
+#           "href": null,
+#           "items": [
+#             {
+#               "name": "nested",
+#               "href": null
+#             },
+#             {
+#               "name": "nested2",
+#               "href": null
+#             }
+#           ]
+#         },
+#         {
+#           "name": "fourth",
+#           "href": null,
+#           "items": null
+#         }
+#       ]
+#     },
+#     "bio_img_1": {
+#       "filename": "food6.jpg",
+#       "paths": [
+#         {
+#           "type": "thumbnail",
+#           "path": "public/images/food6-thumbnail-1ef473be.jpg"
+#         },
+#         {
+#           "type": "mobile",
+#           "path": "public/images/food6-mobile-1ef473be.jpg"
+#         },
+#         {
+#           "type": "desktop",
+#           "path": "public/images/food6-desktop-1ef473be.jpg"
+#         },
+#         {
+#           "type": "retina",
+#           "path": "public/images/food6-retina-1ef473be.jpg"
+#         }
+#       ]
+#     },
+#     "bio_img_2": {
+#       "filename": "food5.jpg",
+#       "paths": [
+#         {
+#           "type": "thumbnail",
+#           "path": "public/images/food5-thumbnail-33e3b580.jpg"
+#         },
+#         {
+#           "type": "mobile",
+#           "path": "public/images/food5-mobile-33e3b580.jpg"
+#         },
+#         {
+#           "type": "desktop",
+#           "path": "public/images/food5-desktop-33e3b580.jpg"
+#         },
+#         {
+#           "type": "retina",
+#           "path": "public/images/food5-retina-33e3b580.jpg"
+#         }
+#       ]
+#     },
+#     "bio_text": {
+#       "text": "<p>this is text</p>"
+#     }
+#   }
+# }

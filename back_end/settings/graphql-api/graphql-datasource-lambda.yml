@@ -1,0 +1,12 @@
+Type: "AWS::AppSync::DataSource"
+Properties:
+  Type: AWS_LAMBDA
+  Description: Lambda resolver for gql queries and mutations.
+  ServiceRoleArn:
+    Fn::GetAtt: ["sourceAppSyncRole", "Arn"]
+  ApiId:
+    Fn::GetAtt: ["graphQLApi", "ApiId"]
+  Name: app_sync_lambda_resolver
+  LambdaConfig:
+    LambdaFunctionArn:
+      Fn::GetAtt: ["ResolveNestedFragmentsLambdaFunction", "Arn"]

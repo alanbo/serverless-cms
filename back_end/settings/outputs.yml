@@ -1,0 +1,32 @@
+Outputs:
+  region:
+    Value:
+      Ref: "AWS::Region"
+  CognitoARN:
+    Value:
+      Fn::GetAtt: ["userPool", "Arn"]
+  userPoolId:
+    Value:
+      Ref: userPool
+  userPoolWebClientId:
+    Value:
+      Ref: userPoolClient
+
+  identityPoolId:
+    Value:
+      Ref: identityPool
+
+  GraphQLUrl:
+    Value:
+      Fn::GetAtt: ["graphQLApi", "GraphQLUrl"]
+  GraphQLARN:
+    Value:
+      Fn::GetAtt: ["graphQLApi", "Arn"]
+  GraphQLApiId:
+    Value:
+      Fn::GetAtt: ["graphQLApi", "ApiId"]
+  GraphQLApiKey:
+    Value:
+      Fn::GetAtt: ["graphQLKey", "ApiKey"]
+  BucketName:
+    Value: ${self:service}-public

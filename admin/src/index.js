@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -21,11 +21,11 @@ const store = createStore(root_reducer, composeWithDevTools(
 ));
 
 ReactDOM.render((
-  <BrowserRouter>
-    <Provider store={ store }>
+  <HashRouter>
+    <Provider store={store}>
       <App />
     </Provider>
-  </BrowserRouter>
+  </HashRouter>
 ), document.getElementById('root'))
 
 registerServiceWorker();

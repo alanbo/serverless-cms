@@ -1,0 +1,9 @@
+Type: "AWS::AppSync::GraphQLApi"
+Properties:
+  UserPoolConfig:
+    UserPoolId:
+      Ref: userPool
+    AwsRegion: ${self:provider.region}
+    DefaultAction: ALLOW
+  Name: ${self:service}
+  AuthenticationType: AWS_IAM

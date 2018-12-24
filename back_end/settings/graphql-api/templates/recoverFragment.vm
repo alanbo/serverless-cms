@@ -1,0 +1,16 @@
+{
+    "version" : "2017-02-28",
+    "operation" : "UpdateItem",
+    "key" : {
+        "id" : { "S" : "$context.arguments.id" }
+    },
+    "update" : {
+        "expression" : "SET is_deleted = :deleted",
+        "expressionValues" : {
+            ":deleted" : { "BOOL": false }
+        }
+    },
+    "condition" : {
+      "expression" : "attribute_exists(id)"
+    }
+}

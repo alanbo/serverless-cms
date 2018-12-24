@@ -195,7 +195,7 @@ class AutocompleteSelect extends React.Component {
           components={components}
           value={this.props.value}
           onChange={this.props.onChange}
-          placeholder=''
+          placeholder={this.props.placeholder}
           isMulti={this.props.isMulti || false}
         />
       </div>

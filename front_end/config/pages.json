@@ -1,0 +1,44 @@
+{
+  "bio_page": {
+    "template": "./pug/about-page.pug",
+    "query": "./queries/GetBioPage.graphql",
+    "inputs": [
+      {
+        "name": "menu_id",
+        "type": "Menu",
+        "title": "Choose page menu:"
+      },
+      {
+        "name": "image_id_1",
+        "type": "Image",
+        "title": "Choose page image 1:"
+      },
+      {
+        "name": "image_id_2",
+        "type": "Image",
+        "title": "Choose page image 1:"
+      },
+      {
+        "name": "text_id",
+        "type": "Text",
+        "title": "Choose page text:"
+      }
+    ]
+  },
+  "gallery_page": {
+    "template": "./pug/gallery-page.pug",
+    "query": "./queries/GetGalleryPage.graphql",
+    "inputs": [
+      {
+        "name": "gallery_id",
+        "type": "Gallery",
+        "title": "Choose gallery:"
+      },
+      {
+        "name": "menu_id",
+        "type": "Menu",
+        "title": "Choose menu:"
+      }
+    ]
+  }
+}

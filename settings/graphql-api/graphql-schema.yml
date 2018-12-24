@@ -1,5 +1,0 @@
-Type: "AWS::AppSync::GraphQLSchema"
-Properties:
-  Definition: ${file(./user_settings/schema.graphql)}
-  ApiId:
-    Fn::GetAtt: ["graphQLApi", "ApiId"]

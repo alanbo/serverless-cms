@@ -1,0 +1,30 @@
+doctype html
+html(lang='en')
+  head
+    title=head.title
+    meta(charset='utf-8')
+    meta(name='description', content=head.description)
+    meta(name='keywords', content=head.keywords)
+    meta(name='viewport', content='width=device-width,initial-scale=1.0,user-scalable=no')
+    link(rel='stylesheet', href='stylesheets/style.css')
+    script(type='text/javascript', src='jquery.js')
+    script(type='text/javascript', src='plugins.js')
+    script(type='text/javascript', src='gallery.js')
+  body
+    .wrapper
+      nav
+        .heading
+          .heading
+            a(href='index.html')
+              img(src='images/logo.png')
+        ul  
+          each item in main_menu.items
+            li
+              strong=item.name
+              ul.second_ul
+                each subitem in item.items || []
+                  li
+                    a(href=subitem.href || '')=subitem.name
+
+      section.gallery
+        block content

@@ -1,310 +1,290 @@
 import { API, graphqlOperation } from 'aws-amplify';
+import * as R from 'ramda';
 
 import {
-  getImageList as images_query,
-  getGalleryList as gallery_query,
-  addGallery as add_gallery_mutation,
-  removeGallery as remove_gallery_mutation,
-  removeImage as remove_image_mutation,
-  addImagesToGallery as add_images_to_gallery_mutation,
-  removeImageFromGallery as remove_image_from_gallery_mutation,
-  reorderImagesInGallery as reorder_images_in_gallery_mutation,
-} from '../graphql/image-queries';
-
-import {
-  putText as put_text_mutation,
-  getTextList as get_text_list_query,
-  removeText as remove_text_mutation,
-  updateText as update_text_mutation,
-  getMenuList as get_menu_list_query,
-  putMenu as put_menu_mutation,
-  removeMenu as remove_menu_mutation
+  putFragmentMutation,
+  removeFragmentMutation,
+  resize_images_mutation,
+  restore_fragment_mutation,
+  permanently_delete_fragments_mutation,
+  put_head_settings_mutation,
+  get_head_settings_query
 } from '../graphql/fragment-queries';
 
 import {
   getPageTypeList as get_page_type_list_query,
-  getPageList as get_page_list_query,
-  removePage as remove_page_mutation,
-  putPage as put_page_mutation
+  renderPages as render_pages_mutation
 } from '../graphql/page-queries';
 
 import {
-  add_image_list,
-  add_gallery_list,
-  add_gallery,
-  remove_gallery,
-  remove_image,
-  add_images_to_gallery,
-  remove_image_from_gallery,
-  reorder_images_in_gallery,
-  put_text,
-  get_text_list,
-  remove_text,
-  update_text,
-  get_menu_list,
-  put_menu,
-  remove_menu,
+  get_fragment_list,
+  put_fragment,
+  remove_fragment,
+  resize_images,
   get_page_type_list,
-  get_page_list,
-  remove_page,
-  put_page
-} from '../actions/types';
+  restore_fragment,
+  delete_occurs_in_error,
+  clear_notification,
+  save_failure,
+  save_success,
+  permanently_delete_fragments,
+  permanent_delete_success,
+  permanent_delete_failure,
+  render_error,
+  render_success,
+  put_head_settings,
+  get_head_settings,
+  put_head_settings_error,
+  put_head_settings_success
+} from './types';
 
-export const fetchImageList = () => {
-  return dispatch => {
-    API.graphql(graphqlOperation(images_query))
+import {
+  getFragmentListQuery
+} from '../graphql/fragment-queries';
+
+import config from '../fg-config';
+
+let type_to_gql_props = {};
+
+Object.keys(config).forEach(key => {
+  const type = config[key].type;
+
+  type_to_gql_props[type] = config[key].gql_props
+});
+
+export const saveWasSuccessful = (type, name) => ({
+  type: save_success,
+  payload: { type, name }
+});
+
+export const saveHasFailed = (type, name) => ({
+  type: save_failure,
+  payload: { type, name }
+});
+
+
+export const getFragmentList = type => dispatch => {
+  const query = getFragmentListQuery(type, type_to_gql_props[type]);
+
+  API.graphql(graphqlOperation(query))
+    .then(result => {
+      const { data } = result;
+      // there is only one property, get it
+      const key = Object.keys(data)[0];
+
+      dispatch({
+        type: get_fragment_list,
+        payload: data[key].map(item => Object.assign(item, { type }))
+      });
+    })
+    .catch(console.log);
+}
+
+
+
+export const getPageTypeList = () => dispatch => {
+  API.graphql(graphqlOperation(get_page_type_list_query))
+    .then(result => {
+      const { data } = result;
+      // there is only one property, get it
+      const key = Object.keys(data)[0];
+
+      dispatch({
+        type: get_page_type_list,
+        payload: data[key]
+      });
+    })
+    .catch(console.log);
+}
+
+export const putFragment = (input, type) => dispatch => {
+  const mutation = putFragmentMutation(type, type_to_gql_props[type]);
+
+  API.graphql(graphqlOperation(mutation, { input }))
+    .then(result => {
+      const payload = Object.assign({}, result.data[`put${type}`], {
+        type
+      });
+
+      dispatch({
+        type: put_fragment,
+        payload
+      });
+
+      dispatch(saveWasSuccessful(type, input.name));
+    })
+    .catch(err => {
+      dispatch(saveHasFailed(type, input.name));
+      console.log(err);
+    });
+}
+
+function checkIfIDReferedTo(id, fields) {
+  if (id === fields) {
+    return true;
+  }
+
+  else if (R.type(fields) === 'Object') {
+    return Object.keys(fields)
+      .filter(key => key !== 'id')
+      .map(key => fields[key])
+      .map(field => checkIfIDReferedTo(id, field))
+      .filter(field => field)[0];
+  } else if (R.type(fields) === 'Array') {
+    return fields
+      .map(field => checkIfIDReferedTo(id, field))
+      .filter(field => field)[0];
+  }
+
+  return false;
+}
+
+export const removeFragment = id => {
+  return (dispatch, getState) => {
+    const { fragments } = getState();
+
+    // temporary solution to prevent dletion of fragments, 
+    // that are refered to
+    // when aws supports transations
+    // for dynamodb appsync resolvers
+    // use that
+    const occurs_in = R.values(fragments)
+      .map(fg => {
+        const is_refered = checkIfIDReferedTo(id, fg);
+
+        return is_refered ? fg : null
+      })
+      .filter(item => !!item);
+
+    if (occurs_in.length) {
+      dispatch({
+        type: delete_occurs_in_error,
+        payload: occurs_in
+      });
+
+      return;
+    }
+
+
+    API.graphql(graphqlOperation(removeFragmentMutation, { id }))
       .then(result => {
         dispatch({
-          type: add_image_list,
-          payload: result.data.getImageList
+          type: remove_fragment,
+          payload: result.data.deleteFragment
         });
       })
       .catch(console.log);
   }
 }
 
-export const fetchGalleryList = () => {
+export const restoreFragment = id => {
   return dispatch => {
-    API.graphql(graphqlOperation(gallery_query))
+    API.graphql(graphqlOperation(restore_fragment_mutation, { id }))
       .then(result => {
         dispatch({
-          type: add_gallery_list,
-          payload: result.data.getGalleryList
+          type: restore_fragment,
+          payload: result.data.recoverFragment
         });
       })
       .catch(console.log);
   }
 }
 
-export const addGallery = name => {
+export const resizeImages = (paths, callback) => dispatch => {
+  API.graphql(graphqlOperation(resize_images_mutation, { paths }))
+    .then(result => {
+      if (typeof callback === 'function') {
+        callback(result.data.resizeImages);
+      }
+
+      dispatch({
+        type: resize_images,
+        payload: result.data.resizeImages
+      });
+    })
+    .catch(console.log);
+}
+
+export const clearNotification = () => ({
+  type: clear_notification
+});
+
+export const permanentlyDeleteFragments = ids => {
   return dispatch => {
-    API.graphql(graphqlOperation(add_gallery_mutation, { name }))
+    API.graphql(graphqlOperation(permanently_delete_fragments_mutation, { ids }))
       .then(result => {
         dispatch({
-          type: add_gallery,
-          payload: result.data.addGallery
+          type: permanently_delete_fragments,
+          payload: result.data.permanentlyDeleteFragments
         });
+
+        dispatch({
+          type: permanent_delete_success
+        })
       })
-      .catch(console.log);
+      .catch(err => {
+        console.log(err);
+        dispatch({ type: permanent_delete_failure });
+      });
   }
 }
 
+export const renderPages = () => dispatch => {
+  const mutation = API.graphql(graphqlOperation(render_pages_mutation));
 
-export const removeGallery = id => {
-  return dispatch => {
-    API.graphql(graphqlOperation(remove_gallery_mutation, { id }))
-      .then(result => {
-        dispatch({
-          type: remove_gallery,
-          payload: result.data.removeGallery
-        });
+  mutation.then(result => {
+    dispatch({
+      type: render_success
+    })
+  })
+    .catch(err => {
+      console.log(err);
+
+      dispatch({
+        type: render_error
       })
-      .catch(console.log);
-  }
+    });
 }
 
-export const removeImage = id => {
-  return dispatch => {
-    API.graphql(graphqlOperation(remove_image_mutation, { id }))
-      .then(result => {
-        dispatch({
-          type: remove_image,
-          payload: id
-        });
+export const putHeadSettings = (settings) => dispatch => {
+  const input = Object.assign({}, settings, {
+    name: 'head settings',
+    id: 'head_settings'
+  });
+
+  const mutation = API.graphql(graphqlOperation(put_head_settings_mutation, { input }));
+
+  mutation.then(result => {
+    dispatch({
+      type: put_head_settings_success
+    })
+
+    dispatch({
+      type: put_head_settings,
+      payload: result.data.putHeadSettings
+    })
+  })
+    .catch(err => {
+      console.log(err);
+
+      dispatch({
+        type: put_head_settings_error
       })
-      .catch(console.log);
-  }
-}
-
-
-export const addImagesToGallery = (id, image_ids) => {
-  console.log(image_ids);
-  return dispatch => {
-    API.graphql(graphqlOperation(add_images_to_gallery_mutation, { id, image_ids }))
-      .then(result => {
-        console.log(result);
-        dispatch({
-          type: add_images_to_gallery,
-          payload: result.data.addImagesToGallery
-        });
-      })
-      .catch(console.log);
-  }
-}
-
-
-export const removeImageFromGallery = (id, image_number) => {
-  return dispatch => {
-    API.graphql(graphqlOperation(remove_image_from_gallery_mutation, { id, image_number }))
-      .then(result => {
-        dispatch({
-          type: remove_image_from_gallery,
-          payload: result.data.removeImageFromGallery
-        });
-      })
-      .catch(console.log);
-  }
+    });
 }
 
 
-export const reorderImagesInGallery = (id, image_ids) => {
-  return dispatch => {
-    API.graphql(graphqlOperation(reorder_images_in_gallery_mutation, { id, image_ids }))
-      .then(result => {
-        dispatch({
-          type: reorder_images_in_gallery,
-          payload: result.data.reorderImagesInGallery
-        });
-      })
-      .catch(console.log);
-  }
+export const getHeadSettings = () => dispatch => {
+  API.graphql(graphqlOperation(get_head_settings_query))
+    .then(result => {
+
+      dispatch({
+        type: get_head_settings,
+        payload: result.data.getHeadSettings
+      });
+    })
+    .catch(console.log);
 }
 
 
-export const putText = (text, is_rich = false) => {
-  return dispatch => {
-    API.graphql(graphqlOperation(put_text_mutation, { text, is_rich }))
-      .then(result => {
-        dispatch({
-          type: put_text,
-          payload: result.data.putText
-        });
-      })
-      .catch(console.log);
-  }
-}
 
-export const getTextList = () => {
-  return dispatch => {
-    API.graphql(graphqlOperation(get_text_list_query))
-      .then(result => {
-        dispatch({
-          type: get_text_list,
-          payload: result.data.getTextList
-        });
-      })
-      .catch(console.log);
-  }
-}
-
-
-export const removeText = id => {
-  return dispatch => {
-    API.graphql(graphqlOperation(remove_text_mutation, { id }))
-      .then(result => {
-        dispatch({
-          type: remove_text,
-          payload: id
-        });
-      })
-      .catch(console.log);
-  }
-}
-
-export const updateText = (text, id) => {
-  return dispatch => {
-    API.graphql(graphqlOperation(update_text_mutation, { id, text }))
-      .then(result => {
-        dispatch({
-          type: update_text,
-          payload: result.data.updateText
-        });
-      })
-      .catch(console.log);
-  }
-}
-
-export const getMenuList = () => {
-  return dispatch => {
-    API.graphql(graphqlOperation(get_menu_list_query))
-      .then(result => {
-        dispatch({
-          type: get_menu_list,
-          payload: result.data.getMenuList
-        });
-      })
-      .catch(console.log);
-  }
-}
-
-export const putMenu = (menu, id) => {
-  return dispatch => {
-    API.graphql(graphqlOperation(put_menu_mutation, { id, menu }))
-      .then(result => {
-        dispatch({
-          type: put_menu,
-          payload: result.data.putMenu
-        });
-      })
-      .catch(console.log);
-  }
-}
-
-export const removeMenu = id => {
-  return dispatch => {
-    API.graphql(graphqlOperation(remove_menu_mutation, { id }))
-      .then(result => {
-        dispatch({
-          type: remove_menu,
-          payload: result.data.removeMenu
-        });
-      })
-      .catch(console.log);
-  }
-}
-
-export const getPageTypeList = () => {
-  return dispatch => {
-    API.graphql(graphqlOperation(get_page_type_list_query))
-      .then(result => {
-        dispatch({
-          type: get_page_type_list,
-          payload: result.data.getPageTypeList
-        });
-      })
-      .catch(console.log);
-  }
-}
-
-
-export const getPageList = () => {
-  return dispatch => {
-    API.graphql(graphqlOperation(get_page_list_query))
-      .then(result => {
-        dispatch({
-          type: get_page_list,
-          payload: result.data.getPageList
-        });
-      })
-      .catch(console.log);
-  }
-}
-
-
-export const removePage = id => {
-  return dispatch => {
-    API.graphql(graphqlOperation(remove_page_mutation, { id }))
-      .then(result => {
-        dispatch({
-          type: remove_page,
-          payload: result.data.removePage
-        });
-      })
-      .catch(console.log);
-  }
-}
-
-
-export const putPage = (page_data) => {
-  console.log(page_data);
-  return dispatch => {
-    API.graphql(graphqlOperation(put_page_mutation, { page_data }))
-      .then(result => {
-        dispatch({
-          type: put_page,
-          payload: result.data.putPage
-        });
-      })
-      .catch(console.log);
-  }
-}
