@@ -15,7 +15,7 @@ const nestedListTemplate = (TypeName, FieldName) => ({
     },
     FieldName
   },
-  DependsOn: ["graphQLData", "graphQLSchema"]
+  DependsOn: ["graphQLLambda", "graphQLSchema"]
 });
 
 module.exports = nestedListTemplate;
