@@ -11,4 +11,6 @@ export const save_failure = 'SAVE_FAILURE';
 export const permanently_delete_fragments = 'PERMANENTLY_DELETE_FRAGMENTS';
 export const permanent_delete_success = 'PERMANENT_DELETE_SUCCESS';
 export const permanent_delete_failure = 'PERMANENT_DELETE_FAILURE';
+export const render_error = 'RENDER_ERROR';
+export const render_success = 'RENDER_SUCCESS';
 
