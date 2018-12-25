@@ -29,8 +29,11 @@ function handler ({
   const file_path_vars = path.join(__dirname, '../../admin/src', 'aws-stack-vars.js');
   const file_path_appsync = path.join(__dirname, '../../admin/src', 'AppSync.js');
 
+<<<<<<< HEAD
   console.log(file_path_appsync);
 
+=======
+>>>>>>> 1b4962257eb89036bb6ffdc9f91fe19a0e42386b
   const app_sync_obj = {
     "graphqlEndpoint": GraphQLUrl,
     "region": region,

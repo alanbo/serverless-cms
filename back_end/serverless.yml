@@ -1,5 +1,5 @@
 service:
-  name: julianna-jankowiak-site
+  name: serverless-testing-site
 
 # Add the serverless-webpack plugin
 plugins:
