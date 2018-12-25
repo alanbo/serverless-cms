@@ -3,7 +3,7 @@ import getImage from './resize-images/get-image';
 import transformImages from './resize-images/transform-images';
 import uploadImages from './resize-images/upload-images';
 import settings from './resize-images/settings';
-import storeImageDataGraphQL from './resize-images/storeImageDataGraphQL';
+import storeImageData from './resize-images/storeImageData';
 
 // eslint-disable-next-line import/prefer-default-export
 export const resizeImages = async function (event, context, callback) {
@@ -30,8 +30,14 @@ export const resizeImages = async function (event, context, callback) {
       const metadata = s3_image.Metadata;
       const content_type = s3_image.ContentType;
       const images = await transformImages(buffer);
+
       await uploadImages({ images, paths, metadata, bucket, filename, content_type });
-      return storeImageDataGraphQL(metadata, filename, paths).then(result => result.data.putImage);
+
+      return storeImageData(metadata, filename, paths)
+        .then(result => {
+          return result;
+        })
+        .catch(console.log);
     } catch (err) {
       console.log(err);
     }
@@ -41,7 +47,6 @@ export const resizeImages = async function (event, context, callback) {
     const results = await Promise.all(event.paths.map(processImage));
     callback(null, results);
   } catch (err) {
-    console.log(err);
     callback(err);
   }
 };
