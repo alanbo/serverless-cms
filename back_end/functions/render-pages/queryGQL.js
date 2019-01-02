@@ -25,16 +25,21 @@ import { AUTH_TYPE } from 'aws-appsync/lib/link/auth-link';
 import AWSAppSyncClient from 'aws-appsync';
 
 const url = process.env.GRAPHQL;
-const region = 'us-west-2';
+const region = process.env.AWS_REGION;
 const type = AUTH_TYPE.AWS_IAM;
 import AWS from 'aws-sdk';
-const credentials = AWS.config.credentials;
 
+AWS.config.update({
+  region,
+  credentials: new AWS.Credentials(process.env.AWS_ACCESS_KEY_ID, process.env.AWS_SECRET_ACCESS_KEY, process.env.AWS_SESSION_TOKEN)
+});
+
+const credentials = AWS.config.credentials;
 
 // Set up Apollo client
 const client = new AWSAppSyncClient({
-  url: url,
-  region: region,
+  url,
+  region,
   auth: {
     type: type,
     credentials: credentials,
