@@ -29,7 +29,7 @@ interface Props extends SettingsObj, WithStyles<typeof styles> {
 
 
 class SettingsUnstyled extends React.Component<Props, SettingsObj> {
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps(state, props) {
     if (R.isEmpty(state.settings) && !R.isEmpty(props.settings)) {
       const { keywords, description, title } = props.settings;
       return {
