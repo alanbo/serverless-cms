@@ -20,7 +20,8 @@ interface MatchFgType {
 
 interface Props extends MatchFgType {
   fragments: Array<FragmentItem>
-  removeFragment: (id: string) => any,
+  // something wrong with connect type, add more appropriate type later
+  removeFragment: (...args: any) => any,
 }
 
 const selectFragments: (state: FgState) => Fragments = state => state.fragments;

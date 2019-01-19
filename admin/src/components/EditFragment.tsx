@@ -18,7 +18,8 @@ interface Props {
     push: (path: string) => any
   },
   putFragment: (input: any, type: string) => any,
-  removeFragment: (id: string) => any,
+  // something wrong with connect type, add more appropriate type later
+  removeFragment: (...args: any) => any,
   resizeImages: (paths: string[], callback: (images: FragmentItem[]) => any) => any,
   fragments: {
     [id: string]: FragmentItem
