@@ -22,7 +22,7 @@ const styles = theme => createStyles({
 
 
 interface Props extends WithStyles<typeof styles> {
-  renderPages: () => any
+  renderPages: (...args: any) => any
 }
 
 const HomeUnstyled = (props: Props) => {
