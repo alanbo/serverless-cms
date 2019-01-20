@@ -1,5 +1,5 @@
 service:
-  name: serverless-testing-site
+  name: ${file(../slscms-config.yml):service_name}
 
 # Add the serverless-webpack plugin
 plugins:
@@ -15,15 +15,15 @@ custom:
     includeModules: true # enable auto-packing of external modules
 
   s3Sync:
-    - bucketName: ${self:service}-public
+    - bucketName: ${file(../slscms-config.yml):bucket_name}
       bucketPrefix: templates/
       localDir: front_end/config/
-    - bucketName: ${self:service}-public
+    - bucketName: ${file(../slscms-config.yml):bucket_name}
       bucketPrefix: dist/
       localDir: front_end/public/
       acl: public-read # optional
       followSymlinks: true # optional
-    - bucketName: ${self:service}-public
+    - bucketName: ${file(../slscms-config.yml):bucket_name}
       bucketPrefix: admin/
       localDir: admin/build/
       acl: public-read # optional
@@ -50,7 +50,7 @@ functions:
     handler: functions/resolvePageType.resolvePageType
     role: readS3role
     environment:
-      BUCKET: ${self:service}-public
+      BUCKET: ${file(../slscms-config.yml):bucket_name}
   resolveNestedFragments:
     handler: functions/resolveNestedFragments.handler
     role: updateDbRole
@@ -87,7 +87,7 @@ functions:
     memorySize: 2048
 
     environment:
-      BUCKET: ${self:service}-public
+      BUCKET: ${file(../slscms-config.yml):bucket_name}
       IMG_TABLE: ${self:service}-images
       FRAGMENTS_TABLE: ${self:service}-fragments
       GRAPHQL:
@@ -98,7 +98,7 @@ functions:
     role: resizeRole
 
     environment:
-      BUCKET: ${self:service}-public
+      BUCKET: ${file(../slscms-config.yml):bucket_name}
       FRAGMENTS_TABLE: ${self:service}-fragments
       GRAPHQL:
         Fn::GetAtt: ["graphQLApi", "GraphQLUrl"]

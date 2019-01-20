@@ -32,5 +32,5 @@ Properties:
               - s3:GetObjectAcl
               - s3:ListBucket
             Resource:
-              - arn:aws:s3:::${self:service}-public/*
-              - arn:aws:s3:::${self:service}-public
+              - arn:aws:s3:::${file(../slscms-config.yml):bucket_name}/*
+              - arn:aws:s3:::${file(../slscms-config.yml):bucket_name}

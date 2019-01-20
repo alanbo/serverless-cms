@@ -21,7 +21,7 @@ import fg_config from './fg-config';
 const amp_config = {
   Auth: aws_exports,
   Storage: {
-    bucket: 'serverless-testing-site-public',
+    bucket: aws_vars.bucket,
     region: aws_vars.region
   },
 

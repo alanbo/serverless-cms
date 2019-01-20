@@ -34,18 +34,18 @@ Properties:
               - s3:PutObject
               - s3:PutObjectAcl
             Resource:
-              - arn:aws:s3:::${self:service}-public/*
-              - arn:aws:s3:::${self:service}-public
+              - arn:aws:s3:::${file(../slscms-config.yml):bucket_name}/*
+              - arn:aws:s3:::${file(../slscms-config.yml):bucket_name}
           - Effect: Allow
             Action:
               - s3:PutObjectAcl
               - s3:PutObject
             Resource:
-              - arn:aws:s3:::${self:service}-public/public/images/thumbs/*
-              - arn:aws:s3:::${self:service}-public/public/images/mobile/*
-              - arn:aws:s3:::${self:service}-public/public/images/desktop/*
-              - arn:aws:s3:::${self:service}-public/public/images/retina/*
-              - arn:aws:s3:::${self:service}-public/public/images/*
+              - arn:aws:s3:::${file(../slscms-config.yml):bucket_name}/public/images/thumbs/*
+              - arn:aws:s3:::${file(../slscms-config.yml):bucket_name}/public/images/mobile/*
+              - arn:aws:s3:::${file(../slscms-config.yml):bucket_name}/public/images/desktop/*
+              - arn:aws:s3:::${file(../slscms-config.yml):bucket_name}/public/images/retina/*
+              - arn:aws:s3:::${file(../slscms-config.yml):bucket_name}/public/images/*
           - Effect: Allow
             Action:
               - dynamodb:PutItem
