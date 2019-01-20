@@ -29,4 +29,4 @@ Outputs:
     Value:
       Fn::GetAtt: ["graphQLKey", "ApiKey"]
   BucketName:
-    Value: ${self:service}-public
+    Value: ${file(../slscms-config.yml):bucket_name}

@@ -1,6 +1,6 @@
 Type: AWS::S3::Bucket
 Properties:
-  BucketName: ${self:service}-public
+  BucketName: ${file(../slscms-config.yml):bucket_name}
   AccessControl: PublicRead
   WebsiteConfiguration:
     IndexDocument: "index"
