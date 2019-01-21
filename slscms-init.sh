@@ -1,11 +1,13 @@
 #!/bin/bash
 cd back_end/;
+npm install;
 npx sls deploy;
 
 SLS_DEPLOY=$?
 if [ $SLS_DEPLOY -eq 0 ]; then
   echo "Successfully deployed slscms stack."
   cd ../admin/;
+  npm install;
   npm run build;
 
   ADMIN_BUILD=$?
