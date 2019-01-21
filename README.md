@@ -15,8 +15,9 @@ Assuming that you have an AWS account and node.js set up on your Linux/Mac compu
 2. Edit ```slscms-config.yml``` file with your service name and the target bucket name (needs to be unique).
 3. Run ```./slscms-init.sh``` bash script in the root directory.
 4. Go to amazon cognito in your aws console and create the first user. Add the user to dataEditor group. 
-5. Go to the bucket's website address adding ```/admin``` route.
+5. Go to the bucket's website address adding ```/admin``` route. You can find the url in the website-url.txt file in the root directory or in the bash script output.
 6. Log in and start editing.
+7. Create a page named ```index``` to get a homepage in the root url.
 
 It is advisible to set up ssl for the website. More information here: https://aws.amazon.com/premiumsupport/knowledge-center/cloudfront-https-requests-s3/
 
