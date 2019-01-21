@@ -18,6 +18,8 @@ Assuming that you have an AWS account and node.js set up on your Linux/Mac compu
 5. Go to the bucket's website address adding ```/admin``` route.
 6. Log in and start editing.
 
+It is advisible to set up ssl for the website. More information here: https://aws.amazon.com/premiumsupport/knowledge-center/cloudfront-https-requests-s3/
+
 ## Front End Development
 - Each page type has its graphql query and the result of this query is going to be rendered with pug template specified in ```front_end/config/pages.json``` file. You can add your own page types, mixing and matching the types specified in ```back_end/settings/graphql-api/schema.graphql```. Any type that implements ```Fragment``` interface can be used.
 - Any file/folder that you put in ```front_end/public/``` folder will be copied over to the ```dist/``` folder in the root of the bucket. The pages specified in your templates will be rendered in the root of the bucket. 
