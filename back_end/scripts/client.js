@@ -11,7 +11,8 @@ function handler({
   GraphQLARN,
   GraphQLApiId,
   GraphQLApiKey,
-  BucketName
+  BucketName,
+  WebsiteURL
 }, serverless, options) {
 
   const client_data = { region, userPoolId, userPoolWebClientId, identityPoolId };
@@ -28,6 +29,8 @@ function handler({
   const file_path = path.join(__dirname, '../../admin/src', 'cognito.js');
   const file_path_vars = path.join(__dirname, '../../admin/src', 'aws-stack-vars.js');
   const file_path_appsync = path.join(__dirname, '../../admin/src', 'AppSync.js');
+  const file_path_root_wurl = path.join(__dirname, '../../', 'website-url.txt');
+
 
   const app_sync_obj = {
     "graphqlEndpoint": GraphQLUrl,
@@ -37,6 +40,12 @@ function handler({
   }
 
   const app_sync = `export default ${JSON.stringify(app_sync_obj, null, '  ')}`;
+
+  const website_urls = `
+The website url is: ${WebsiteURL}
+The website url will only be activated when you render index page in the admin dashboard. 
+The admin dashboard url is: ${WebsiteURL}/admin
+  `;
 
   fs.writeFile(file_path, file_content, err => {
     if (err) {
@@ -64,6 +73,17 @@ function handler({
 
     console.log('Sucessfully saved: ', client_vars);
   });
+
+  fs.writeFile(file_path_root_wurl, website_urls, err => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+
+    console.log(website_urls);
+  });
+
+  
 }
 
 module.exports = { handler }

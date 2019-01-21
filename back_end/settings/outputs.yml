@@ -30,3 +30,7 @@ Outputs:
       Fn::GetAtt: ["graphQLKey", "ApiKey"]
   BucketName:
     Value: ${file(../slscms-config.yml):bucket_name}
+  WebsiteURL:
+    Value:
+      Fn::GetAtt: ["S3BucketPublicsite", "WebsiteURL"]
+    
