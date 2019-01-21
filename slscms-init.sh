@@ -37,3 +37,5 @@ else
   cd ..;
   exit $UPLOAD;
 fi
+
+cat website-url.txt
