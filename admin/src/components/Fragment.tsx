@@ -1,6 +1,6 @@
 import React from 'react';
 import FragmentList from './FragmentList';
-import fg_config from '../fg-config';
+import fg_config from './inputs/input-config';
 import { removeFragment } from '../actions';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';

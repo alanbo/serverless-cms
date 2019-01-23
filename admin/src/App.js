@@ -13,7 +13,7 @@ import SnackbarContent from './components/SnackbarContent';
 import aws_exports from './cognito';
 import aws_vars from './aws-stack-vars';
 import './App.css';
-import fg_config from './fg-config';
+import fg_config from './components/inputs/input-config';
 
 // window.LOG_LEVEL = 'DEBUG';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import fg_config from '../fg-config';
+import fg_config from './inputs/input-config';
 import { putFragment, removeFragment, resizeImages } from '../actions';
 import SaveCancelButtons from './main/common/SaveCancelButtons';
 import * as R from 'ramda';

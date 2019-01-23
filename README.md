@@ -29,7 +29,7 @@ It is advisible to set up ssl for the website. More information here: https://aw
 
 ## Extending CMS
 - You can add any type in ```back_end/settings/graphql-api/schema.graphql```. As long as it implements ```Fragments``` interface queries, mutations and resolvers for it will be automatically provisioned.
-- You can add your own editors in the admin dashboard or replace existing ones. Edit ```admin/src/fg-config.tsx``` file and follow the conventions established in it. 
+- You can add your own editors in the admin dashboard or replace existing ones. Edit ```admin/src/components/inputs/input-config.tsx``` file and follow the conventions established in it. 
 
 ## Roadmap
 - organising and unifying configuration files.
