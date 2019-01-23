@@ -57,29 +57,6 @@ functions:
     environment:
       FRAGMENTS_TABLE: ${self:service}-fragments
 
-  update_data:
-    handler: functions/update-data.updateData
-    role: updateDbRole
-    events:
-      - http:
-          method: put
-          path: fragment
-          authorizer: aws_iam
-          cors: true
-      - http:
-          method: patch
-          path: fragment/{id}
-          authorizer: aws_iam
-          cors: true
-      - http:
-          method: delete
-          path: fragment/{id}
-          authorizer: aws_iam
-          cors: true
-
-    environment:
-      FRAGMENTS_TABLE: ${self:service}-fragments
-
   resize:
     handler: functions/resize-images.resizeImages
     role: resizeRole
@@ -88,7 +65,6 @@ functions:
 
     environment:
       BUCKET: ${file(../slscms-config.yml):bucket_name}
-      IMG_TABLE: ${self:service}-images
       FRAGMENTS_TABLE: ${self:service}-fragments
       GRAPHQL:
         Fn::GetAtt: ["graphQLApi", "GraphQLUrl"]
@@ -102,17 +78,6 @@ functions:
       FRAGMENTS_TABLE: ${self:service}-fragments
       GRAPHQL:
         Fn::GetAtt: ["graphQLApi", "GraphQLUrl"]
-
-
-  createPage:
-    handler: functions/create-page.createPage
-    role: createPageRole
-    environment:
-      BUCKET: ${self:service}
-      IMG_TABLE: ${self:service}-images
-      PAGES_TABLE: ${self:service}-pages
-      MENUS_TABLE: ${self:service}-menus
-
 
 resources:
   - ${file(./settings/resources.yml)}
