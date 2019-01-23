@@ -80,6 +80,6 @@ functions:
         Fn::GetAtt: ["graphQLApi", "GraphQLUrl"]
 
 resources:
-  - ${file(./settings/resources.yml)}
-  - ${file(./settings/graphql-api/createResolvers.js)}
-  - ${file(./settings/outputs.yml)}
+  - ${file(./resources/resources.yml)}
+  - ${file(./resources/graphql-api/createResolvers.js)}
+  - ${file(./resources/outputs.yml)}

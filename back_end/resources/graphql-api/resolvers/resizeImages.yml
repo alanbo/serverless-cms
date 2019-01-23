@@ -2,8 +2,8 @@ Type: "AWS::AppSync::Resolver"
 Properties:
   TypeName: Mutation
   DataSourceName: resize_image_lambda_resolver
-  RequestMappingTemplate: ${file(./settings/graphql-api/templates/lambdaInvoke.vm)}
-  ResponseMappingTemplate: ${file(./settings/graphql-api/templates/passthrough.vm)}
+  RequestMappingTemplate: ${file(./resources/graphql-api/templates/lambdaInvoke.vm)}
+  ResponseMappingTemplate: ${file(./resources/graphql-api/templates/passthrough.vm)}
   ApiId:
     Fn::GetAtt: ["graphQLApi", "ApiId"]
   FieldName: resizeImages
