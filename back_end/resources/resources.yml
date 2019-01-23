@@ -3,7 +3,6 @@ Resources:
   S3BucketPolicy: ${file(./resources/s3/s3bucketPolicy.yml)}
   ResizeLambdaPermissionPhotosS3: ${file(./resources/s3/s3permission.yml)}
   resizeRole: ${file(./resources/roles/resizeRole.yml)}
-  createPageRole: ${file(./resources/roles/createPageRole.yml)}
   updateDbRole: ${file(./resources/roles/updateDbRole.yml)}
   dataEditorRole: ${file(./resources/roles/dataEditorRole.yml)}
   sourceAppSyncRole: ${file(./resources/roles/sourceAppSyncRole.yml)}
