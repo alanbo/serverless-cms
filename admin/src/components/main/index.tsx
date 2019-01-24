@@ -1,3 +1,3 @@
 export * from './Home';
-export * from './Thrash';
+export * from './Trash';
 export * from './Settings';
