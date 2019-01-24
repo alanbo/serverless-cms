@@ -6,14 +6,12 @@ import {
   menu_props,
   text_props,
   image_props
-} from './graphql/fragment-queries';
+} from '../../graphql/fragment-queries';
 
-import TextInput from './components/inputs/texts/TextInput';
-import MenuInput from './components/inputs/menus/MenuInput';
-import PageInput from './components/inputs/pages/PageInput';
-import ImageGalleryInput, { Gallery, GalleryInput } from './components/inputs/galleries/GalleryInput';
-
-import { InputProps, FragmentItem, FragmentInput } from './types';
+import TextInput from './texts/TextInput';
+import MenuInput from './menus/MenuInput';
+import PageInput from './pages/PageInput';
+import ImageGalleryInput, { Gallery, GalleryInput } from './galleries/GalleryInput';
 
 
 interface Config {

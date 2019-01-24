@@ -1,0 +1,34 @@
+Resources:
+  S3BucketPublicsite: ${file(./resources/s3/s3bucket.yml)}
+  S3BucketPolicy: ${file(./resources/s3/s3bucketPolicy.yml)}
+  ResizeLambdaPermissionPhotosS3: ${file(./resources/s3/s3permission.yml)}
+  resizeRole: ${file(./resources/roles/resizeRole.yml)}
+  updateDbRole: ${file(./resources/roles/updateDbRole.yml)}
+  dataEditorRole: ${file(./resources/roles/dataEditorRole.yml)}
+  sourceAppSyncRole: ${file(./resources/roles/sourceAppSyncRole.yml)}
+  identityPoolRoleAttachment:  ${file(./resources/auth/identity-pool-role-attachment.yml)}
+  fragmentsTable: ${file(./resources/tables.yml):fragmentsTable}
+  readS3role:  ${file(./resources/roles/readS3role.yml)}
+
+  userPool:  ${file(./resources/auth/user-pool.yml)}
+  userPoolGroup: ${file(./resources/auth/user-pool-group.yml)}
+  userPoolClient: ${file(./resources/auth/user-pool-client.yml)}
+
+  identityPool:  ${file(./resources/auth/identity-pool.yml)}
+
+  graphQLApi: ${file(./resources/graphql-api/graphql.yml)}
+  graphQLSchema: ${file(./resources/graphql-api/graphql-schema.yml)}
+  graphQLKey: ${file(./resources/graphql-api/graphql-key.yml)}
+  graphQLData: ${file(./resources/graphql-api/graphql-datasource.yml)}
+  graphQLLambda: ${file(./resources/graphql-api/graphql-datasource-lambda.yml)}
+  graphQLPageTypesDataSource: ${file(./resources/graphql-api/graphql-datasource-page-types.yml)}
+  graphQLRenderDataSource: ${file(./resources/graphql-api/graphql-datasource-render.yml)}
+  graphQLResizeDataSource: ${file(./resources/graphql-api/graphql-datasource-resize-images.yml)}
+
+  deleteFragment: ${file(./resources/graphql-api/resolvers/deleteFragment.yml)}
+  permanentlyDeleteFragments: ${file(./resources/graphql-api/resolvers/permanentlyDeleteFragments.yml)}
+  recoverFragment: ${file(./resources/graphql-api/resolvers/recoverFragment.yml)}
+  getPageTypeList: ${file(./resources/graphql-api/resolvers/getPageTypeList.yml)}
+  renderPages: ${file(./resources/graphql-api/resolvers/renderPages.yml)}
+  resizeImages: ${file(./resources/graphql-api/resolvers/resizeImages.yml)}
+

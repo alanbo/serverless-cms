@@ -2,8 +2,8 @@ Type: "AWS::AppSync::Resolver"
 Properties:
   TypeName: Mutation
   DataSourceName: fragments_database
-  RequestMappingTemplate: ${file(./settings/graphql-api/templates/permanentlyDeleteFragments.vm)}
-  ResponseMappingTemplate: ${file(./settings/graphql-api/templates/fragments-batch-passthrough.vm)}
+  RequestMappingTemplate: ${file(./resources/graphql-api/templates/permanentlyDeleteFragments.vm)}
+  ResponseMappingTemplate: ${file(./resources/graphql-api/templates/fragments-batch-passthrough.vm)}
   ApiId:
     Fn::GetAtt: ["graphQLApi", "ApiId"]
   FieldName: permanentlyDeleteFragments

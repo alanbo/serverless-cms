@@ -10,7 +10,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import styles from './navigation-frame/styles';
 import MenuList, { DataItem } from './navigation-frame/MenuList';
-import fg_config from '../fg-config';
+import fg_config from './inputs/input-config';
 
 const fg_list: Array<DataItem> = Object.keys(fg_config)
   .filter(key => fg_config[key].icon && fg_config[key].input)

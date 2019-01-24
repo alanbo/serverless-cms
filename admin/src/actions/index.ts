@@ -42,7 +42,7 @@ import {
   getFragmentListQuery
 } from '../graphql/fragment-queries';
 
-import config from '../fg-config';
+import config from '../components/inputs/input-config';
 
 let type_to_gql_props = {};
 

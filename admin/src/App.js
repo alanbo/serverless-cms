@@ -13,7 +13,7 @@ import SnackbarContent from './components/SnackbarContent';
 import aws_exports from './cognito';
 import aws_vars from './aws-stack-vars';
 import './App.css';
-import fg_config from './fg-config';
+import fg_config from './components/inputs/input-config';
 
 // window.LOG_LEVEL = 'DEBUG';
 
@@ -49,15 +49,6 @@ class App extends Component {
     return null;
   }
 
-  // componentWillMount() {
-  //   Object.keys(fg_config).forEach(key => {
-  //     const data = fg_config[key];
-  //     this.props.getFragmentList(data.type);
-  //   });
-
-  //   this.props.getPageTypeList();
-  // }
-
   componentDidMount() {
     Auth.currentAuthenticatedUser()
       .then(data => this.setState({ user: data.username }))
@@ -70,12 +61,6 @@ class App extends Component {
 
     this.props.getPageTypeList();
     this.props.getHeadSettings();
-
-    // this.props.fetchImageList();
-    // this.props.fetchGalleryList();
-    // this.props.getTextList();
-    // this.props.getMenuList();
-    // this.props.getPageList();
   }
 
   signOut() {
@@ -95,7 +80,7 @@ class App extends Component {
         <Snackbar
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
           open={this.state.notification_open}
-          autoHideDuration={notification && notification.timeout || null}
+          autoHideDuration={(notification && notification.timeout) || null}
           onClose={() => this.setState({ notification_open: false, closing: true })}
           onExited={() => {
             this.setState({ closing: false });
@@ -107,7 +92,7 @@ class App extends Component {
         >
           <SnackbarContent
             message={(<span id="message-id">{notification && notification.msg}</span>)}
-            variant={notification && notification.type || 'info'}
+            variant={(notification && notification.type) || 'info'}
             onClose={() => this.setState({ notification_open: false, closing: true })}
           />
         </ Snackbar>
