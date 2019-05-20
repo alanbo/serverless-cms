@@ -9,6 +9,7 @@ Resources:
   identityPoolRoleAttachment:  ${file(./resources/auth/identity-pool-role-attachment.yml)}
   fragmentsTable: ${file(./resources/tables.yml):fragmentsTable}
   readS3role:  ${file(./resources/roles/readS3role.yml)}
+  backupRole:  ${file(./resources/roles/backupRole.yml)}
 
   userPool:  ${file(./resources/auth/user-pool.yml)}
   userPoolGroup: ${file(./resources/auth/user-pool-group.yml)}

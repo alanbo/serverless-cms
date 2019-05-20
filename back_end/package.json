@@ -8,6 +8,7 @@
     "admin": "cd admin; npm run start"
   },
   "devDependencies": {
+    "@types/aws-lambda": "^8.10.25",
     "@types/aws-sdk": "^2.7.0",
     "babel-cli": "6.26.0",
     "babel-core": "6.26.0",
@@ -22,6 +23,8 @@
     "serverless": "^1.33.1",
     "serverless-stack-output": "^0.2.3",
     "serverless-webpack": "^5.2.0",
+    "ts-loader": "^6.0.1",
+    "typescript": "^3.4.5",
     "webpack": "^4.25.1",
     "webpack-node-externals": "^1.7.2"
   },
@@ -52,6 +55,7 @@
     "redux": "^4.0.0",
     "redux-devtools-extension": "^2.13.5",
     "redux-thunk": "^2.3.0",
+    "serverless-plugin-typescript": "^1.1.7",
     "serverless-s3-sync": "^1.7.1",
     "uuid": "^3.3.2",
     "ws": "^3.3.1"

@@ -56,6 +56,12 @@ functions:
     role: updateDbRole
     environment:
       FRAGMENTS_TABLE: ${self:service}-fragments
+  backup:
+    handler: functions/backup.handler
+    role: backupRole
+    environment:
+      FRAGMENTS_TABLE: ${self:service}-fragments
+      BUCKET: ${file(../slscms-config.yml):bucket_name}
 
   resize:
     handler: functions/resize-images.resizeImages
