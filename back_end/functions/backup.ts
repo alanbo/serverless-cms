@@ -3,16 +3,29 @@ import archiver from 'archiver';
 import stream from 'stream';
 import { Handler } from 'aws-lambda';
 
-const documentClient = new AWS.DynamoDB.DocumentClient({ region: 'us-west-2' });
+interface Env extends NodeJS.ProcessEnv {
+  BUCKET: string,
+  FRAGMENTS_TABLE: string,
+  REGION: string
+}
+
+const {
+  BUCKET: Bucket,
+  FRAGMENTS_TABLE: TableName,
+  REGION: region
+} = process.env as Env;
+
+const documentClient = new AWS.DynamoDB.DocumentClient({ region });
 const s3 = new S3();
 
+
 const s3_list_params: S3.ListObjectsV2Request = {
-  Bucket: 'www.myslscmswebsite2.com',
+  Bucket,
   Prefix: 'public/'
 }
 
 const ddb_params: AWS.DynamoDB.DocumentClient.ScanInput = {
-  TableName: 'my-sls-cms-website2-fragments',
+  TableName
 };
 
 
@@ -30,7 +43,7 @@ export const handler: Handler<any, string> = (event, context, callback) => {
     const iso_date = (new Date()).toISOString();
 
     const s3params = {
-      Bucket: 'www.myslscmswebsite2.com',
+      Bucket,
       Key: `backup/${iso_date}.zip`,
       Body: pass,
       ContentType: 'application/zip'
@@ -84,7 +97,7 @@ export const handler: Handler<any, string> = (event, context, callback) => {
           }
 
           const params: S3.GetObjectRequest = {
-            Bucket: 'www.myslscmswebsite2.com',
+            Bucket,
             Key
           };
 

@@ -62,6 +62,7 @@ functions:
     environment:
       FRAGMENTS_TABLE: ${self:service}-fragments
       BUCKET: ${file(../slscms-config.yml):bucket_name}
+      REGION: ${self:provider.region}
 
   resize:
     handler: functions/resize-images.resizeImages
@@ -72,6 +73,7 @@ functions:
     environment:
       BUCKET: ${file(../slscms-config.yml):bucket_name}
       FRAGMENTS_TABLE: ${self:service}-fragments
+      REGION: ${self:provider.region}
       GRAPHQL:
         Fn::GetAtt: ["graphQLApi", "GraphQLUrl"]
 

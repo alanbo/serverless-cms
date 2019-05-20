@@ -1,5 +1,5 @@
 import AWS from 'aws-sdk';
-const db = new AWS.DynamoDB.DocumentClient({ region: 'us-west-2'});
+const db = new AWS.DynamoDB.DocumentClient({ region: process.env.REGION });
 const uuid = require('uuid/v4');
 
 export default (metadata, filename, paths) => {
@@ -14,10 +14,10 @@ export default (metadata, filename, paths) => {
   };
 
   const TableName = process.env.FRAGMENTS_TABLE;
-  const params = { 
+  const params = {
     TableName,
     Item
-  }; 
+  };
 
   return new Promise((resolve, reject) => {
     db.put(params, (err, data) => {
