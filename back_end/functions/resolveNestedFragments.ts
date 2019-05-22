@@ -1,17 +1,17 @@
-import * as R from 'ramda';
-
-var AWS = require("aws-sdk");
+import R from 'ramda';
+import AWS from 'aws-sdk';
+import { Handler } from 'aws-lambda';
 
 var documentClient = new AWS.DynamoDB.DocumentClient();
 
-exports.handler = async (event) => {
+export const handler: Handler = async (event: string[]) => {
   if (!event || !event.length) {
     return [];
   }
 
   const images_uniq = R.uniq(event);
 
-  const Keys = images_uniq.map(id => ({ id }))
+  const Keys = images_uniq.map(id => ({ id }));
 
   var params = {
     RequestItems: {
@@ -31,7 +31,7 @@ exports.handler = async (event) => {
   });
 
   if (Array.isArray(resp)) {
-    const resp_map = {};
+    const resp_map: { [ix: string]: any } = {};
 
     resp.forEach(obj => {
       resp_map[obj.id] = obj;
@@ -40,8 +40,5 @@ exports.handler = async (event) => {
     return event.map(id => resp_map[id]);
   }
 
-  console.log(resp);
-
   return resp;
-
 };

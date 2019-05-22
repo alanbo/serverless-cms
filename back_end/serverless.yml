@@ -3,7 +3,7 @@ service:
 
 # Add the serverless-webpack plugin
 plugins:
-  - serverless-webpack
+  - serverless-plugin-typescript
   - serverless-stack-output
   - serverless-s3-sync
 custom:
@@ -35,12 +35,9 @@ custom:
         - "*.css":
             ContentType: text/css 
 
-package:
-  individually: true
-
 provider:
   name: aws
-  runtime: nodejs8.10
+  runtime: nodejs10.x
 
   stage: dev
   region: us-west-2
@@ -72,7 +69,7 @@ functions:
       REGION: ${self:provider.region}
 
   resize:
-    handler: functions/resize-images.resizeImages
+    handler: functions/resizeImages.resizeImages
     role: resizeRole
     timeout: 10
     memorySize: 2048

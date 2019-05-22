@@ -3,10 +3,11 @@
     "preserveConstEnums": true,
     "module": "commonjs",
     "lib": [
-      "es2016",
-      "esnext.asynciterable",
-      "dom"
+      // "es2018",
+      // "esnext.asynciterable",
+      // "dom"
     ],
+    "target": "es2018",
     "moduleResolution": "node",
     "sourceMap": true,
     "noImplicitAny": true,
@@ -14,8 +15,11 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
+    "outDir": ".build",
+    "rootDir": "./"
   },
   "exclude": [
-    "admin"
+    "admin",
+    "node_modules"
   ]
 }

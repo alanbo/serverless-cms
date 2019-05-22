@@ -1,11 +1,9 @@
-import * as R from 'ramda';
-import path from 'path';
-import AWS from 'aws-sdk';
+import AWS, { S3 } from 'aws-sdk';
 
 const s3 = new AWS.S3();
 
-export default async (Key, Body) => {
-  const params = {
+export default async (Key: string, Body: S3.Body) => {
+  const params: S3.PutObjectRequest = {
     Body,
     Key,
     Bucket: process.env.BUCKET,

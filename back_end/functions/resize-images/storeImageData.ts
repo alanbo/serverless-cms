@@ -2,11 +2,16 @@ import AWS from 'aws-sdk';
 const db = new AWS.DynamoDB.DocumentClient({ region: process.env.REGION });
 const uuid = require('uuid/v4');
 
-export default (metadata, filename, paths) => {
+interface Path {
+  path: string,
+  type: string
+}
+
+export default (name: string, filename: string, paths: Path[]) => {
   const Item = {
     id: uuid(),
     lastModified: Math.round(+(new Date()) / 1000),
-    name: metadata.name || `${metadata.gallery || 'general'}/${filename}`,
+    name,
     filename,
     paths,
     type: 'Image',
@@ -19,7 +24,7 @@ export default (metadata, filename, paths) => {
     Item
   };
 
-  return new Promise((resolve, reject) => {
+  return new Promise<typeof Item>((resolve, reject) => {
     db.put(params, (err, data) => {
       if (err) {
         reject(err);

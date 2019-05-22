@@ -1,5 +1,4 @@
 var AWS = require('aws-sdk');
-const s3 = new AWS.S3();
 import queryGQL from './render-pages/queryGQL';
 import getFromS3 from './render-pages/getFromS3';
 import saveToS3 from './render-pages/saveToS3';
@@ -7,6 +6,7 @@ import * as R from 'ramda';
 import moveTemplatesToTemp from './render-pages/moveTemplatesToTemp';
 import * as pug from 'pug';
 import path from 'path';
+import { Handler } from 'aws-lambda';
 
 const gql = require('graphql-tag');
 
@@ -32,19 +32,48 @@ const getData = gql`
   } 
 `;
 
-export const handler = async (event, context, callback) => {
+interface PageType {
+  name: string,
+  query: string,
+  template: string,
+  inputs: {
+    title: string,
+    type: string,
+    name: string
+  }[],
+}
+
+interface GetDataResult {
+  page_type_list: PageType[],
+
+  page_list: {
+    id: string,
+    name: string,
+    fragments: string[],
+    page_type: string
+  }[]
+}
+
+export const handler: Handler = async () => {
   await moveTemplatesToTemp()
 
-  const { data: { page_type_list, page_list } } = await queryGQL(getData);
+  const { data: { page_type_list, page_list } } = await queryGQL<GetDataResult>(getData);
 
   if (!page_type_list || !page_list) {
     return false;
   }
 
   const query_results = await Promise.all(page_list.map(async page => {
-    const type = R.find(R.propEq('name', page.page_type))(page_type_list);
-    const query = (await getFromS3(type.query, true)).toString('utf8');
-    const gql_params = {};
+    const type: PageType = R.find(R.propEq('name', page.page_type))(page_type_list);
+
+    const query_buf = await getFromS3(type.query, true);
+
+    if (!query_buf) {
+      return Promise.reject(`Can\'t read the query for page ${page.name}`);
+    }
+
+    const query = query_buf.toString('utf8');
+    const gql_params: { [ix: string]: string } = {};
 
     type.inputs.forEach((input, i) => {
       gql_params[input.name] = page.fragments[i];

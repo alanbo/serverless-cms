@@ -1,7 +1,8 @@
-var AWS = require('aws-sdk');
+import AWS from 'aws-sdk';
+import { Handler } from 'aws-lambda';
 const s3 = new AWS.S3();
 
-export const resolvePageType = async (event, context, callback) => {
+export const resolvePageType: Handler = async () => {
   const params = {
     Bucket: process.env.BUCKET,
     Key: 'templates/pages.json',
