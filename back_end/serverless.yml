@@ -1,6 +1,10 @@
 service:
   name: ${file(../slscms-config.yml):service_name}
 
+package:
+  individually: true
+  excludeDevDependencies: false
+
 # Add the serverless-webpack plugin
 plugins:
   - serverless-plugin-typescript
@@ -48,11 +52,24 @@ functions:
     role: readS3role
     environment:
       BUCKET: ${file(../slscms-config.yml):bucket_name}
+
+    package:
+      exclude:
+        - node_modules/**
+        - '!node_modules/aws-sdk/**'
+
   resolveNestedFragments:
     handler: functions/resolveNestedFragments.handler
     role: updateDbRole
     environment:
       FRAGMENTS_TABLE: ${self:service}-fragments
+
+    package:
+      exclude:
+        - node_modules/**
+        - '!node_modules/aws-sdk/**'
+        - '!node_modules/ramda/**'
+
   backup:
     handler: functions/backup.handler
     role: backupRole
@@ -60,6 +77,13 @@ functions:
       FRAGMENTS_TABLE: ${self:service}-fragments
       BUCKET: ${file(../slscms-config.yml):bucket_name}
       REGION: ${self:provider.region}
+
+    package:
+      exclude:
+        - node_modules/**
+        - '!node_modules/aws-sdk/**'
+        - '!node_modules/archiver/**'
+
   restoreFromBackup:
     handler: functions/restoreFromBackup.handler
     role: restoreFromBackupRole
@@ -67,6 +91,13 @@ functions:
       FRAGMENTS_TABLE: ${self:service}-fragments
       BUCKET: ${file(../slscms-config.yml):bucket_name}
       REGION: ${self:provider.region}
+
+    package:
+      exclude:
+        - node_modules/**
+        - '!node_modules/aws-sdk/**'
+        - '!node_modules/unzipper/**'
+        - '!node_modules/JSONStream/**'
 
   resize:
     handler: functions/resizeImages.resizeImages
@@ -81,6 +112,13 @@ functions:
       GRAPHQL:
         Fn::GetAtt: ["graphQLApi", "GraphQLUrl"]
 
+    package:
+      exclude:
+        - node_modules/**
+        - '!node_modules/aws-sdk/**'
+        - '!node_modules/uuid/**'
+        - '!node_modules/gm/**'
+
   render:
     handler: functions/renderPages.handler
     role: resizeRole
@@ -90,6 +128,15 @@ functions:
       FRAGMENTS_TABLE: ${self:service}-fragments
       GRAPHQL:
         Fn::GetAtt: ["graphQLApi", "GraphQLUrl"]
+
+    package:
+      exclude:
+        - node_modules/**
+        - '!node_modules/aws-sdk/**'
+        - '!node_modules/pug/**'
+        - '!node_modules/ramda/**'
+        - '!node_modules/aws-appsync/**'
+        - '!node_modules/isomorphic-fetch/**'
 
 resources:
   - ${file(./resources/resources.yml)}
