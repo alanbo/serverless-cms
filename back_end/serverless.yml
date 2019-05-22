@@ -63,6 +63,13 @@ functions:
       FRAGMENTS_TABLE: ${self:service}-fragments
       BUCKET: ${file(../slscms-config.yml):bucket_name}
       REGION: ${self:provider.region}
+  restoreFromBackup:
+    handler: functions/restoreFromBackup.handler
+    role: restoreFromBackupRole
+    environment:
+      FRAGMENTS_TABLE: ${self:service}-fragments
+      BUCKET: ${file(../slscms-config.yml):bucket_name}
+      REGION: ${self:provider.region}
 
   resize:
     handler: functions/resize-images.resizeImages

@@ -1,7 +1,26 @@
 import AWS, { S3 } from 'aws-sdk';
 import unzipper from 'unzipper';
 import JSONStream from 'JSONStream';
-import uploadFromStream from './backup/uploadFromStream';
+import stream from 'stream';
+
+// Create stream from s3 upload
+const uploadFromStream = (Bucket: string, Key: string, callback?: (err: any, iso_date?: string) => void): stream.PassThrough => {
+  const pass = new stream.PassThrough()
+  const iso_date = (new Date()).toISOString();
+
+  const s3params = {
+    Bucket,
+    Key,
+    Body: pass,
+    ContentType: 'application/zip'
+  }
+
+  s3.upload(s3params).promise()
+    .then(callback ? callback.bind(null, null, iso_date) : console.log)
+    .catch(callback);
+
+  return pass;
+}
 
 interface Env extends NodeJS.ProcessEnv {
   BUCKET: string,
@@ -11,13 +30,12 @@ interface Env extends NodeJS.ProcessEnv {
 
 const {
   BUCKET: Bucket,
-  // FRAGMENTS_TABLE: TableName,
+  FRAGMENTS_TABLE: TableName,
   REGION: region
 } = process.env as Env;
 
-const TableName = 'my-sls-cms-website2-fragments';
 
-const db = new AWS.DynamoDB({ region: 'us-west-2' });
+const db = new AWS.DynamoDB({ region });
 const s3 = new S3();
 
 const ddb_params: AWS.DynamoDB.DocumentClient.ScanInput = {
@@ -31,17 +49,16 @@ interface AppSyncEvent {
   }
 }
 
-const s3_list_params: S3.ListObjectsV2Request = {
-  Bucket: 'www.myslscmswebsite2.com',
-  Prefix: 'public/'
-}
-
 function uploadToDatabase(file: unzipper.File): NodeJS.ReadWriteStream {
   return file
     .stream()
     .pipe(JSONStream.parse('Items.*'))
     .on('data', async Item => {
-      await db.putItem({ Item, TableName: 'my-sls-cms-website2-fragments' }).promise();
+      try {
+        await db.putItem({ Item, TableName }).promise();
+      } catch (e) {
+        console.log(e);
+      }
     })
     .on('error', console.log)
     .on('end', () => console.log('Succesfully uploaded backup data to DynamoDb'))
@@ -50,10 +67,16 @@ function uploadToDatabase(file: unzipper.File): NodeJS.ReadWriteStream {
 
 export const handler = (event: AppSyncEvent, context: undefined, callback = console.log) => {
   async function main() {
-    const directory = await unzipper.Open.s3(s3, {
-      Bucket: 'www.myslscmswebsite2.com',
-      Key: `backup/${event.args.iso_date}.zip`
-    });
+    let directory: unzipper.CentralDirectory;
+
+    try {
+      directory = await unzipper.Open.s3(s3, {
+        Bucket,
+        Key: `backup/${event.args.iso_date}.zip`
+      });
+    } catch (e) {
+      callback(e);
+    }
 
     let database_file: unzipper.File;
     let dynamo_delete_finished = false;
@@ -74,7 +97,7 @@ export const handler = (event: AppSyncEvent, context: undefined, callback = cons
             db.deleteItem({
               TableName,
               Key
-            })
+            }).promise().catch(callback);
           })
         }
       })
@@ -95,13 +118,18 @@ export const handler = (event: AppSyncEvent, context: undefined, callback = cons
         console.log('Successfully deleted DynamoDB Data');
       });
 
+    let objects;
 
-    const objects = await s3.listObjectsV2({ Bucket: 'www.myslscmswebsite2.com', Prefix: 'public/' }).promise();
+    try {
+      objects = await s3.listObjectsV2({ Bucket, Prefix: 'public/' }).promise();
+    } catch (e) {
+      callback(e);
+    }
 
     if (objects && objects.Contents.length) {
       try {
         await s3.deleteObjects({
-          Bucket: 'www.myslscmswebsite2.com',
+          Bucket,
           Delete: {
             Objects: objects.Contents.map(object => ({
               Key: object.Key
@@ -132,7 +160,7 @@ export const handler = (event: AppSyncEvent, context: undefined, callback = cons
           database_file = file;
         }
       } else {
-        const upload_stream = uploadFromStream('www.myslscmswebsite2.com', file.path, (err: any, iso: string) => {
+        const upload_stream = uploadFromStream(Bucket, file.path, (err: any, iso: string) => {
           if (err) {
             callback(err);
           } else {
@@ -156,8 +184,5 @@ export const handler = (event: AppSyncEvent, context: undefined, callback = cons
       }
     });
   }
-
   main();
 };
-
-handler({ args: { iso_date: '2019-05-20T20:17:54.510Z' } }, undefined, undefined);

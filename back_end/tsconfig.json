@@ -1,16 +1,13 @@
 {
   "compilerOptions": {
     "preserveConstEnums": true,
-    "strictNullChecks": true,
     "module": "commonjs",
     "lib": [
       "es2016",
       "esnext.asynciterable",
       "dom"
     ],
-    // "outDir": ".build",
     "moduleResolution": "node",
-    "rootDir": "./functions",
     "sourceMap": true,
     "noImplicitAny": true,
     "allowJs": true,
