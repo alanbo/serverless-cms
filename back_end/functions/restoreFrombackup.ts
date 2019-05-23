@@ -44,9 +44,7 @@ const ddb_params: AWS.DynamoDB.DocumentClient.ScanInput = {
 };
 
 interface AppSyncEvent {
-  args: {
-    iso_date: string
-  }
+  iso_date: string
 }
 
 function uploadToDatabase(file: unzipper.File): NodeJS.ReadWriteStream {
@@ -72,7 +70,7 @@ export const handler = (event: AppSyncEvent, context: undefined, callback = cons
     try {
       directory = await unzipper.Open.s3(s3, {
         Bucket,
-        Key: `backup/${event.args.iso_date}.zip`
+        Key: `backup/${event.iso_date}.zip`
       });
     } catch (e) {
       callback(e);

@@ -57,6 +57,7 @@ functions:
       exclude:
         - node_modules/**
         - '!node_modules/aws-sdk/**'
+        - '!node_modules/jmespath/**'
 
   resolveNestedFragments:
     handler: functions/resolveNestedFragments.handler
@@ -69,6 +70,7 @@ functions:
         - node_modules/**
         - '!node_modules/aws-sdk/**'
         - '!node_modules/ramda/**'
+        - '!node_modules/jmespath/**'
 
   backup:
     handler: functions/backup.handler
@@ -83,6 +85,7 @@ functions:
         - node_modules/**
         - '!node_modules/aws-sdk/**'
         - '!node_modules/archiver/**'
+        - '!node_modules/jmespath/**'
 
   restoreFromBackup:
     handler: functions/restoreFromBackup.handler
@@ -98,6 +101,7 @@ functions:
         - '!node_modules/aws-sdk/**'
         - '!node_modules/unzipper/**'
         - '!node_modules/JSONStream/**'
+        - '!node_modules/jmespath/**'
 
   resize:
     handler: functions/resizeImages.resizeImages
@@ -118,6 +122,7 @@ functions:
         - '!node_modules/aws-sdk/**'
         - '!node_modules/uuid/**'
         - '!node_modules/gm/**'
+        - '!node_modules/jmespath/**'
 
   render:
     handler: functions/renderPages.handler
@@ -137,6 +142,8 @@ functions:
         - '!node_modules/ramda/**'
         - '!node_modules/aws-appsync/**'
         - '!node_modules/isomorphic-fetch/**'
+        - '!node_modules/jmespath/**'
+
 
 resources:
   - ${file(./resources/resources.yml)}

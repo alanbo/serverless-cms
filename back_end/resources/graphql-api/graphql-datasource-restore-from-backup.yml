@@ -1,0 +1,12 @@
+Type: "AWS::AppSync::DataSource"
+Properties:
+  Type: AWS_LAMBDA
+  Description: Lambda datasource for restoration from backup.
+  ServiceRoleArn:
+    Fn::GetAtt: ["sourceAppSyncRole", "Arn"]
+  ApiId:
+    Fn::GetAtt: ["graphQLApi", "ApiId"]
+  Name: restore_from_backup_datasource
+  LambdaConfig:
+    LambdaFunctionArn:
+      Fn::GetAtt: ["RestoreFromBackupLambdaFunction", "Arn"]

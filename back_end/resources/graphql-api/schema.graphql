@@ -92,6 +92,8 @@ type Mutation {
   recoverFragment(id: ID!): ID!
 	renderPages(id: [ID]): Boolean!
   resizeImages(paths: [String!]!): [Image!]!
+  backup: String!
+  restoreFromBackup(iso_date: String!): Boolean
 }
 
 # Queries

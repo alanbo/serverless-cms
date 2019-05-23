@@ -22,3 +22,5 @@ Properties:
               - Fn::GetAtt: ["ResolvePageTypeLambdaFunction", "Arn"]
               - Fn::GetAtt: ["RenderLambdaFunction", "Arn"]
               - Fn::GetAtt: ["ResizeLambdaFunction", "Arn"]
+              - Fn::GetAtt: ["BackupLambdaFunction", "Arn"]
+              - Fn::GetAtt: ["RestoreFromBackupLambdaFunction", "Arn"]

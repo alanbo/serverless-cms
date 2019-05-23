@@ -1,0 +1,12 @@
+Type: "AWS::AppSync::DataSource"
+Properties:
+  Type: AWS_LAMBDA
+  Description: Lambda datasource for backup.
+  ServiceRoleArn:
+    Fn::GetAtt: ["sourceAppSyncRole", "Arn"]
+  ApiId:
+    Fn::GetAtt: ["graphQLApi", "ApiId"]
+  Name: backup_lambda_datasource
+  LambdaConfig:
+    LambdaFunctionArn:
+      Fn::GetAtt: ["BackupLambdaFunction", "Arn"]
