@@ -7,7 +7,7 @@
       "dom"
     ],
     "allowJs": true,
-    "skipLibCheck": false,
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
@@ -18,9 +18,13 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "preserve",
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "sourceMap": true
   },
   "include": [
     "src"
+  ],
+  "exclude": [
+    "node_modules",
   ]
 }

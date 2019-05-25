@@ -9,36 +9,31 @@ import * as R from 'ramda';
 import NavigationFrame from './components/NavigationFrame';
 import Main from './components/Main'
 import SnackbarContent from './components/SnackbarContent';
+import withAuthenticatedAppSync from './hoc/withAuthenticatedAppSync';
 
 import aws_exports from './cognito';
-import aws_vars from './aws-stack-vars';
 import './App.css';
 import fg_config from './components/inputs/input-config';
-
 // window.LOG_LEVEL = 'DEBUG';
 
-
-const amp_config = {
-  Auth: aws_exports,
-  Storage: {
-    bucket: aws_vars.bucket,
-    region: aws_vars.region
-  },
-
-  'aws_appsync_graphqlEndpoint': aws_vars.graphql_endpoint,
-  'aws_appsync_region': aws_vars.region,
-  'aws_appsync_authenticationType': 'AWS_IAM',
-};
-
-
-Amplify.configure(amp_config);
+interface Props {
+  getFragmentList: (type: string) => void,
+  getPageTypeList: () => void,
+  getHeadSettings: () => void,
+  clearNotification: () => void,
+  notification: {
+    timeout: number,
+    msg: string,
+    type: 'success' | 'warning' | 'error' | 'info'
+  }
+}
 
 
-class App extends Component {
+class App extends Component<Props> {
   state = {
     user: '',
     notification_open: false,
-    closing: false
+    closing: false,
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -80,7 +75,7 @@ class App extends Component {
         <Snackbar
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
           open={this.state.notification_open}
-          autoHideDuration={(notification && notification.timeout) || null}
+          autoHideDuration={(notification && notification.timeout)}
           onClose={() => this.setState({ notification_open: false, closing: true })}
           onExited={() => {
             this.setState({ closing: false });
@@ -91,6 +86,7 @@ class App extends Component {
           }}
         >
           <SnackbarContent
+            // @ts-ignore
             message={(<span id="message-id">{notification && notification.msg}</span>)}
             variant={(notification && notification.type) || 'info'}
             onClose={() => this.setState({ notification_open: false, closing: true })}
@@ -116,6 +112,6 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default withAuthenticator(
+export default withAuthenticatedAppSync(
   withRouter(connect(mapStateToProps, mapDispatchToProps)(App))
 );
