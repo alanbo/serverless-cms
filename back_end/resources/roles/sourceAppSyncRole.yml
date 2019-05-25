@@ -24,3 +24,5 @@ Properties:
               - Fn::GetAtt: ["ResizeLambdaFunction", "Arn"]
               - Fn::GetAtt: ["BackupLambdaFunction", "Arn"]
               - Fn::GetAtt: ["RestoreFromBackupLambdaFunction", "Arn"]
+              - Fn::GetAtt: ["GetBackupListLambdaFunction", "Arn"]
+              - Fn::GetAtt: ["DeleteBackupsLambdaFunction", "Arn"]

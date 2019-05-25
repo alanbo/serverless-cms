@@ -11,6 +11,8 @@ Resources:
   readS3role:  ${file(./resources/roles/readS3role.yml)}
   backupRole:  ${file(./resources/roles/backupRole.yml)}
   restoreFromBackupRole:  ${file(./resources/roles/restoreFromBackupRole.yml)}
+  deleteBackupsRole:  ${file(./resources/roles/deleteBackupsRole.yml)}
+  getBackupListRole:  ${file(./resources/roles/getBackupListRole.yml)}
 
   userPool:  ${file(./resources/auth/user-pool.yml)}
   userPoolGroup: ${file(./resources/auth/user-pool-group.yml)}
@@ -28,6 +30,8 @@ Resources:
   graphQLResizeDataSource: ${file(./resources/graphql-api/graphql-datasource-resize-images.yml)}
   graphQLBackupDataSource: ${file(./resources/graphql-api/graphql-datasource-backup.yml)}
   graphQLRestoreFromBackupDataSource: ${file(./resources/graphql-api/graphql-datasource-restore-from-backup.yml)}
+  graphQLDeleteBackupsDataSource: ${file(./resources/graphql-api/graphql-datasource-delete-backups.yml)}
+  graphQLGetBackupListDataSource: ${file(./resources/graphql-api/graphql-datasource-get-backup-list.yml)}
 
 
   deleteFragment: ${file(./resources/graphql-api/resolvers/deleteFragment.yml)}
@@ -38,4 +42,6 @@ Resources:
   resizeImages: ${file(./resources/graphql-api/resolvers/resizeImages.yml)}
   backup: ${file(./resources/graphql-api/resolvers/backup.yml)}
   restoreFromBackup: ${file(./resources/graphql-api/resolvers/restoreFromBackup.yml)}
+  deleteBackup: ${file(./resources/graphql-api/resolvers/deleteBackups.yml)}
+  getBackupList: ${file(./resources/graphql-api/resolvers/getBackupList.yml)}
 

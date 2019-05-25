@@ -76,6 +76,18 @@ functions:
       BUCKET: ${file(../slscms-config.yml):bucket_name}
       REGION: ${self:provider.region}
 
+  deleteBackups:
+    handler: functions/deleteBackups.handler
+    role: deleteBackupsRole
+    environment:
+      BUCKET: ${file(../slscms-config.yml):bucket_name}
+
+  getBackupList:
+    handler: functions/getBackupList.handler
+    role: getBackupListRole
+    environment:
+      BUCKET: ${file(../slscms-config.yml):bucket_name}
+
   resize:
     handler: functions/resizeImages.resizeImages
     role: resizeRole
