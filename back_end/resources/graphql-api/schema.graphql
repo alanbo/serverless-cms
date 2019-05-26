@@ -94,7 +94,7 @@ type Mutation {
   resizeImages(paths: [String!]!): [Image!]!
   backup: String!
   restoreFromBackup(iso_date: String!): Boolean
-  deleteBackups(paths: [String!]!): Boolean
+  deleteBackups(iso_dates: [String!]!): Boolean
 }
 
 # Queries
