@@ -18,10 +18,14 @@ const selectFragments = R.identity;
 const getPageFragments = createSelector(
   [selectFragments], fragments => {
     return R.pipe(
+      // @ts-ignore
       R.values(),
+      // @ts-ignore
       R.filter(fg => fg.type === 'Page'),
       R.map(page => ({
+        // @ts-ignore
         label: page.name,
+        // @ts-ignore
         value: `/${page.name.replace(/(\W+$)|(^\W+)/g, '').replace(/\W+/g, "_")}`
       }))
     )(fragments)
@@ -150,6 +154,7 @@ class MenuInput extends Component<Props, State> {
                   className={classes.button} mini
                   onClick={() => {
                     const menu_data = R.pipe(
+                      // @ts-ignore
                       R.append(NEW_ITEM),
                       R.assocPath(['items'], R.__, data)
                     )(data.items || []);

@@ -81,6 +81,7 @@ class ImageGallery extends Component<Props, State> {
     const filtered = R.remove(i, 1, this.props.value.images);
 
     this.props.onChange(
+      // @ts-ignore
       R.assoc('images', filtered, this.props.value)
     );
   }
@@ -144,12 +145,14 @@ class ImageGallery extends Component<Props, State> {
 
     images.splice(i, 0, dragged_img);
 
+    // @ts-ignore
     this.props.onChange(R.assoc('images', images, this.props.value));
   }
 
   onUpload = paths => {
     this.props.resizeImages(paths, images => {
       this.props.onChange(
+        // @ts-ignore
         R.assoc(
           'images',
           R.concat(this.props.value.images || [], R.map(img => img.id, images)),
@@ -164,7 +167,9 @@ class ImageGallery extends Component<Props, State> {
 
     if (e.dataTransfer.items && e.dataTransfer.items.length) {
       const files = R.values(e.dataTransfer.items)
+        // @ts-ignore
         .filter(item => item.kind === 'file')
+        // @ts-ignore
         .map(file => file.getAsFile());
 
       uploadFiles(files, this.props.value.name, this.onUpload);
@@ -252,6 +257,7 @@ class ImageGallery extends Component<Props, State> {
               <TextField
                 value={this.props.value.name || ''}
                 onChange={e => {
+                  // @ts-ignore
                   this.props.onChange(R.assoc('name', e.target.value, this.props.value));
                 }}
                 className={classes.nameField}

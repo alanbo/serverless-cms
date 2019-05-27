@@ -5,6 +5,7 @@ function fixPath(path: number[]): (number | string)[] {
   return R.pipe(
     R.intersperse('items'),
     R.prepend('items'),
+    // @ts-ignore
   )(path);
 }
 
@@ -14,13 +15,16 @@ function fixPath(path: number[]): (number | string)[] {
 function isNameEmpty(path: number[], data: Item) {
   return R.pipe(
     fixPath,
+    // @ts-ignore
     R.lensPath(),
+    // @ts-ignore
     R.view(R.__, data),
     R.ifElse(
       R.has('name'),
       R.prop('name'),
       () => false
     ),
+    // @ts-ignore
     R.isEmpty()
   )(path);
 }
@@ -31,6 +35,7 @@ function getUpdatedMenuData(path: string[], prop_name: string, value: string, da
     fixPath,
     R.append(prop_name),
     R.assocPath(R.__, value, data)
+    // @ts-ignore
   )(path);
 }
 
@@ -38,13 +43,17 @@ function getDissocMenuData(path: number[], data: Item) {
   const fixed_path = fixPath(path);
   const parent_items_path = R.init(fixed_path);
 
+  // @ts-ignore
   return R.pipe(
+    // @ts-ignore
     R.dissocPath(R.__, data),
     R.ifElse(
+      // @ts-ignore
       R.pathSatisfies(items => !!items.length, parent_items_path),
       R.identity,
       R.dissocPath(parent_items_path)
     )
+    // @ts-ignore
   )(fixed_path);
 
 }

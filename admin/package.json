@@ -10,6 +10,7 @@
     "@types/amplify": "^1.1.24",
     "@types/jest": "^23.3.10",
     "@types/node": "^10.12.11",
+    "@types/ramda": "^0.26.8",
     "@types/react": "^16.7.11",
     "@types/react-dom": "^16.0.11",
     "@types/react-redux": "^6.0.10",

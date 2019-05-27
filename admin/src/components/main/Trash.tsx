@@ -27,9 +27,13 @@ const selectFragments: (state: FgState) => Fragments = state => state.fragments;
 
 const getDeletedFragments = createSelector(
   [selectFragments], fragments => {
+    // @ts-ignore
     return R.pipe(
+      // @ts-ignore
       R.values(),
+      // @ts-ignore
       R.filter(fg => fg.is_deleted)
+      // @ts-ignore
     )(fragments)
   }
 );

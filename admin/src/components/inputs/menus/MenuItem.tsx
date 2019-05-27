@@ -191,6 +191,7 @@ class MenuItem extends Component<Props, State> {
                       className={classes.button} mini
                       onClick={e => {
                         // appends the new item to the list of items
+                        // @ts-ignore
                         const new_items = R.append(NEW_ITEM, items);
 
                         // updates menu data to include new item
