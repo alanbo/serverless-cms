@@ -1,23 +1,23 @@
 import React from 'react';
-
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import Backups from '../components/Backups';
+import Backups from '../components/Backups/Backups';
 
 
+const backups = [
+  'backup/2019-05-26T18:07:59.826Z.zip',
+  'backup/2019-05-26T06:24:27.613Z.zip',
+  'backup/2019-05-26T06:24:30.375Z.zip',
+  'backup/2019-05-26T06:24:32.611Z.zip'
+];
 
-import { linkTo } from '@storybook/addon-links';
-
-import { Button, Welcome } from '@storybook/react/demo';
-
-storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
 
 storiesOf('Backups', module)
-  .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>)
-  .add('with some emoji', () => (
-    <Button onClick={action('clicked')}>
-      <span role="img" aria-label="so cool">
-        😀 😎 👍 💯
-      </span>
-    </Button>
+  .add('default', () => (
+    <Backups
+      restoreFromBackup={action('Restore From Backup')}
+      deleteBackups={action('Delete Backups')}
+      backupData={action('Backup Data')}
+      backups={backups}
+    />
   ));
