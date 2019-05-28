@@ -5,6 +5,9 @@ import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
+import { ThemeProvider } from '@material-ui/styles';
+import theme from './theme';
+
 import root_reducer from './reducers/index';
 import './index.css';
 import App from './App';
@@ -22,7 +25,9 @@ const store = createStore(root_reducer, composeWithDevTools(
 ReactDOM.render((
   <HashRouter>
     <Provider store={store}>
-      <App />
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
     </Provider>
   </HashRouter>
 ), document.getElementById('root'))

@@ -1,4 +1,9 @@
 import React, { Component } from 'react';
+import { useTheme, makeStyles } from '@material-ui/styles';
+
+const useStyles = makeStyles({
+
+});
 
 interface Props {
   restoreFromBackup: (iso_string: string) => void,
@@ -7,32 +12,27 @@ interface Props {
   backupData: () => void
 }
 
-class Backups extends Component<Props> {
-  _backupList = () => {
-    const { restoreFromBackup, deleteBackups, backups } = this.props;
+function Backups(props: Props) {
+  const { restoreFromBackup, deleteBackups, backups } = props;
+  const theme = useTheme();
+  const classes = useStyles(theme);
 
-    if (!backups) {
-      return null;
-    }
 
-    return backups.map(backup => (
-      <div key={backup}>
-        <p >{backup}</p>
-        <button onClick={restoreFromBackup.bind(null, backup)}>restore</button>
-        <button onClick={deleteBackups.bind(null, [backup])}>delete</button>
-      </div>
-    ));
-  }
-
-  render() {
-    return (
-      <div>
-        Hello From Backups
-        {this._backupList()}
-        <button onClick={this.props.backupData}>Backup</button>
-      </div>
-    );
-  }
+  return (
+    <div>
+      Hello From Backups
+    {
+        backups && backups.map(backup => (
+          <div key={backup}>
+            <p >{backup}</p>
+            <button onClick={restoreFromBackup.bind(null, backup)}>restore</button>
+            <button onClick={deleteBackups.bind(null, [backup])}>delete</button>
+          </div>
+        ))
+      }
+      <button onClick={props.backupData}>Backup</button>
+    </div>
+  );
 }
 
 export default Backups;
