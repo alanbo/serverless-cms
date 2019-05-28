@@ -65,7 +65,6 @@ export default compose(
   graphql<{}, DeleteBackups, DeleteBackupsVariables, { deleteBackups(iso_dates: string[]) }>(deleteBackupsMutation, {
     props: (props) => ({
       deleteBackups: (iso_dates: string[]) => {
-        console.log(iso_dates);
         props.mutate!({
           variables: { iso_dates },
           update: (dataProxy, result) => {
@@ -77,18 +76,12 @@ export default compose(
 
             const old_data = dataProxy.readQuery<GetBackupList>({ query });
 
-            if (!old_data) {
-              return;
-            }
+            const backups = R.without(
+              R.map(iso_date => `backup/${iso_date}.zip`, iso_dates),
+              R.defaultTo([], R.prop('backups', old_data || { backups: null }))
+            );
 
-            const paths = iso_dates.map(iso_date => `backup/${iso_date}.zip`);
-            console.log('paths', paths);
-            console.log('old_data.backups', old_data.backups);
-            const backups = R.without(paths, old_data.backups);
-
-            console.log(backups);
-
-            dataProxy.writeQuery({ query, data: { backups } });
+            dataProxy.writeQuery<GetBackupList>({ query, data: { backups } });
           }
         });
       }
