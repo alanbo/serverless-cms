@@ -109,4 +109,4 @@ function mapStateToProps(state) {
 const Settings = connect(mapStateToProps, { putHeadSettings })(withStyles(styles)(SettingsUnstyled));
 
 
-export { Settings };
+export default Settings;

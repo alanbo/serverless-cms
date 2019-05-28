@@ -12,25 +12,25 @@ import {
   DeleteBackupsVariables
 } from './operation-result-types';
 
-const getBackupListQuery = gql`
+export const getBackupListQuery = gql`
   query GetBackupList {
     backups: getBackupList,
   }
 `;
 
-const backupMutation = gql`
+export const backupMutation = gql`
   mutation Backup {
     iso_date: backup
   }
 `;
 
-const restoreFromBackupMutation = gql`
+export const restoreFromBackupMutation = gql`
   mutation RestoreFromBackup($iso_date: String!) {
     success: restoreFromBackup(iso_date: $iso_date)
   }
 `;
 
-const deleteBackupsMutation = gql`
+export const deleteBackupsMutation = gql`
   mutation DeleteBackups($iso_dates: [String!]!) {
     success: deleteBackups(iso_dates: $iso_dates)
   }
@@ -62,9 +62,10 @@ export default compose(
     })
   }),
 
-  graphql<{}, DeleteBackups, DeleteBackupsVariables, { deleteBackups(iso_date: string[]) }>(deleteBackupsMutation, {
+  graphql<{}, DeleteBackups, DeleteBackupsVariables, { deleteBackups(iso_dates: string[]) }>(deleteBackupsMutation, {
     props: (props) => ({
       deleteBackups: (iso_dates: string[]) => {
+        console.log(iso_dates);
         props.mutate!({
           variables: { iso_dates },
           update: (dataProxy, result) => {
@@ -81,7 +82,11 @@ export default compose(
             }
 
             const paths = iso_dates.map(iso_date => `backup/${iso_date}.zip`);
+            console.log('paths', paths);
+            console.log('old_data.backups', old_data.backups);
             const backups = R.without(paths, old_data.backups);
+
+            console.log(backups);
 
             dataProxy.writeQuery({ query, data: { backups } });
           }

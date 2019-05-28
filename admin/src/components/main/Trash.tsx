@@ -71,4 +71,4 @@ function mapStateToProps(state) {
 const Trash = connect(mapStateToProps, { restoreFragment, permanentlyDeleteFragments })(withStyles(styles)(TrashList));
 
 
-export { Trash };
+export default Trash;

@@ -2,9 +2,9 @@
   "compilerOptions": {
     "target": "es5",
     "lib": [
-      "es5",
-      "es6",
-      "dom"
+      "dom",
+      "dom.iterable",
+      "esnext"
     ],
     "allowJs": true,
     "skipLibCheck": true,
@@ -18,13 +18,13 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "preserve",
-    "noImplicitAny": false,
-    "sourceMap": true
+    "noImplicitAny": false
   },
   "include": [
     "src"
   ],
   "exclude": [
     "node_modules",
+    "src/stories"
   ]
 }

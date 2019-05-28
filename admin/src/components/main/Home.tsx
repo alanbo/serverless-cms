@@ -52,4 +52,4 @@ const HomeUnstyled = (props: Props) => {
 
 const Home = connect(null, { renderPages })(withStyles(styles)(HomeUnstyled));
 
-export { Home };
+export default Home;

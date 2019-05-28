@@ -1,9 +1,12 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom'
-import { Home, Trash, Settings } from './main/index'
+import  Home from './main/Home'
+import Trash from './main/Trash'
+import Settings from './main/Settings'
 import Fragment from './Fragment';
 import EditFragment from './EditFragment';
 import Backups from './Backups';
+
 
 const Main = () => (
   <Switch>
@@ -14,6 +17,6 @@ const Main = () => (
     <Route path='/:fragment_type/:id' component={EditFragment} />
     <Route path='/:fragment_type' component={Fragment} />
   </Switch>
-)
+);
 
 export default Main;
