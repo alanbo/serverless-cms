@@ -3,6 +3,7 @@ import { withStyles, WithStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import TextField from '@material-ui/core/TextField';
+import Fab from '@material-ui/core/Fab';
 import { createSelector } from 'reselect';
 
 import * as R from 'ramda';
@@ -147,11 +148,11 @@ class MenuInput extends Component<Props, State> {
           !this.state.menu_index_path.length
             ? (
               <div className={classes.addBtnWrapper}>
-                <Button
+                <Fab
                   color="primary"
-                  variant="fab"
+                  size='small'
                   aria-label="Add"
-                  className={classes.button} mini
+                  className={classes.button}
                   onClick={() => {
                     const menu_data = R.pipe(
                       // @ts-ignore
@@ -165,7 +166,7 @@ class MenuInput extends Component<Props, State> {
                   }}
                 >
                   <AddIcon />
-                </Button>
+                </Fab>
               </div>
             ) : null
         }

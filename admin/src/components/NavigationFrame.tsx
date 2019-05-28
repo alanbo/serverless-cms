@@ -71,7 +71,7 @@ class NavigationFrame extends React.Component<Props, State> {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="title" color="inherit" className={classes.flex}>
+            <Typography variant="h6" color="inherit" className={classes.flex}>
               serverless cms
             </Typography>
           </Toolbar>

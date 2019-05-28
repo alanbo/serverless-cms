@@ -29,11 +29,11 @@ const HomeUnstyled = (props: Props) => {
   const { classes } = props;
 
   return <div>
-    <Typography variant="headline" component="h1">
+    <Typography variant='h5' component="h1">
       Home
     </Typography>
     <Paper className={classes.paper} elevation={1}>
-      <Typography variant="headline" component="h3">
+      <Typography variant='h5' component="h3">
         Welcome to Serverless CMS.
       </Typography>
       <Typography component="p">

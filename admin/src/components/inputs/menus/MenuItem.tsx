@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 
@@ -11,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import indigo from '@material-ui/core/colors/indigo';
+import Fab from '@material-ui/core/Fab';
 import * as R from 'ramda';
 
 import { NEW_ITEM, isOnPath } from './helpers';
@@ -124,11 +124,8 @@ class MenuItem extends Component<Props, State> {
           className={classes.expansionPanel}
           expanded={on_path}
           onChange={() => this.onExpandChange()}
-          CollapseProps={{
-            className: classes.visible
-          }}
           classes={{
-            expanded: classes.visible
+            root: classes.visible
           }}
         >
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
@@ -168,15 +165,15 @@ class MenuItem extends Component<Props, State> {
                 // only display button for currently expanded element
                 is_current_path
                   ? (
-                    <Button
+                    <Fab
                       color="secondary"
-                      variant="fab"
                       aria-label="Delete"
-                      className={classes.button} mini
+                      className={classes.button}
+                      size='small'
                       onClick={e => deleteItem(index_path)}
                     >
                       <DeleteIcon />
-                    </Button>
+                    </Fab>
                   ) : null
               }
               {
@@ -184,11 +181,11 @@ class MenuItem extends Component<Props, State> {
                 // only display button for currently expanded element
                 index_path.length < 4 && is_current_path && name.length
                   ? (
-                    <Button
+                    <Fab
                       color="primary"
-                      variant="fab"
                       aria-label="Add"
-                      className={classes.button} mini
+                      className={classes.button}
+                      size='small'
                       onClick={e => {
                         // appends the new item to the list of items
                         // @ts-ignore
@@ -202,7 +199,7 @@ class MenuItem extends Component<Props, State> {
                       }}
                     >
                       <AddIcon />
-                    </Button>
+                    </Fab>
                   ) : null
               }
             </div>

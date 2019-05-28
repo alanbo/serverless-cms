@@ -6,6 +6,7 @@ import { FragmentItem, Fragments, FgState } from '../../types';
 import * as R from 'ramda';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import Button from '@material-ui/core/Button';
+import Fab from '@material-ui/core/Fab';
 import { withStyles, createStyles, WithStyles } from '@material-ui/core/styles';
 import { restoreFragment, permanentlyDeleteFragments } from '../../actions';
 
@@ -49,15 +50,14 @@ const TrashList = (props: Props) => {
         onRestore={props.restoreFragment}
       />
 
-      <Button
-        variant="fab"
+      <Fab
         color="primary"
         aria-label="add"
         className={props.classes.button}
         onClick={() => props.permanentlyDeleteFragments(props.deleted_fragments.map(item => item.id))}
       >
         <DeleteForeverIcon />
-      </Button>
+      </Fab>
     </div>
   )
 };
