@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import BackupsTable from './BackupsTable';
 import { useTheme, makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles({
@@ -31,6 +32,9 @@ function Backups(props: Props) {
         ))
       }
       <button onClick={props.backupData}>Backup</button>
+
+      <BackupsTable title={'Backups'} />
+
     </div>
   );
 }
