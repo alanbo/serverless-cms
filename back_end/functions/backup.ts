@@ -9,6 +9,13 @@ interface Env extends NodeJS.ProcessEnv {
   REGION: string
 }
 
+interface Backup {
+  id: string,
+  url: string,
+  lastModified: string,
+  size: number
+}
+
 const {
   BUCKET: Bucket,
   FRAGMENTS_TABLE: TableName,
@@ -29,7 +36,7 @@ const ddb_params: AWS.DynamoDB.DocumentClient.ScanInput = {
 };
 
 
-export const handler: Handler<any, string> = (event, context, callback) => {
+export const handler: Handler<any, Backup> = (event, context, callback) => {
 
   // create a file to stream archive data to.
   // var output = fs.createWriteStream(__dirname + '/example.zip');
@@ -49,7 +56,28 @@ export const handler: Handler<any, string> = (event, context, callback) => {
       ContentType: 'application/zip'
     }
 
-    s3.upload(s3params).promise().then(callback.bind(null, null, iso_date)).catch(callback);
+    s3.upload(s3params).promise()
+      .then(async result => {
+        const params = {
+          Bucket,
+          Key: result.Key
+        };
+
+        const head = await s3.headObject(params).promise();
+
+        // Synchronous as it is the last operation - it's ok to block
+        const url = s3.getSignedUrl('getObject', params);
+
+        const backup = {
+          id: result.Key,
+          lastModified: head.LastModified.toISOString(),
+          size: head.ContentLength,
+          url
+        };
+
+        callback(null, backup);
+      })
+      .catch(callback);
 
     return pass
   }
