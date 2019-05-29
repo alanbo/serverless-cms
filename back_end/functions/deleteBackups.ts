@@ -12,7 +12,7 @@ const {
 const s3 = new S3();
 
 interface Event {
-  iso_dates: string[]
+  ids: string[]
 }
 
 
@@ -22,8 +22,8 @@ export const handler: Handler<Event, boolean | AWS.AWSError> = async (event) => 
       await s3.deleteObjects({
         Bucket,
         Delete: {
-          Objects: event.iso_dates.map(iso_date => ({
-            Key: `backup/${iso_date}.zip`
+          Objects: event.ids.map(Key => ({
+            Key
           })),
           Quiet: false
         }

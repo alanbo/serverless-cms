@@ -44,7 +44,7 @@ const ddb_params: AWS.DynamoDB.DocumentClient.ScanInput = {
 };
 
 interface AppSyncEvent {
-  iso_date: string
+  id: string
 }
 
 function uploadToDatabase(file: unzipper.File): NodeJS.ReadWriteStream {
@@ -70,7 +70,7 @@ export const handler = (event: AppSyncEvent, context: undefined, callback = cons
     try {
       directory = await unzipper.Open.s3(s3, {
         Bucket,
-        Key: `backup/${event.iso_date}.zip`
+        Key: event.id
       });
     } catch (e) {
       callback(e);
@@ -89,7 +89,6 @@ export const handler = (event: AppSyncEvent, context: undefined, callback = cons
     dynamoStream
       .pipe(JSONStream.parse('*'))
       .on('data', (data: DynamoStreamChunk) => {
-        console.log(data);
         if (Array.isArray(data)) {
           data.forEach(Key => {
             db.deleteItem({

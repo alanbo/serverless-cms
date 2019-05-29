@@ -100,8 +100,8 @@ type Mutation {
 	renderPages(id: [ID]): Boolean!
   resizeImages(paths: [String!]!): [Image!]!
   backup: Backup!
-  restoreFromBackup(iso_date: String!): Boolean
-  deleteBackups(iso_dates: [String!]!): Boolean
+  restoreFromBackup(id: ID!): Boolean
+  deleteBackups(ids: [ID!]!): Boolean
 }
 
 # Queries
