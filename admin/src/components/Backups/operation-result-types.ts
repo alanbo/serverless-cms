@@ -7,8 +7,15 @@
 // GraphQL query operation: GetBackupList
 // ====================================================
 
+export interface GetBackupList_backups {
+  id: string;
+  lastModified: string;
+  size: number;
+  url: string;
+}
+
 export interface GetBackupList {
-  backups: (string | null)[];
+  backups: GetBackupList_backups[];
 }
 
 
@@ -19,8 +26,15 @@ export interface GetBackupList {
 // GraphQL mutation operation: Backup
 // ====================================================
 
+export interface Backup_backup {
+  id: string;
+  lastModified: string;
+  size: number;
+  url: string;
+}
+
 export interface Backup {
-  iso_date: string;
+  backup: Backup_backup;
 }
 
 
@@ -36,7 +50,7 @@ export interface RestoreFromBackup {
 }
 
 export interface RestoreFromBackupVariables {
-  iso_date: string;
+  id: string;
 }
 
 
@@ -52,7 +66,7 @@ export interface DeleteBackups {
 }
 
 export interface DeleteBackupsVariables {
-  iso_dates: string[];
+  ids: string[];
 }
 
 /* tslint:disable */

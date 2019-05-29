@@ -14,49 +14,47 @@ import {
 
 export const getBackupListQuery = gql`
   query GetBackupList {
-    backups: getBackupList,
+    backups: getBackupList {
+      id
+      lastModified
+      size
+      url 
+    },
   }
 `;
 
 export const backupMutation = gql`
   mutation Backup {
-    iso_date: backup
+    backup {
+      id
+      lastModified
+      size
+      url
+    }
   }
 `;
 
 export const restoreFromBackupMutation = gql`
-  mutation RestoreFromBackup($iso_date: String!) {
-    success: restoreFromBackup(iso_date: $iso_date)
+  mutation RestoreFromBackup($id: ID!) {
+    success: restoreFromBackup(id: $id)
   }
 `;
 
 export const deleteBackupsMutation = gql`
-  mutation DeleteBackups($iso_dates: [String!]!) {
-    success: deleteBackups(iso_dates: $iso_dates)
+  mutation DeleteBackups($ids: [ID!]!) {
+    success: deleteBackups(ids: $ids)
   }
 `;
 
 
 export default compose(
-  graphql<{}, GetBackupList, void, { backups: string[] }>(getBackupListQuery, {
-    props: (props) => {
-      return R.pipe(
-        R.path<string[] | undefined>(['data', 'backups']),
-        R.defaultTo([]),
-        R.filter<string, 'array'>(item => item !== null),
-        R.map(
-          R.replace(/(backup\/|(\.zip))/g, '')
-        ),
-        R.assoc('backups', R.__, {})
-      )(props);
-    }
-  }),
+  graphql<{}, GetBackupList, void, GetBackupList>(getBackupListQuery),
 
   graphql<{}, RestoreFromBackup, RestoreFromBackupVariables, { restoreFromBackup(iso_date: string) }>(restoreFromBackupMutation, {
     props: (props) => ({
-      restoreFromBackup: (iso_date) => {
+      restoreFromBackup: (id) => {
         props.mutate!({
-          variables: { iso_date }
+          variables: { id }
         })
       }
     })
@@ -64,9 +62,9 @@ export default compose(
 
   graphql<{}, DeleteBackups, DeleteBackupsVariables, { deleteBackups(iso_dates: string[]) }>(deleteBackupsMutation, {
     props: (props) => ({
-      deleteBackups: (iso_dates: string[]) => {
+      deleteBackups: (ids: string[]) => {
         props.mutate!({
-          variables: { iso_dates },
+          variables: { ids },
           update: (dataProxy, result) => {
             const query = getBackupListQuery;
 
@@ -76,10 +74,11 @@ export default compose(
 
             const old_data = dataProxy.readQuery<GetBackupList>({ query });
 
-            const backups = R.without(
-              R.map(iso_date => `backup/${iso_date}.zip`, iso_dates),
-              R.defaultTo([], R.prop('backups', old_data || { backups: null }))
-            );
+            if (!old_data) {
+              return;
+            }
+
+            const backups = old_data.backups.filter(backup => !ids.includes(backup.id));
 
             dataProxy.writeQuery<GetBackupList>({ query, data: { backups } });
           }
@@ -101,12 +100,12 @@ export default compose(
             const query = getBackupListQuery;
             const old_data = dataProxy.readQuery<GetBackupList>({ query });
 
-            if (!old_data) {
+            if (!old_data || !result.data.backup) {
               return;
             }
 
             const backups = R.append(
-              `backup/${result.data.iso_date}.zip`,
+              result.data.backup,
               old_data.backups
             );
 

@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import BackupsTable from './BackupsTable';
 import { useTheme, makeStyles } from '@material-ui/styles';
 
+import {
+  Backup_backup
+} from './operation-result-types';
+
 const useStyles = makeStyles({
 
 });
@@ -9,25 +13,28 @@ const useStyles = makeStyles({
 interface Props {
   restoreFromBackup: (iso_string: string) => void,
   deleteBackups: (iso_string: string[]) => void,
-  backups?: string[],
+  data: {
+    backups: Backup_backup[]
+  },
   backupData: () => void
 }
 
 function Backups(props: Props) {
-  const { restoreFromBackup, deleteBackups, backups } = props;
+  const { restoreFromBackup, deleteBackups, data: { backups } } = props;
   const theme = useTheme();
   const classes = useStyles(theme);
-
 
   return (
     <div>
       Hello From Backups
     {
         backups && backups.map(backup => (
-          <div key={backup}>
-            <p >{backup}</p>
-            <button onClick={restoreFromBackup.bind(null, backup)}>restore</button>
-            <button onClick={deleteBackups.bind(null, [backup])}>delete</button>
+          <div key={backup.id}>
+            <p >{backup.lastModified}</p>
+            <p >{backup.size}</p>
+            <a href={backup.url}>Download</a>
+            <button onClick={restoreFromBackup.bind(null, backup.id)}>restore</button>
+            <button onClick={deleteBackups.bind(null, [backup.id])}>delete</button>
           </div>
         ))
       }
