@@ -84,6 +84,13 @@ type PageTypeInput {
 	title: String!
 }
 
+type Backup {
+  id: ID!
+  lastModified: String!,
+  url: String!,
+  size: Int!
+}
+
 
 # Mutations
 type Mutation {
@@ -100,7 +107,7 @@ type Mutation {
 # Queries
 type Query {
 	getPageTypeList: [PageType]
-  getBackupList: [String]!
+  getBackupList: [Backup!]!
 }
 
 
