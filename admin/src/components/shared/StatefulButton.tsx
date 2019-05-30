@@ -46,7 +46,7 @@ interface PropsStatefulButton {
   is_icon_btn?: boolean
 }
 
-function StatefulButton(props: PropsStatefulButton) {
+const StatefulButton = React.forwardRef<HTMLDivElement, PropsStatefulButton>((props, ref) => {
   const { className, onTimeout } = props;
   const default_classes = useStyles();
 
@@ -100,7 +100,7 @@ function StatefulButton(props: PropsStatefulButton) {
   }
 
   return (
-    <div className={className}>
+    <div className={className} ref={ref}>
       <Button {...btn_props}>
         {
           status === 'success' ? <CheckIcon /> :
@@ -110,6 +110,6 @@ function StatefulButton(props: PropsStatefulButton) {
       {status === 'loading' && <CircularProgress size={circSize} className={classes.progress} />}
     </div>
   )
-};
+});
 
 export default StatefulButton;
