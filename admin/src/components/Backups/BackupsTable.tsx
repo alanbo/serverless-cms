@@ -153,6 +153,7 @@ const useToolbarStyles = makeStyles(theme => ({
 interface EnhancedTableToolbarProps {
   numSelected: number;
   title: string;
+  onDelete: () => void;
 }
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
@@ -180,7 +181,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
       <div className={classes.actions}>
         {numSelected > 0 ? (
           <Tooltip title="Delete">
-            <IconButton aria-label="Delete">
+            <IconButton aria-label="Delete" onClick={props.onDelete}>
               <DeleteIcon />
             </IconButton>
           </Tooltip>
@@ -223,6 +224,7 @@ interface TableProps {
   title: string,
   data: Data[],
   onRestore: (id: string) => void
+  onDelete: (ids: string[]) => void
 }
 
 function EnhancedTable(props: TableProps) {
@@ -284,7 +286,14 @@ function EnhancedTable(props: TableProps) {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} title={props.title} />
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          title={props.title}
+          onDelete={() => {
+            props.onDelete(selected);
+            setSelected([]);
+          }}
+        />
         <div className={classes.tableWrapper}>
           <Table
             className={classes.table}
@@ -324,10 +333,10 @@ function EnhancedTable(props: TableProps) {
                         {row.size}
                       </TableCell>
                       <TableCell align="right">
-                        <a href={row.url}>Download</a>
+                        <a href={row.url} onClick={e => e.stopPropagation()}>Download</a>
                       </TableCell>
                       <TableCell align="right">
-                        <button onClick={props.onRestore.bind(null, row.id)}>Restore</button>
+                        <button onClick={() => props.onRestore(row.id)}>Restore</button>
                       </TableCell>
                     </TableRow>
                   );
