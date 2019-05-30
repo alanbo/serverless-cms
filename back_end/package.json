@@ -25,7 +25,7 @@
     "serverless-s3-sync": "^1.7.1",
     "serverless-stack-output": "^0.2.3",
     "serverless-webpack": "^5.2.0",
-    "typescript": "^3.4.5"
+    "typescript": "^3.5"
   },
   "author": "The serverless webpack authors (https://github.com/elastic-coders/serverless-webpack)",
   "license": "MIT",
