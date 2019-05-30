@@ -15,6 +15,10 @@ const useStyles = makeStyles(theme => ({
     position: 'absolute',
     bottom: theme.spacing(2),
     right: theme.spacing(2),
+  },
+  root: {
+    display: 'flex',
+    justifyContent: 'center'
   }
 }));
 
@@ -42,7 +46,7 @@ function Backups(props: Props) {
 
 
   return (
-    <div>
+    <div className={classes.root}>
       <BackupsTable
         title={'Backups'}
         onRestore={restoreFromBackup}

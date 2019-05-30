@@ -17,6 +17,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
+import DownloadIcon from '@material-ui/icons/CloudDownload';
+import RestoreIcon from '@material-ui/icons/Restore';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 
@@ -43,11 +45,11 @@ function getDateString(timestamp: number) {
 
 function getSizeString(size: number) {
   if (size >= 1.074e+9) {
-    return `${( size / 1.074e+9 ).toFixed(2)} GB`;
+    return `${(size / 1.074e+9).toFixed(2)} GB`;
   } else if (size >= 1.049e+6) {
-    return `${( size / 1.049e+6 ).toFixed(2)} MB`;
+    return `${(size / 1.049e+6).toFixed(2)} MB`;
   } else if (size >= 1024) {
-    return `${( size / 1024 ).toFixed(2)} kB`;
+    return `${(size / 1024).toFixed(2)} kB`;
   } else {
     return `${size} B`
   }
@@ -221,22 +223,22 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   );
 };
 
-EnhancedTableToolbar.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-};
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       width: '100%',
       marginTop: theme.spacing(3),
+      maxWidth: 700,
+      // so that user can scroll past the backup icon
+      paddingBottom: theme.spacing(6)
     },
     paper: {
       width: '100%',
       marginBottom: theme.spacing(2),
     },
     table: {
-      minWidth: 750,
+      minWidth: 550,
     },
     tableWrapper: {
       overflowX: 'auto',
@@ -357,10 +359,16 @@ function EnhancedTable(props: TableProps) {
                         {getSizeString(row.size)}
                       </TableCell>
                       <TableCell align="right">
-                        <a href={row.url} onClick={e => e.stopPropagation()}>Download</a>
+                        <a href={row.url} onClick={e => e.stopPropagation()}>
+                          <IconButton aria-label="Download" onClick={e => e.stopPropagation()}>
+                            <DownloadIcon />
+                          </IconButton>
+                        </a>
                       </TableCell>
                       <TableCell align="right">
-                        <button onClick={() => props.onRestore(row.id)}>Restore</button>
+                        <IconButton aria-label="Restore Backup" onClick={() => props.onRestore(row.id)}>
+                          <RestoreIcon />
+                        </IconButton>
                       </TableCell>
                     </TableRow>
                   );
