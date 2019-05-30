@@ -31,8 +31,7 @@ const useStyles = makeStyles(theme => ({
 
 interface PropsStatefulButton {
   className: string,
-  status: 'success' | 'error' | 'loading' | null,
-  onClick: () => void,
+  onClick: () => Promise<any>,
   classes?: {
     success?: string,
     error?: string,
@@ -45,14 +44,34 @@ interface PropsStatefulButton {
 }
 
 function StatefulButton(props: PropsStatefulButton) {
-  const { status, className, onClick } = props;
+  const { className } = props;
   const default_classes = useStyles();
 
   const classes = Object.assign(default_classes, props.classes || {});
   const circSize = props.circSize || 68;
+  const [status, setStatus] = React.useState<'success' | 'error' | 'loading' | 'default'>('default');
+  let timeout: NodeJS.Timeout;
+
+  // Clear timeout if element unmounts before it's finished.
+  React.useEffect(() => () => timeout && clearTimeout(timeout));
+
+  async function onClick() {
+    setStatus('loading');
+
+    try {
+      await props.onClick();
+      setStatus('success');
+
+    } catch (e) {
+      setStatus('error');
+    }
+
+    // TO DO: what if component unmounts before timeout?
+    timeout = setTimeout(() => setStatus('default'), 1000);
+  }
 
 
-  const buttonClassname = classes[status || 'default'];
+  const buttonClassname = classes[status];
 
   return (
     <div className={className}>

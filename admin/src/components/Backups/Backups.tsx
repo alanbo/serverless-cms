@@ -1,9 +1,6 @@
 import React from 'react';
-
 import BackupIcon from '@material-ui/icons/Backup';
 import { makeStyles } from '@material-ui/core/styles';
-import green from '@material-ui/core/colors/green';
-import red from '@material-ui/core/colors/red';
 
 import * as R from 'ramda';
 
@@ -40,24 +37,7 @@ interface Props {
 function Backups(props: Props) {
   const { restoreFromBackup, deleteBackups, data: { backups, loading } } = props;
   const classes = useStyles();
-  const [backup_status, setBackupStatus] = React.useState<'success' | 'error' | 'loading' | null>(null);
 
-  async function backupData() {
-    setBackupStatus('loading');
-
-    try {
-      await props.backupData();
-      setBackupStatus('success');
-
-    } catch (e) {
-      setBackupStatus('error');
-    }
-
-    // TO DO: what if component unmounts before timeout?
-    setTimeout(() => setBackupStatus(null), 1000);
-  }
-
-  // TO DO: add proper loading spinner
   if (loading) {
     return <div>Loading</div>;
   }
@@ -76,9 +56,8 @@ function Backups(props: Props) {
       />
 
       <StatefulButton
-        status={backup_status}
         className={classes.button}
-        onClick={backupData}
+        onClick={props.backupData}
       >
         <BackupIcon />
       </StatefulButton>
