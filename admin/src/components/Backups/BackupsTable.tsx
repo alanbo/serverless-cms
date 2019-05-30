@@ -29,6 +29,18 @@ interface Data {
 
 type DataSortable = Pick<Data, 'lastModified' | 'size'>;
 
+function getDateString(timestamp: number) {
+  const date = new Date(timestamp);
+  const day = date.getDate();
+  const month_arr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nove', 'Dec'];
+  const month = month_arr[date.getMonth()];
+  const year = date.getFullYear();
+  const hour = date.getHours();
+  const minutes = date.getMinutes();
+
+  return `${day} ${month} ${year}, ${hour}:${minutes.toString().padStart(2, '0')}`;
+}
+
 
 function desc<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -327,7 +339,7 @@ function EnhancedTable(props: TableProps) {
                         <Checkbox checked={isItemSelected} />
                       </TableCell>
                       <TableCell component="th" scope="row" padding="none">
-                        {row.lastModified}
+                        {getDateString(row.lastModified)}
                       </TableCell>
                       <TableCell align="right">
                         {row.size}

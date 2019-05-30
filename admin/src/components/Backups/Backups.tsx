@@ -40,7 +40,6 @@ function Backups(props: Props) {
   const table_data = backups
     .map(item => R.assoc('lastModified', +(new Date(item.lastModified)), item));
 
-  console.log(table_data);
 
   return (
     <div>
