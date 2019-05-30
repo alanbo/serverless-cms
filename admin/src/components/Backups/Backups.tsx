@@ -24,25 +24,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     justifyContent: 'center'
-  },
-  buttonSuccess: {
-    backgroundColor: green[500],
-    pointerEvents: 'none'
-  },
-  buttonError: {
-    backgroundColor: red[500],
-    pointerEvents: 'none'
-  },
-  buttonLoading: {
-    pointerEvents: 'none'
-  },
-  fabProgress: {
-    color: green[500],
-    position: 'absolute',
-    top: -6,
-    left: -6,
-    zIndex: 1,
-  },
+  }
 }));
 
 interface Props {
@@ -94,14 +76,7 @@ function Backups(props: Props) {
       />
 
       <StatefulButton
-        classes={{
-          success: classes.buttonSuccess,
-          error: classes.buttonError,
-          loading: classes.buttonLoading
-        }}
-        progressClass={classes.fabProgress}
         status={backup_status}
-        circSize={68}
         className={classes.button}
         onClick={backupData}
       >
