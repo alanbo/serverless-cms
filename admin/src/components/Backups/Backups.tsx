@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import BackupsTable from './BackupsTable';
 import { useTheme, makeStyles } from '@material-ui/styles';
+import * as R from 'ramda';
+
 
 import {
   Backup_backup
@@ -24,6 +26,15 @@ function Backups(props: Props) {
   const theme = useTheme();
   const classes = useStyles(theme);
 
+  if (!backups) {
+    return <div>Loading</div>;
+  }
+
+  const table_data = backups
+    .map(item => R.assoc('lastModified', +(new Date(item.lastModified)), item));
+
+  console.log(table_data);
+
   return (
     <div>
       Hello From Backups
@@ -40,7 +51,11 @@ function Backups(props: Props) {
       }
       <button onClick={props.backupData}>Backup</button>
 
-      <BackupsTable title={'Backups'} />
+      <BackupsTable
+        title={'Backups'}
+        onRestore={console.log}
+        data={table_data}
+      />
 
     </div>
   );
