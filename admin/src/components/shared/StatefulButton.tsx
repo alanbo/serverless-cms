@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Fab from '@material-ui/core/Fab';
+import IconButton from '@material-ui/core/IconButton';
 import ErrorIcon from '@material-ui/icons/Error';
 import CheckIcon from '@material-ui/icons/Check';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -32,6 +33,7 @@ const useStyles = makeStyles(theme => ({
 interface PropsStatefulButton {
   className: string,
   onClick: () => Promise<any>,
+  onTimeout?: () => void,
   classes?: {
     success?: string,
     error?: string,
@@ -40,14 +42,15 @@ interface PropsStatefulButton {
     progress?: string
   },
   children: React.ReactNode,
-  circSize?: number
+  circSize?: number,
+  is_icon_btn?: boolean
 }
 
 function StatefulButton(props: PropsStatefulButton) {
-  const { className } = props;
+  const { className, onTimeout } = props;
   const default_classes = useStyles();
 
-  const classes = Object.assign(default_classes, props.classes || {});
+  const classes = Object.assign({}, default_classes, props.classes || {});
   const circSize = props.circSize || 68;
   const [status, setStatus] = React.useState<'success' | 'error' | 'loading' | 'default'>('default');
   let timeout: NodeJS.Timeout;
@@ -66,21 +69,44 @@ function StatefulButton(props: PropsStatefulButton) {
       setStatus('error');
     }
 
-    // TO DO: what if component unmounts before timeout?
-    timeout = setTimeout(() => setStatus('default'), 1000);
+    timeout = setTimeout(() => {
+      setStatus('default');
+      if (onTimeout) {
+        onTimeout();
+      }
+    }, 1000);
   }
 
 
   const buttonClassname = classes[status];
 
+  const Button = props.is_icon_btn
+    ? (props) => <IconButton {...props} />
+    : (props) => <Fab {...props} />;
+
+  interface BtnProps {
+    className?: string,
+    onClick: () => void,
+    color?: string
+  }
+
+  const btn_props: BtnProps = {
+    className: buttonClassname,
+    onClick
+  }
+
+  if (!props.is_icon_btn) {
+    btn_props.color = 'primary';
+  }
+
   return (
     <div className={className}>
-      <Fab color="primary" className={buttonClassname} onClick={onClick}>
+      <Button {...btn_props}>
         {
           status === 'success' ? <CheckIcon /> :
             status === 'error' ? <ErrorIcon /> : props.children
         }
-      </Fab>
+      </Button>
       {status === 'loading' && <CircularProgress size={circSize} className={classes.progress} />}
     </div>
   )

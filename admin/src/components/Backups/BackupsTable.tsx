@@ -20,6 +20,10 @@ import DownloadIcon from '@material-ui/icons/CloudDownload';
 import RestoreIcon from '@material-ui/icons/Restore';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
+import green from '@material-ui/core/colors/green';
+import red from '@material-ui/core/colors/red';
+
+import StatefulButton from '../shared/StatefulButton';
 
 interface Data {
   id: string
@@ -173,12 +177,33 @@ const useToolbarStyles = makeStyles(theme => ({
   title: {
     flex: '0 0 auto',
   },
+  deleteBtn: {
+    position: 'relative'
+  },
+  deleteSuccess: {
+    color: 'white',
+    backgroundColor: green[500],
+    pointerEvents: 'none'
+  },
+  deleteError: {
+    color: 'white',
+    backgroundColor: red[500],
+    pointerEvents: 'none'
+  },
+  deleteProgress: {
+    color: green[500],
+    position: 'absolute',
+    top: 3,
+    left: 3,
+    zIndex: 1,
+  }
 }));
 
 interface EnhancedTableToolbarProps {
   numSelected: number;
   title: string;
-  onDelete: () => void;
+  onDelete: () => Promise<any>;
+  onDeleteTimeout: () => void;
 }
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
@@ -206,9 +231,20 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
       <div className={classes.actions}>
         {numSelected > 0 ? (
           <Tooltip title="Delete">
-            <IconButton aria-label="Delete" onClick={props.onDelete}>
+            <StatefulButton
+              onClick={props.onDelete}
+              onTimeout={props.onDeleteTimeout}
+              className={classes.deleteBtn}
+              is_icon_btn={true}
+              circSize={40}
+              classes={{
+                success: classes.deleteSuccess,
+                error: classes.deleteError,
+                progress: classes.deleteProgress
+              }}
+            >
               <DeleteIcon />
-            </IconButton>
+            </StatefulButton>
           </Tooltip>
         ) : (
             <Tooltip title="Filter list">
@@ -249,7 +285,7 @@ interface TableProps {
   title: string,
   data: Data[],
   onRestore: (id: string) => void
-  onDelete: (ids: string[]) => void
+  onDelete: (ids: string[]) => Promise<any>
 }
 
 function EnhancedTable(props: TableProps) {
@@ -314,10 +350,8 @@ function EnhancedTable(props: TableProps) {
         <EnhancedTableToolbar
           numSelected={selected.length}
           title={props.title}
-          onDelete={() => {
-            props.onDelete(selected);
-            setSelected([]);
-          }}
+          onDelete={() => props.onDelete(selected)}
+          onDeleteTimeout={() => setSelected([])}
         />
         <div className={classes.tableWrapper}>
           <Table
