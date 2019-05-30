@@ -179,18 +179,24 @@ const useToolbarStyles = makeStyles(theme => ({
   },
   deleteBtn: {
     position: 'relative'
+  }
+}));
+
+const useBtnStyles = makeStyles(theme => ({
+  delete: {
+    position: 'relative'
   },
-  deleteSuccess: {
+  success: {
     color: 'white',
     backgroundColor: green[500],
     pointerEvents: 'none'
   },
-  deleteError: {
+  error: {
     color: 'white',
     backgroundColor: red[500],
     pointerEvents: 'none'
   },
-  deleteProgress: {
+  progress: {
     color: green[500],
     position: 'absolute',
     top: 3,
@@ -208,6 +214,7 @@ interface EnhancedTableToolbarProps {
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   const classes = useToolbarStyles();
+  const btn_classes = useBtnStyles();
   const { numSelected } = props;
 
   return (
@@ -237,11 +244,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
               className={classes.deleteBtn}
               is_icon_btn={true}
               circSize={40}
-              classes={{
-                success: classes.deleteSuccess,
-                error: classes.deleteError,
-                progress: classes.deleteProgress
-              }}
+              classes={btn_classes}
             >
               <DeleteIcon />
             </StatefulButton>
@@ -278,19 +281,24 @@ const useStyles = makeStyles((theme: Theme) =>
     tableWrapper: {
       overflowX: 'auto',
     },
+    restoreBtn: {
+      position: 'relative',
+      width: 48
+    }
   }),
 );
 
 interface TableProps {
   title: string,
   data: Data[],
-  onRestore: (id: string) => void
+  onRestore: (id: string) => Promise<any>
   onDelete: (ids: string[]) => Promise<any>
 }
 
 function EnhancedTable(props: TableProps) {
   const { data } = props;
   const classes = useStyles();
+  const btn_classes = useBtnStyles();
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('lastModified');
   const [selected, setSelected] = React.useState<string[]>([]);
@@ -399,9 +407,15 @@ function EnhancedTable(props: TableProps) {
                         </a>
                       </TableCell>
                       <TableCell align="right">
-                        <IconButton aria-label="Restore Backup" onClick={() => props.onRestore(row.id)}>
+                        <StatefulButton
+                          onClick={() => props.onRestore(row.id)}
+                          className={classes.restoreBtn}
+                          is_icon_btn={true}
+                          circSize={40}
+                          classes={btn_classes}
+                        >
                           <RestoreIcon />
-                        </IconButton>
+                        </StatefulButton>
                       </TableCell>
                     </TableRow>
                   );
