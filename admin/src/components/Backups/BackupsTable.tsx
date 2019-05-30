@@ -41,6 +41,18 @@ function getDateString(timestamp: number) {
   return `${day} ${month} ${year}, ${hour}:${minutes.toString().padStart(2, '0')}`;
 }
 
+function getSizeString(size: number) {
+  if (size >= 1.074e+9) {
+    return `${( size / 1.074e+9 ).toFixed(2)} GB`;
+  } else if (size >= 1.049e+6) {
+    return `${( size / 1.049e+6 ).toFixed(2)} MB`;
+  } else if (size >= 1024) {
+    return `${( size / 1024 ).toFixed(2)} kB`;
+  } else {
+    return `${size} B`
+  }
+}
+
 
 function desc<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -342,7 +354,7 @@ function EnhancedTable(props: TableProps) {
                         {getDateString(row.lastModified)}
                       </TableCell>
                       <TableCell align="right">
-                        {row.size}
+                        {getSizeString(row.size)}
                       </TableCell>
                       <TableCell align="right">
                         <a href={row.url} onClick={e => e.stopPropagation()}>Download</a>
