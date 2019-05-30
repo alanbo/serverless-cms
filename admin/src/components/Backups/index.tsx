@@ -50,20 +50,20 @@ export const deleteBackupsMutation = gql`
 export default compose(
   graphql<{}, GetBackupList, void, GetBackupList>(getBackupListQuery),
 
-  graphql<{}, RestoreFromBackup, RestoreFromBackupVariables, { restoreFromBackup(iso_date: string) }>(restoreFromBackupMutation, {
+  graphql<{}, RestoreFromBackup, RestoreFromBackupVariables, { restoreFromBackup: (iso_date: string) => Promise<any> }>(restoreFromBackupMutation, {
     props: (props) => ({
       restoreFromBackup: (id) => {
-        props.mutate!({
+        return props.mutate!({
           variables: { id }
         })
       }
     })
   }),
 
-  graphql<{}, DeleteBackups, DeleteBackupsVariables, { deleteBackups(iso_dates: string[]) }>(deleteBackupsMutation, {
+  graphql<{}, DeleteBackups, DeleteBackupsVariables, { deleteBackups: (iso_dates: string[]) => Promise<any> }>(deleteBackupsMutation, {
     props: (props) => ({
       deleteBackups: (ids: string[]) => {
-        props.mutate!({
+        return props.mutate!({
           variables: { ids },
           update: (dataProxy, result) => {
             const query = getBackupListQuery;
@@ -88,10 +88,10 @@ export default compose(
     })
   }),
 
-  graphql<{}, Backup, void, { backupData: () => void }>(backupMutation, {
+  graphql<{}, Backup, void, { backupData: () => Promise<any> }>(backupMutation, {
     props: (props) => ({
       backupData: () => {
-        props.mutate!({
+        return props.mutate!({
           update: (dataProxy, result) => {
             if (!result.data) {
               return;
