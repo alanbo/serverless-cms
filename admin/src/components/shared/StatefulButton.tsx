@@ -58,7 +58,8 @@ const StatefulButton = React.forwardRef<HTMLDivElement, PropsStatefulButton>((pr
   // Clear timeout if element unmounts before it's finished.
   React.useEffect(() => () => timeout && clearTimeout(timeout));
 
-  async function onClick() {
+  async function onClick(e: Event) {
+    e.stopPropagation();
     setStatus('loading');
 
     try {
@@ -86,7 +87,7 @@ const StatefulButton = React.forwardRef<HTMLDivElement, PropsStatefulButton>((pr
 
   interface BtnProps {
     className?: string,
-    onClick: () => void,
+    onClick: (e: Event) => void,
     color?: string
   }
 

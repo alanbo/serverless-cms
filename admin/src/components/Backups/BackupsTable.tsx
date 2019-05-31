@@ -199,8 +199,8 @@ const useBtnStyles = makeStyles(theme => ({
   progress: {
     color: green[500],
     position: 'absolute',
-    top: 3,
-    left: 3,
+    top: 4,
+    left: 4,
     zIndex: 1,
   }
 }));
@@ -249,13 +249,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
               <DeleteIcon />
             </StatefulButton>
           </Tooltip>
-        ) : (
-            <Tooltip title="Filter list">
-              <IconButton aria-label="Filter list">
-                <FilterListIcon />
-              </IconButton>
-            </Tooltip>
-          )}
+        ) : null}
       </div>
     </Toolbar>
   );
@@ -283,8 +277,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     restoreBtn: {
       position: 'relative',
-      width: 48
-    }
+      width: 48,
+      display: 'inline-block'
+    },
   }),
 );
 
