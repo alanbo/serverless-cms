@@ -51,6 +51,7 @@ export default ({ signOut, fragments_list }: MenuListProps) => {
       <Divider />
       <List component="nav">
         <MenuLink to='/trash' icon='delete_outline' text='Trash' />
+        <MenuLink to='/backups' icon='backup' text='Backups' />
         <MenuLink to='/settings' icon='settings' text='Settings' />
         <Divider />
         <ListItem button onClick={signOut}>
