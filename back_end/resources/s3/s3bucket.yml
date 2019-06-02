@@ -23,6 +23,3 @@ Properties:
         AllowedOrigins:
           - "*"
         MaxAge: 3000
-
-DependsOn:
-  - ResizeLambdaFunction

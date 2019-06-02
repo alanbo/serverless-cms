@@ -2,7 +2,7 @@ Type: "AWS::Lambda::Permission"
 Properties:
   FunctionName:
     "Fn::GetAtt":
-      - ResizeLambdaFunction
+      - ResizeImagesLambdaFunction
       - Arn
   Principal: "s3.amazonaws.com"
   Action: "lambda:*"

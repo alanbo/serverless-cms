@@ -19,9 +19,9 @@ Properties:
               - lambda:invokeFunction
             Resource:
               - Fn::GetAtt: ["ResolveNestedFragmentsLambdaFunction", "Arn"]
-              - Fn::GetAtt: ["ResolvePageTypeLambdaFunction", "Arn"]
-              - Fn::GetAtt: ["RenderLambdaFunction", "Arn"]
-              - Fn::GetAtt: ["ResizeLambdaFunction", "Arn"]
+              - Fn::GetAtt: ["GetPageTypeListLambdaFunction", "Arn"]
+              - Fn::GetAtt: ["RenderPagesLambdaFunction", "Arn"]
+              - Fn::GetAtt: ["ResizeImagesLambdaFunction", "Arn"]
               - Fn::GetAtt: ["BackupLambdaFunction", "Arn"]
               - Fn::GetAtt: ["RestoreFromBackupLambdaFunction", "Arn"]
               - Fn::GetAtt: ["GetBackupListLambdaFunction", "Arn"]

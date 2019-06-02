@@ -24,23 +24,23 @@ Resources:
   graphQLSchema: ${file(./resources/graphql-api/graphql-schema.yml)}
   graphQLData: ${file(./resources/graphql-api/graphql-datasource.yml)}
   graphQLLambda: ${file(./resources/graphql-api/graphql-datasource-lambda.yml)}
-  graphQLPageTypesDataSource: ${file(./resources/graphql-api/graphql-datasource-page-types.yml)}
-  graphQLRenderDataSource: ${file(./resources/graphql-api/graphql-datasource-render.yml)}
-  graphQLResizeDataSource: ${file(./resources/graphql-api/graphql-datasource-resize-images.yml)}
-  graphQLBackupDataSource: ${file(./resources/graphql-api/graphql-datasource-backup.yml)}
-  graphQLRestoreFromBackupDataSource: ${file(./resources/graphql-api/graphql-datasource-restore-from-backup.yml)}
-  graphQLDeleteBackupsDataSource: ${file(./resources/graphql-api/graphql-datasource-delete-backups.yml)}
-  graphQLGetBackupListDataSource: ${file(./resources/graphql-api/graphql-datasource-get-backup-list.yml)}
+  # graphQLPageTypesDataSource: ${file(./resources/graphql-api/graphql-datasource-page-types.yml)}
+  # graphQLRenderDataSource: ${file(./resources/graphql-api/graphql-datasource-render.yml)}
+  # graphQLResizeDataSource: ${file(./resources/graphql-api/graphql-datasource-resize-images.yml)}
+  # graphQLBackupDataSource: ${file(./resources/graphql-api/graphql-datasource-backup.yml)}
+  # graphQLRestoreFromBackupDataSource: ${file(./resources/graphql-api/graphql-datasource-restore-from-backup.yml)}
+  # graphQLDeleteBackupsDataSource: ${file(./resources/graphql-api/graphql-datasource-delete-backups.yml)}
+  # graphQLGetBackupListDataSource: ${file(./resources/graphql-api/graphql-datasource-get-backup-list.yml)}
 
 
   deleteFragment: ${file(./resources/graphql-api/resolvers/deleteFragment.yml)}
   permanentlyDeleteFragments: ${file(./resources/graphql-api/resolvers/permanentlyDeleteFragments.yml)}
   recoverFragment: ${file(./resources/graphql-api/resolvers/recoverFragment.yml)}
-  getPageTypeList: ${file(./resources/graphql-api/resolvers/getPageTypeList.yml)}
-  renderPages: ${file(./resources/graphql-api/resolvers/renderPages.yml)}
-  resizeImages: ${file(./resources/graphql-api/resolvers/resizeImages.yml)}
-  backup: ${file(./resources/graphql-api/resolvers/backup.yml)}
-  restoreFromBackup: ${file(./resources/graphql-api/resolvers/restoreFromBackup.yml)}
-  deleteBackup: ${file(./resources/graphql-api/resolvers/deleteBackups.yml)}
-  getBackupList: ${file(./resources/graphql-api/resolvers/getBackupList.yml)}
+  # getPageTypeList: ${file(./resources/graphql-api/resolvers/getPageTypeList.yml)}
+  # renderPages: ${file(./resources/graphql-api/resolvers/renderPages.yml)}
+  # resizeImages: ${file(./resources/graphql-api/resolvers/resizeImages.yml)}
+  # backup: ${file(./resources/graphql-api/resolvers/backup.yml)}
+  # restoreFromBackup: ${file(./resources/graphql-api/resolvers/restoreFromBackup.yml)}
+  # deleteBackup: ${file(./resources/graphql-api/resolvers/deleteBackups.yml)}
+  # getBackupList: ${file(./resources/graphql-api/resolvers/getBackupList.yml)}
 

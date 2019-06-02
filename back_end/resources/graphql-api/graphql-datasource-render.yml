@@ -9,4 +9,4 @@ Properties:
   Name: render_pages_lambda_resolver
   LambdaConfig:
     LambdaFunctionArn:
-      Fn::GetAtt: ["RenderLambdaFunction", "Arn"]
+      Fn::GetAtt: ["RenderPagesLambdaFunction", "Arn"]

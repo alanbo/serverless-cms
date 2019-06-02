@@ -9,4 +9,4 @@ Properties:
   Name: resize_image_lambda_resolver
   LambdaConfig:
     LambdaFunctionArn:
-      Fn::GetAtt: ["ResizeLambdaFunction", "Arn"]
+      Fn::GetAtt: ["ResizeImagesLambdaFunction", "Arn"]

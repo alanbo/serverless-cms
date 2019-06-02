@@ -48,8 +48,8 @@ provider:
   region: us-west-2
 
 functions:
-  resolvePageType:
-    handler: functions/queries/resolvePageType.resolvePageType
+  getPageTypeList:
+    handler: functions/queries/getPageTypeList.handler
     role: readS3role
     environment:
       BUCKET: ${file(../slscms-config.yml):bucket_name}
@@ -88,7 +88,7 @@ functions:
     environment:
       BUCKET: ${file(../slscms-config.yml):bucket_name}
 
-  resize:
+  resizeImages:
     handler: functions/mutations/resizeImages.resizeImages
     role: resizeRole
     timeout: 10
@@ -101,7 +101,7 @@ functions:
       GRAPHQL:
         Fn::GetAtt: ["graphQLApi", "GraphQLUrl"]
 
-  render:
+  renderPages:
     handler: functions/mutations/renderPages.handler
     role: resizeRole
 
