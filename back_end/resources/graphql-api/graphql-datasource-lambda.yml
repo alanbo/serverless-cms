@@ -3,7 +3,7 @@ Properties:
   Type: AWS_LAMBDA
   Description: Lambda resolver for gql queries and mutations.
   ServiceRoleArn:
-    Fn::GetAtt: ["sourceAppSyncRole", "Arn"]
+    Fn::GetAtt: ["graphQLFunctionDatasourceRole", "Arn"]
   ApiId:
     Fn::GetAtt: ["graphQLApi", "ApiId"]
   Name: app_sync_lambda_resolver

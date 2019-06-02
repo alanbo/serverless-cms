@@ -9,6 +9,7 @@ const nestedFieldTemplate = require('./nestedFieldTemplate');
 const getResolverConfig = require('./getResolverConfig');
 const createFunctionResolverDataSource = require('./createFunctionResolverDataSource');
 const resolveWithFunction = require('./resolveWithFunction');
+const createDatasourceRole = require('./createDatasourceRole');
 
 
 module.exports = serverless => {
@@ -39,22 +40,29 @@ module.exports = serverless => {
     .filter(filename => filename.endsWith('.ts'))
     // remove ts extension
     .map(filename => filename.slice(0, filename.length - 3))
-    // adds resolver and datasource for each filename
-    .forEach(name => {
-      Resources[`graphQL${name}Resolver`] = resolveWithFunction(name);
-      Resources[`graphQL${name}DataSource`] = createFunctionResolverDataSource(name);
-    });
+
+  // adds resolver and datasource for each filename
+  queries.forEach(name => {
+    Resources[`graphQL${name}Resolver`] = resolveWithFunction(name);
+    Resources[`graphQL${name}DataSource`] = createFunctionResolverDataSource(name);
+  });
 
   const mutations = (fs.readdirSync(path.resolve(__dirname, '../../../functions/mutations')) || [])
     // only ts files
     .filter(filename => filename.endsWith('.ts'))
     // remove ts extension
-    .map(filename => filename.slice(0, filename.length - 3))
-    // adds resolver and datasource for each filename
-    .forEach(name => {
-      Resources[`graphQL${name}Resolver`] = resolveWithFunction(name, true);
-      Resources[`graphQL${name}DataSource`] = createFunctionResolverDataSource(name);
-    });
+    .map(filename => filename.slice(0, filename.length - 3));
+
+  // adds resolver and datasource for each filename
+  mutations.forEach(name => {
+    Resources[`graphQL${name}Resolver`] = resolveWithFunction(name, true);
+    Resources[`graphQL${name}DataSource`] = createFunctionResolverDataSource(name);
+  });
+
+  Resources['graphQLFunctionDatasourceRole'] = createDatasourceRole(
+    serverless.service.service,
+    [...mutations, ...queries]
+  );
 
   return {
     Resources

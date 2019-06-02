@@ -5,7 +5,6 @@ Resources:
   resizeRole: ${file(./resources/roles/resizeRole.yml)}
   updateDbRole: ${file(./resources/roles/updateDbRole.yml)}
   dataEditorRole: ${file(./resources/roles/dataEditorRole.yml)}
-  sourceAppSyncRole: ${file(./resources/roles/sourceAppSyncRole.yml)}
   identityPoolRoleAttachment:  ${file(./resources/auth/identity-pool-role-attachment.yml)}
   fragmentsTable: ${file(./resources/tables.yml):fragmentsTable}
   readS3role:  ${file(./resources/roles/readS3role.yml)}
