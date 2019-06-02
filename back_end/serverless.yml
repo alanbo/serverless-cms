@@ -49,7 +49,7 @@ provider:
 
 functions:
   resolvePageType:
-    handler: functions/resolvePageType.resolvePageType
+    handler: functions/queries/resolvePageType.resolvePageType
     role: readS3role
     environment:
       BUCKET: ${file(../slscms-config.yml):bucket_name}
@@ -61,7 +61,7 @@ functions:
       FRAGMENTS_TABLE: ${self:service}-fragments
 
   backup:
-    handler: functions/backup.handler
+    handler: functions/mutations/backup.handler
     role: backupRole
     environment:
       FRAGMENTS_TABLE: ${self:service}-fragments
@@ -69,7 +69,7 @@ functions:
       REGION: ${self:provider.region}
 
   restoreFromBackup:
-    handler: functions/restoreFromBackup.handler
+    handler: functions/mutations/restoreFromBackup.handler
     role: restoreFromBackupRole
     environment:
       FRAGMENTS_TABLE: ${self:service}-fragments
@@ -77,19 +77,19 @@ functions:
       REGION: ${self:provider.region}
 
   deleteBackups:
-    handler: functions/deleteBackups.handler
+    handler: functions/mutations/deleteBackups.handler
     role: deleteBackupsRole
     environment:
       BUCKET: ${file(../slscms-config.yml):bucket_name}
 
   getBackupList:
-    handler: functions/getBackupList.handler
+    handler: functions/queries/getBackupList.handler
     role: getBackupListRole
     environment:
       BUCKET: ${file(../slscms-config.yml):bucket_name}
 
   resize:
-    handler: functions/resizeImages.resizeImages
+    handler: functions/mutations/resizeImages.resizeImages
     role: resizeRole
     timeout: 10
     memorySize: 2048
@@ -102,7 +102,7 @@ functions:
         Fn::GetAtt: ["graphQLApi", "GraphQLUrl"]
 
   render:
-    handler: functions/renderPages.handler
+    handler: functions/mutations/renderPages.handler
     role: resizeRole
 
     environment:
@@ -114,5 +114,5 @@ functions:
 
 resources:
   - ${file(./resources/resources.yml)}
-  - ${file(./resources/graphql-api/createResolvers.js)}
+  - ${file(./scripts/graphql/create-resolvers/createResolvers.js)}
   - ${file(./resources/outputs.yml)}

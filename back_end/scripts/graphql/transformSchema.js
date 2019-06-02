@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { mergeSchemas } = require('graphql-tools');
-const sdlString = fs.readFileSync(path.resolve(__dirname, './schema.graphql')).toString('utf8');
+const sdlString = fs.readFileSync(path.resolve(__dirname, '../../resources/graphql-api/schema.graphql')).toString('utf8');
 
 const {
   buildSchema,

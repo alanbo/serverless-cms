@@ -1,16 +1,16 @@
 const fs = require('fs');
 const path = require('path');
 
-const getTemplate = require('./create-resolvers/getTemplate');
-const getListTemplate = require('./create-resolvers/getListTemplate');
-const putTemplate = require('./create-resolvers/putTemplate');
-const nestedListTemplate = require('./create-resolvers/nestedListTemplate');
-const nestedFieldTemplate = require('./create-resolvers/nestedFieldTemplate');
+const getTemplate = require('./getTemplate');
+const getListTemplate = require('./getListTemplate');
+const putTemplate = require('./putTemplate');
+const nestedListTemplate = require('./nestedListTemplate');
+const nestedFieldTemplate = require('./nestedFieldTemplate');
 const getResolverConfig = require('./getResolverConfig');
 
 
 module.exports = serverless => {
-  const sdlString = fs.readFileSync(path.resolve(__dirname, './schema.graphql')).toString('utf8');
+  const sdlString = fs.readFileSync(path.resolve(__dirname, '../../../resources/graphql-api/schema.graphql')).toString('utf8');
   const TYPES = getResolverConfig(sdlString);
   const Resources = {};
 

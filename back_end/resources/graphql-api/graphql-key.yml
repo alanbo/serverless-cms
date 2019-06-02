@@ -1,6 +1,6 @@
 Type: "AWS::AppSync::ApiKey"
 Properties:
   Description: Admin module api key
-  Expires: ${file(./resources/graphql-api/date-helper.js)}
+  Expires: ${file(./scripts/graphql/date-helper.js)}
   ApiId:
     Fn::GetAtt: ["graphQLApi", "ApiId"]
