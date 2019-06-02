@@ -7,11 +7,7 @@ Resources:
   dataEditorRole: ${file(./resources/roles/dataEditorRole.yml)}
   identityPoolRoleAttachment:  ${file(./resources/auth/identity-pool-role-attachment.yml)}
   fragmentsTable: ${file(./resources/tables.yml):fragmentsTable}
-  readS3role:  ${file(./resources/roles/readS3role.yml)}
-  backupRole:  ${file(./resources/roles/backupRole.yml)}
-  restoreFromBackupRole:  ${file(./resources/roles/restoreFromBackupRole.yml)}
-  deleteBackupsRole:  ${file(./resources/roles/deleteBackupsRole.yml)}
-  getBackupListRole:  ${file(./resources/roles/getBackupListRole.yml)}
+  genericFunctionRole:  ${file(./resources/roles/genericFunctionRole.yml)}
 
   userPool:  ${file(./resources/auth/user-pool.yml)}
   userPoolGroup: ${file(./resources/auth/user-pool-group.yml)}

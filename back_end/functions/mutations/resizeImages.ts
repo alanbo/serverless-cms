@@ -7,7 +7,7 @@ import storeImageData from './resize-images/storeImageData';
 import { Handler } from 'aws-lambda';
 
 // eslint-disable-next-line import/prefer-default-export
-export const resizeImages: Handler = async function (event: { paths: string[] }, context, callback) {
+export const handler: Handler = async function (event: { paths: string[] }, context, callback) {
   async function processImage(src_key: string) {
     const bucket = process.env.BUCKET;
     const filename = src_key.split('/').pop();

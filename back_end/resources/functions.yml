@@ -1,0 +1,5 @@
+resolveNestedFragments:
+  handler: functions/resolveNestedFragments.handler
+  role: updateDbRole
+  environment:
+    FRAGMENTS_TABLE: ${self:service}-fragments

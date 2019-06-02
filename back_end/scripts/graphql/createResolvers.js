@@ -1,19 +1,19 @@
 const fs = require('fs');
 const path = require('path');
 
-const getTemplate = require('./getTemplate');
-const getListTemplate = require('./getListTemplate');
-const putTemplate = require('./putTemplate');
-const nestedListTemplate = require('./nestedListTemplate');
-const nestedFieldTemplate = require('./nestedFieldTemplate');
-const getResolverConfig = require('./getResolverConfig');
-const createFunctionResolverDataSource = require('./createFunctionResolverDataSource');
-const resolveWithFunction = require('./resolveWithFunction');
-const createDatasourceRole = require('./createDatasourceRole');
+const getTemplate = require('./create-resolvers/templates/getTemplate');
+const getListTemplate = require('./create-resolvers/templates/getListTemplate');
+const putTemplate = require('./create-resolvers/templates/putTemplate');
+const nestedListTemplate = require('./create-resolvers/templates/nestedListTemplate');
+const nestedFieldTemplate = require('./create-resolvers/templates/nestedFieldTemplate');
+const getResolverConfig = require('./create-resolvers/getResolverConfig');
+const createFunctionResolverDataSource = require('./create-resolvers/createFunctionResolverDataSource');
+const resolveWithFunction = require('./create-resolvers/resolveWithFunction');
+const createDatasourceRole = require('./create-resolvers/createDatasourceRole');
 
 
 module.exports = serverless => {
-  const sdlString = fs.readFileSync(path.resolve(__dirname, '../../../resources/graphql-api/schema.graphql')).toString('utf8');
+  const sdlString = fs.readFileSync(path.resolve(__dirname, '../../resources/graphql-api/schema.graphql')).toString('utf8');
   const TYPES = getResolverConfig(sdlString);
   const Resources = {};
 
@@ -35,7 +35,7 @@ module.exports = serverless => {
 
 
   // Automatically adds resolvers and datasources for all mutation/query functions.
-  const queries = (fs.readdirSync(path.resolve(__dirname, '../../../functions/queries')) || [])
+  const queries = (fs.readdirSync(path.resolve(__dirname, '../../functions/queries')) || [])
     // only ts files
     .filter(filename => filename.endsWith('.ts'))
     // remove ts extension
@@ -47,7 +47,7 @@ module.exports = serverless => {
     Resources[`graphQL${name}DataSource`] = createFunctionResolverDataSource(name);
   });
 
-  const mutations = (fs.readdirSync(path.resolve(__dirname, '../../../functions/mutations')) || [])
+  const mutations = (fs.readdirSync(path.resolve(__dirname, '../../functions/mutations')) || [])
     // only ts files
     .filter(filename => filename.endsWith('.ts'))
     // remove ts extension

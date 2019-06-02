@@ -47,72 +47,11 @@ provider:
   stage: dev
   region: us-west-2
 
-functions:
-  getPageTypeList:
-    handler: functions/queries/getPageTypeList.handler
-    role: readS3role
-    environment:
-      BUCKET: ${file(../slscms-config.yml):bucket_name}
-
-  resolveNestedFragments:
-    handler: functions/resolveNestedFragments.handler
-    role: updateDbRole
-    environment:
-      FRAGMENTS_TABLE: ${self:service}-fragments
-
-  backup:
-    handler: functions/mutations/backup.handler
-    role: backupRole
-    environment:
-      FRAGMENTS_TABLE: ${self:service}-fragments
-      BUCKET: ${file(../slscms-config.yml):bucket_name}
-      REGION: ${self:provider.region}
-
-  restoreFromBackup:
-    handler: functions/mutations/restoreFromBackup.handler
-    role: restoreFromBackupRole
-    environment:
-      FRAGMENTS_TABLE: ${self:service}-fragments
-      BUCKET: ${file(../slscms-config.yml):bucket_name}
-      REGION: ${self:provider.region}
-
-  deleteBackups:
-    handler: functions/mutations/deleteBackups.handler
-    role: deleteBackupsRole
-    environment:
-      BUCKET: ${file(../slscms-config.yml):bucket_name}
-
-  getBackupList:
-    handler: functions/queries/getBackupList.handler
-    role: getBackupListRole
-    environment:
-      BUCKET: ${file(../slscms-config.yml):bucket_name}
-
-  resizeImages:
-    handler: functions/mutations/resizeImages.resizeImages
-    role: resizeRole
-    timeout: 10
-    memorySize: 2048
-
-    environment:
-      BUCKET: ${file(../slscms-config.yml):bucket_name}
-      FRAGMENTS_TABLE: ${self:service}-fragments
-      REGION: ${self:provider.region}
-      GRAPHQL:
-        Fn::GetAtt: ["graphQLApi", "GraphQLUrl"]
-
-  renderPages:
-    handler: functions/mutations/renderPages.handler
-    role: resizeRole
-
-    environment:
-      BUCKET: ${file(../slscms-config.yml):bucket_name}
-      FRAGMENTS_TABLE: ${self:service}-fragments
-      GRAPHQL:
-        Fn::GetAtt: ["graphQLApi", "GraphQLUrl"]
-
+functions: 
+  - ${file(./resources/functions.yml)}
+  - ${file(./scripts/graphql/createFunctionResolvers.js)}
 
 resources:
   - ${file(./resources/resources.yml)}
-  - ${file(./scripts/graphql/create-resolvers/createResolvers.js)}
+  - ${file(./scripts/graphql/createResolvers.js)}
   - ${file(./resources/outputs.yml)}
