@@ -10,7 +10,6 @@ function handler({
   GraphQLUrl,
   GraphQLARN,
   GraphQLApiId,
-  GraphQLApiKey,
   BucketName,
   WebsiteURL
 }, serverless, options) {
@@ -35,8 +34,7 @@ function handler({
   const app_sync_obj = {
     "graphqlEndpoint": GraphQLUrl,
     "region": region,
-    "authenticationType": "AMAZON_COGNITO_USER_POOLS",
-    "apiKey": GraphQLApiKey
+    "authenticationType": "AMAZON_COGNITO_USER_POOLS"
   }
 
   const app_sync = `export default ${JSON.stringify(app_sync_obj, null, '  ')}`;
@@ -83,7 +81,7 @@ The admin dashboard url is: ${WebsiteURL}/admin
     console.log(website_urls);
   });
 
-  
+
 }
 
 module.exports = { handler }

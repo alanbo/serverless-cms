@@ -22,7 +22,6 @@ Resources:
 
   graphQLApi: ${file(./resources/graphql-api/graphql.yml)}
   graphQLSchema: ${file(./resources/graphql-api/graphql-schema.yml)}
-  graphQLKey: ${file(./resources/graphql-api/graphql-key.yml)}
   graphQLData: ${file(./resources/graphql-api/graphql-datasource.yml)}
   graphQLLambda: ${file(./resources/graphql-api/graphql-datasource-lambda.yml)}
   graphQLPageTypesDataSource: ${file(./resources/graphql-api/graphql-datasource-page-types.yml)}

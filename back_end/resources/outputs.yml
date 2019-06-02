@@ -25,9 +25,6 @@ Outputs:
   GraphQLApiId:
     Value:
       Fn::GetAtt: ["graphQLApi", "ApiId"]
-  GraphQLApiKey:
-    Value:
-      Fn::GetAtt: ["graphQLKey", "ApiKey"]
   BucketName:
     Value: ${file(../slscms-config.yml):bucket_name}
   WebsiteURL:
