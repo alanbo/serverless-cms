@@ -37,6 +37,8 @@ Properties:
             Resource:
               - arn:aws:s3:::${file(../slscms-config.yml):bucket_name}/*
               - arn:aws:s3:::${file(../slscms-config.yml):bucket_name}
+              - arn:aws:s3:::${file(../slscms-config.yml):bucket_name}-staging/*
+              - arn:aws:s3:::${file(../slscms-config.yml):bucket_name}-staging
 
           - Effect: Allow
             Action:

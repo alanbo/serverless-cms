@@ -1,7 +1,7 @@
 Type: "AWS::S3::BucketPolicy"
 Properties:
   Bucket:
-    Ref: "S3BucketPublicsite"
+    Ref: "S3BucketStaging"
   PolicyDocument:
     Version: '2012-10-17'
     Statement:
@@ -15,7 +15,7 @@ Properties:
           -
             - "arn:aws:s3:::"
             -
-              Ref: "S3BucketPublicsite"
+              Ref: "S3BucketStaging"
             - /public/*
       Principal: "*"
     - Action:
@@ -27,5 +27,5 @@ Properties:
           -
             - "arn:aws:s3:::"
             -
-              Ref: "S3BucketPublicsite"
+              Ref: "S3BucketStaging"
       Principal: "*"

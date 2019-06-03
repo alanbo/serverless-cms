@@ -9,4 +9,4 @@ Properties:
   SourceAccount:
     Ref: AWS::AccountId
   SourceArn:
-    Fn::GetAtt: ["S3BucketPublicsite", "Arn"]
+    Fn::GetAtt: ["S3BucketStaging", "Arn"]

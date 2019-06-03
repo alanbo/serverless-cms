@@ -11,6 +11,7 @@ plugins:
   - serverless-plugin-include-dependencies
   - serverless-stack-output
   - serverless-s3-sync
+  
 custom:
   output:
     file: ./stack.yml
@@ -20,15 +21,15 @@ custom:
     includeModules: true # enable auto-packing of external modules
 
   s3Sync:
-    - bucketName: ${file(../slscms-config.yml):bucket_name}
+    - bucketName: ${file(../slscms-config.yml):bucket_name}-staging
       bucketPrefix: templates/
       localDir: front_end/config/
-    - bucketName: ${file(../slscms-config.yml):bucket_name}
+    - bucketName: ${file(../slscms-config.yml):bucket_name}-staging
       bucketPrefix: dist/
       localDir: front_end/public/
       acl: public-read # optional
       followSymlinks: true # optional
-    - bucketName: ${file(../slscms-config.yml):bucket_name}
+    - bucketName: ${file(../slscms-config.yml):bucket_name}-staging
       bucketPrefix: admin/
       localDir: admin/build/
       acl: public-read # optional

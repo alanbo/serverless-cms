@@ -50,7 +50,8 @@ module.exports = serverless => {
       timeout: 10,
       memorySize: 2048,
       environment: {
-        BUCKET: "${file(../slscms-config.yml):bucket_name}",
+        BUCKET: "${file(../slscms-config.yml):bucket_name}-staging",
+        BUCKET_PROD: "${file(../slscms-config.yml):bucket_name}",
         FRAGMENTS_TABLE: "${self:service}-fragments",
         REGION: "${self:provider.region}",
         GRAPHQL: {

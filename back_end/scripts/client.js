@@ -11,7 +11,8 @@ function handler({
   GraphQLARN,
   GraphQLApiId,
   BucketName,
-  WebsiteURL
+  WebsiteURLStaging,
+  WebsiteURLProduction,
 }, serverless, options) {
 
   const client_data = { region, userPoolId, userPoolWebClientId, identityPoolId };
@@ -40,9 +41,10 @@ function handler({
   const app_sync = `export default ${JSON.stringify(app_sync_obj, null, '  ')}`;
 
   const website_urls = `
-The website url is: ${WebsiteURL}
+The website staging url is: ${WebsiteURLStaging}
+The website production url is: ${WebsiteURLProduction}
 The website url will only be activated when you render index page in the admin dashboard. 
-The admin dashboard url is: ${WebsiteURL}/admin
+The admin dashboard url is: ${WebsiteURLStaging}/admin
   `;
 
   fs.writeFile(file_path, file_content, err => {
