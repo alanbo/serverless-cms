@@ -1,7 +1,7 @@
-const createDataSourceRole = (name, func_list) => ({
+const createAppSyncRole = (name, func_list) => ({
   Type: "AWS::IAM::Role",
   Properties: {
-    RoleName: `${name}--graphQLFunctionDatasourceRole`,
+    RoleName: `${name}--AppSyncRole`,
     AssumeRolePolicyDocument: {
       Version: "2012-10-17",
       Statement: [
@@ -18,7 +18,7 @@ const createDataSourceRole = (name, func_list) => ({
     },
     Policies: [
       {
-        PolicyName: `${name}--serverlessCMSFunctionDataSourcePolicy`,
+        PolicyName: `${name}--AppSyncPolicy`,
         PolicyDocument: {
           Version: "2012-10-17",
           Statement: [
@@ -43,4 +43,4 @@ const createDataSourceRole = (name, func_list) => ({
   }
 });
 
-module.exports = createDataSourceRole;
+module.exports = createAppSyncRole;

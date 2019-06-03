@@ -6,7 +6,7 @@ const createFunctionResolverDataSource = name => (
       Description: `${name} lambda resolver function`,
       ServiceRoleArn: {
         "Fn::GetAtt": [
-          "graphQLFunctionDatasourceRole",
+          "graphQLAppSyncRole",
           "Arn"
         ]
       },

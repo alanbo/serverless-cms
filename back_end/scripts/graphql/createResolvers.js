@@ -9,7 +9,12 @@ const nestedFieldTemplate = require('./create-resolvers/templates/nestedFieldTem
 const getResolverConfig = require('./create-resolvers/getResolverConfig');
 const createFunctionResolverDataSource = require('./create-resolvers/createFunctionResolverDataSource');
 const resolveWithFunction = require('./create-resolvers/resolveWithFunction');
-const createDatasourceRole = require('./create-resolvers/createDatasourceRole');
+const createAppSyncRole = require('./create-resolvers/createAppSyncRole');
+
+// TO DO: this shouldn't be hard coded - write a script that discovers them automatically.
+const other_app_sync_functions = [
+  'resolveNestedFragments'
+]
 
 
 module.exports = serverless => {
@@ -59,9 +64,10 @@ module.exports = serverless => {
     Resources[`graphQL${name}DataSource`] = createFunctionResolverDataSource(name);
   });
 
-  Resources['graphQLFunctionDatasourceRole'] = createDatasourceRole(
+  // creates role f
+  Resources['graphQLAppSyncRole'] = createAppSyncRole(
     serverless.service.service,
-    [...mutations, ...queries]
+    [...mutations, ...queries, ...other_app_sync_functions]
   );
 
   return {
