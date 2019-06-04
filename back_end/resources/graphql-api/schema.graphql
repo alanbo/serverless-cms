@@ -98,6 +98,7 @@ type Mutation {
   permanentlyDeleteFragments(ids: [ID!]!): [ID]!
   recoverFragment(id: ID!): ID!
 	renderPages(id: [ID]): Boolean!
+  publish: Boolean!
   resizeImages(paths: [String!]!): [Image!]!
   backup: Backup!
   restoreFromBackup(id: ID!): Boolean
