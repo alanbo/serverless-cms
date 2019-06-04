@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface PropsStatefulButton {
-  className: string,
+  className?: string,
   onClick: () => Promise<any>,
   onTimeout?: () => void,
   classes?: {
