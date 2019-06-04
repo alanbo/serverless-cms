@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom'
-import  Home from './main/Home'
+import Home from './Home';
 import Trash from './main/Trash'
 import Settings from './main/Settings'
 import Fragment from './Fragment';

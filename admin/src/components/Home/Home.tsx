@@ -1,32 +1,31 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import { withStyles, WithStyles, createStyles } from '@material-ui/core/styles';
 import LaunchIcon from '@material-ui/icons/Launch';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import { connect } from 'react-redux';
+import { MutationFn } from 'react-apollo';
+import { makeStyles } from '@material-ui/core/styles';
 
-import { renderPages } from '../../actions';
+type Mutation = MutationFn<{ succsess: boolean | null }>
 
-
-const styles = theme => createStyles({
+const useStyles = makeStyles(theme => ({
   paper: {
     ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
-    marginBottom: theme.spacing.unit * 6,
-    marginTop: theme.spacing.unit * 6
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
+    marginBottom: theme.spacing(6),
+    marginTop: theme.spacing(6)
   },
+}));
 
-});
 
-
-interface Props extends WithStyles<typeof styles> {
-  renderPages: (...args: any) => any
+interface Props {
+  renderPages: Mutation,
+  publish: Mutation
 }
 
-const HomeUnstyled = (props: Props) => {
-  const { classes } = props;
+const Home = (props: Props) => {
+  const classes = useStyles();
 
   return <div>
     <Typography variant='h5' component="h1">
@@ -43,13 +42,15 @@ const HomeUnstyled = (props: Props) => {
         >https://github.com/alanbo/serverless-cms</a>
       </Typography>
     </Paper>
-    <Button variant="contained" color="default" onClick={props.renderPages}>
-      Render pages
+    <Button variant="contained" color="default" onClick={() => props.renderPages()}>
+      Publish to staging
+        <LaunchIcon />
+    </Button>
+    <Button variant="contained" color="default" onClick={() => props.publish()}>
+      Publish to production
         <LaunchIcon />
     </Button>
   </div>;
 };
-
-const Home = connect(null, { renderPages })(withStyles(styles)(HomeUnstyled));
 
 export default Home;
