@@ -1,6 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import BackupIcon from '@material-ui/icons/Backup';
+import LaunchIcon from '@material-ui/icons/Launch';
 import { action } from '@storybook/addon-actions';
 import StatefulButton from '../components/shared/StatefulButton';
 
@@ -56,20 +57,22 @@ storiesOf('Stateful Button', module)
   .add('Rect Button Success', () => (
     <div style={{ position: 'relative' }}>
       <StatefulButton
-        onClick={onClickError}
+        onClick={onClickSuccess}
         type='rect'
+        text='Render to staging'
       >
-        <BackupIcon />
+        <LaunchIcon />
       </StatefulButton>
-    </div>
+    </div >
   ))
   .add('Rect Button Error', () => (
     <div style={{ position: 'relative' }}>
       <StatefulButton
         onClick={onClickError}
         type='rect'
+        text='Render to staging'
       >
-        <BackupIcon />
+        <LaunchIcon />
       </StatefulButton>
     </div>
   ));

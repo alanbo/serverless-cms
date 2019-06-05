@@ -55,13 +55,14 @@ function Backups(props: Props) {
         onDelete={deleteBackups}
       />
 
-      <StatefulButton
-        className={classes.button}
-        onClick={props.backupData}
-        type='fab'
-      >
-        <BackupIcon />
-      </StatefulButton>
+      <div className={classes.button}>
+        <StatefulButton
+          onClick={props.backupData}
+          type='fab'
+        >
+          <BackupIcon />
+        </StatefulButton>
+      </div>
     </div>
   );
 }
