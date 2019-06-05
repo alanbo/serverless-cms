@@ -5,6 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { MutationFn } from 'react-apollo';
 import { makeStyles } from '@material-ui/core/styles';
+import StatefulButton from '../shared/StatefulButton';
 
 type Mutation = MutationFn<{ succsess: boolean | null }>
 
@@ -16,6 +17,10 @@ const useStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(6),
     marginTop: theme.spacing(6)
   },
+  renderButtonsWrapper: {
+    display: 'flex',
+    justifyContent: 'space-between'
+  }
 }));
 
 
@@ -42,14 +47,22 @@ const Home = (props: Props) => {
         >https://github.com/alanbo/serverless-cms</a>
       </Typography>
     </Paper>
-    <Button variant="contained" color="default" onClick={() => props.renderPages()}>
-      Publish to staging
+    <div className={classes.renderButtonsWrapper}>
+      <StatefulButton
+        onClick={props.renderPages}
+        type='rect'
+        text='Render to staging'
+      >
         <LaunchIcon />
-    </Button>
-    <Button variant="contained" color="default" onClick={() => props.publish()}>
-      Publish to production
+      </StatefulButton>
+      <StatefulButton
+        onClick={props.publish}
+        type='rect'
+        text='Render to production'
+      >
         <LaunchIcon />
-    </Button>
+      </StatefulButton>
+    </div>
   </div>;
 };
 
