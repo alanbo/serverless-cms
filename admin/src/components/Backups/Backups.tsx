@@ -58,6 +58,7 @@ function Backups(props: Props) {
       <StatefulButton
         className={classes.button}
         onClick={props.backupData}
+        type='fab'
       >
         <BackupIcon />
       </StatefulButton>

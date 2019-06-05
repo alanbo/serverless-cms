@@ -182,28 +182,6 @@ const useToolbarStyles = makeStyles(theme => ({
   }
 }));
 
-const useBtnStyles = makeStyles(theme => ({
-  delete: {
-    position: 'relative'
-  },
-  success: {
-    color: 'white',
-    backgroundColor: green[500],
-    pointerEvents: 'none'
-  },
-  error: {
-    color: 'white',
-    backgroundColor: red[500],
-    pointerEvents: 'none'
-  },
-  progress: {
-    color: green[500],
-    position: 'absolute',
-    top: 4,
-    left: 4,
-    zIndex: 1,
-  }
-}));
 
 interface EnhancedTableToolbarProps {
   numSelected: number;
@@ -214,7 +192,6 @@ interface EnhancedTableToolbarProps {
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   const classes = useToolbarStyles();
-  const btn_classes = useBtnStyles();
   const { numSelected } = props;
 
   return (
@@ -242,9 +219,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
               onClick={props.onDelete}
               onTimeout={props.onDeleteTimeout}
               className={classes.deleteBtn}
-              is_icon_btn={true}
-              circSize={40}
-              classes={btn_classes}
+              type='icon'
             >
               <DeleteIcon />
             </StatefulButton>
@@ -293,7 +268,6 @@ interface TableProps {
 function EnhancedTable(props: TableProps) {
   const { data } = props;
   const classes = useStyles();
-  const btn_classes = useBtnStyles();
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('lastModified');
   const [selected, setSelected] = React.useState<string[]>([]);
@@ -405,9 +379,7 @@ function EnhancedTable(props: TableProps) {
                         <StatefulButton
                           onClick={() => props.onRestore(row.id)}
                           className={classes.restoreBtn}
-                          is_icon_btn={true}
-                          circSize={40}
-                          classes={btn_classes}
+                          type='icon'
                         >
                           <RestoreIcon />
                         </StatefulButton>

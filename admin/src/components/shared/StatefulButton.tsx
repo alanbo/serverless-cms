@@ -9,49 +9,97 @@ import { makeStyles } from '@material-ui/core/styles';
 import green from '@material-ui/core/colors/green';
 import red from '@material-ui/core/colors/red';
 
-const useStyles = makeStyles(theme => ({
-  success: {
-    backgroundColor: green[500],
-    pointerEvents: 'none'
+
+type BtnType = 'fab' | 'icon' | 'rect';
+
+const useStyles = makeStyles<{}, { type: BtnType }>(theme => ({
+  success: props => {
+    switch (props.type) {
+      case 'fab':
+        return {
+          backgroundColor: green[500],
+          pointerEvents: 'none'
+        }
+      case 'icon':
+        return {
+          color: 'white',
+          backgroundColor: green[500],
+          pointerEvents: 'none'
+        }
+      case 'rect':
+        return {
+
+        }
+    }
   },
-  error: {
-    backgroundColor: red[500],
-    pointerEvents: 'none'
+  error: props => {
+    switch (props.type) {
+      case 'fab':
+        return {
+          backgroundColor: red[500],
+          pointerEvents: 'none',
+        }
+      case 'icon':
+        return {
+          backgroundColor: red[500],
+          pointerEvents: 'none',
+          color: 'white'
+        }
+      case 'rect':
+        return {
+
+        }
+    }
   },
   loading: {
     pointerEvents: 'none'
   },
-  progress: {
-    color: green[500],
-    position: 'absolute',
-    top: -6,
-    left: -6,
-    zIndex: 1,
-  },
+  progress: props => {
+    switch (props.type) {
+      case 'fab':
+        return {
+          color: green[500],
+          position: 'absolute',
+          top: -6,
+          left: -6,
+          zIndex: 1,
+        }
+      case 'icon':
+        return {
+          color: green[500],
+          position: 'absolute',
+          top: 4,
+          left: 4,
+          zIndex: 1,
+        }
+      case 'rect':
+        return {
+
+        }
+    }
+  }
 }));
+
 
 interface PropsStatefulButton {
   className?: string,
   onClick: () => Promise<any>,
   onTimeout?: () => void,
-  classes?: {
-    success?: string,
-    error?: string,
-    loading?: string,
-    default?: string,
-    progress?: string
-  },
   children: React.ReactNode,
-  circSize?: number,
-  is_icon_btn?: boolean
+  type: BtnType
+}
+
+const circ_sizes = {
+  fab: 68,
+  icon: 40,
+  square: 40
 }
 
 const StatefulButton = React.forwardRef<HTMLDivElement, PropsStatefulButton>((props, ref) => {
   const { className, onTimeout } = props;
-  const default_classes = useStyles();
+  const classes = useStyles({ type: props.type });
 
-  const classes = Object.assign({}, default_classes, props.classes || {});
-  const circSize = props.circSize || 68;
+  const circSize = circ_sizes[props.type];
   const [status, setStatus] = React.useState<'success' | 'error' | 'loading' | 'default'>('default');
   let timeout: NodeJS.Timeout;
 
@@ -81,9 +129,19 @@ const StatefulButton = React.forwardRef<HTMLDivElement, PropsStatefulButton>((pr
 
   const buttonClassname = classes[status];
 
-  const Button = props.is_icon_btn
-    ? (props) => <IconButton {...props} />
-    : (props) => <Fab {...props} />;
+  let Button;
+
+  switch (props.type) {
+    case 'fab':
+      Button = (props) => <Fab {...props} />
+      break;
+    case 'icon':
+      Button = (props) => <IconButton {...props} />
+      break;
+    case 'rect':
+      Button = (props) => <div>yo</div>
+      break;
+  }
 
   interface BtnProps {
     className?: string,
@@ -96,7 +154,7 @@ const StatefulButton = React.forwardRef<HTMLDivElement, PropsStatefulButton>((pr
     onClick
   }
 
-  if (!props.is_icon_btn) {
+  if (props.type === 'fab') {
     btn_props.color = 'primary';
   }
 

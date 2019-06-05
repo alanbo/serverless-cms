@@ -17,6 +17,7 @@ storiesOf('Stateful Button', module)
     <div style={{ position: 'relative' }}>
       <StatefulButton
         onClick={onClickSuccess}
+        type='fab'
       >
         <BackupIcon />
       </StatefulButton>
@@ -26,6 +27,7 @@ storiesOf('Stateful Button', module)
     <div style={{ position: 'relative' }}>
       <StatefulButton
         onClick={onClickError}
+        type='fab'
       >
         <BackupIcon />
       </StatefulButton>
@@ -35,7 +37,7 @@ storiesOf('Stateful Button', module)
     <div style={{ position: 'relative' }}>
       <StatefulButton
         onClick={onClickSuccess}
-        is_icon_btn={true}
+        type='icon'
       >
         <BackupIcon />
       </StatefulButton>
@@ -45,9 +47,29 @@ storiesOf('Stateful Button', module)
     <div style={{ position: 'relative' }}>
       <StatefulButton
         onClick={onClickError}
-        is_icon_btn={true}
+        type='icon'
       >
         <BackupIcon />
       </StatefulButton>
     </div>
   ))
+  .add('Rect Button Success', () => (
+    <div style={{ position: 'relative' }}>
+      <StatefulButton
+        onClick={onClickError}
+        type='rect'
+      >
+        <BackupIcon />
+      </StatefulButton>
+    </div>
+  ))
+  .add('Rect Button Error', () => (
+    <div style={{ position: 'relative' }}>
+      <StatefulButton
+        onClick={onClickError}
+        type='rect'
+      >
+        <BackupIcon />
+      </StatefulButton>
+    </div>
+  ));
