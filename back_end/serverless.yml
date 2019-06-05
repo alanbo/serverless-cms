@@ -1,11 +1,17 @@
 service:
   name: ${file(../slscms-config.yml):service_name}
 
+package:
+  individually: true
+  excludeDevDependencies: false
+
 # Add the serverless-webpack plugin
 plugins:
-  - serverless-webpack
+  - serverless-plugin-typescript
+  - serverless-plugin-include-dependencies
   - serverless-stack-output
   - serverless-s3-sync
+  
 custom:
   output:
     file: ./stack.yml
@@ -15,15 +21,15 @@ custom:
     includeModules: true # enable auto-packing of external modules
 
   s3Sync:
-    - bucketName: ${file(../slscms-config.yml):bucket_name}
+    - bucketName: ${file(../slscms-config.yml):bucket_name}-staging
       bucketPrefix: templates/
       localDir: front_end/config/
-    - bucketName: ${file(../slscms-config.yml):bucket_name}
+    - bucketName: ${file(../slscms-config.yml):bucket_name}-staging
       bucketPrefix: dist/
       localDir: front_end/public/
       acl: public-read # optional
       followSymlinks: true # optional
-    - bucketName: ${file(../slscms-config.yml):bucket_name}
+    - bucketName: ${file(../slscms-config.yml):bucket_name}-staging
       bucketPrefix: admin/
       localDir: admin/build/
       acl: public-read # optional
@@ -35,51 +41,18 @@ custom:
         - "*.css":
             ContentType: text/css 
 
-package:
-  individually: true
-
 provider:
   name: aws
-  runtime: nodejs8.10
+  runtime: nodejs10.x
 
   stage: dev
   region: us-west-2
 
-functions:
-  resolvePageType:
-    handler: functions/resolvePageType.resolvePageType
-    role: readS3role
-    environment:
-      BUCKET: ${file(../slscms-config.yml):bucket_name}
-  resolveNestedFragments:
-    handler: functions/resolveNestedFragments.handler
-    role: updateDbRole
-    environment:
-      FRAGMENTS_TABLE: ${self:service}-fragments
-
-  resize:
-    handler: functions/resize-images.resizeImages
-    role: resizeRole
-    timeout: 10
-    memorySize: 2048
-
-    environment:
-      BUCKET: ${file(../slscms-config.yml):bucket_name}
-      FRAGMENTS_TABLE: ${self:service}-fragments
-      GRAPHQL:
-        Fn::GetAtt: ["graphQLApi", "GraphQLUrl"]
-
-  render:
-    handler: functions/renderPages.handler
-    role: resizeRole
-
-    environment:
-      BUCKET: ${file(../slscms-config.yml):bucket_name}
-      FRAGMENTS_TABLE: ${self:service}-fragments
-      GRAPHQL:
-        Fn::GetAtt: ["graphQLApi", "GraphQLUrl"]
+functions: 
+  - ${file(./resources/functions.yml)}
+  - ${file(./scripts/graphql/createFunctionResolvers.js)}
 
 resources:
   - ${file(./resources/resources.yml)}
-  - ${file(./resources/graphql-api/createResolvers.js)}
+  - ${file(./scripts/graphql/createResolvers.js)}
   - ${file(./resources/outputs.yml)}

@@ -33,7 +33,9 @@ function fragmentList(state = {}, action) {
       return R.assocPath([action.payload, 'is_deleted'], false, state);
 
     case resize_images:
+      // @ts-ignore
       return R.pipe(
+        // @ts-ignore
         R.map(obj => ({ [obj.id]: obj })),
         R.mergeAll,
         R.merge(state)

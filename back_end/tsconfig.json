@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "preserveConstEnums": true,
+    "module": "commonjs",
+    "lib": [
+      // "es2018",
+      // "esnext.asynciterable",
+      // "dom"
+    ],
+    "target": "es2018",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "allowJs": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "outDir": ".build",
+    "rootDir": "./"
+  },
+  "exclude": [
+    "admin",
+    "node_modules"
+  ]
+}

@@ -84,6 +84,13 @@ type PageTypeInput {
 	title: String!
 }
 
+type Backup {
+  id: ID!
+  lastModified: String!,
+  url: String!,
+  size: Int!
+}
+
 
 # Mutations
 type Mutation {
@@ -91,12 +98,17 @@ type Mutation {
   permanentlyDeleteFragments(ids: [ID!]!): [ID]!
   recoverFragment(id: ID!): ID!
 	renderPages(id: [ID]): Boolean!
+  publish: Boolean!
   resizeImages(paths: [String!]!): [Image!]!
+  backup: Backup!
+  restoreFromBackup(id: ID!): Boolean
+  deleteBackups(ids: [ID!]!): Boolean
 }
 
 # Queries
 type Query {
 	getPageTypeList: [PageType]
+  getBackupList: [Backup!]!
 }
 
 

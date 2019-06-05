@@ -2,11 +2,11 @@ Type: "AWS::Lambda::Permission"
 Properties:
   FunctionName:
     "Fn::GetAtt":
-      - ResizeLambdaFunction
+      - ResizeImagesLambdaFunction
       - Arn
   Principal: "s3.amazonaws.com"
   Action: "lambda:*"
   SourceAccount:
     Ref: AWS::AccountId
   SourceArn:
-    Fn::GetAtt: ["S3BucketPublicsite", "Arn"]
+    Fn::GetAtt: ["S3BucketStaging", "Arn"]

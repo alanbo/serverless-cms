@@ -1,0 +1,25 @@
+Type: AWS::S3::Bucket
+Properties:
+  BucketName: ${file(../slscms-config.yml):bucket_name}-staging
+  AccessControl: PublicRead
+  WebsiteConfiguration:
+    IndexDocument: "index"
+    ErrorDocument: "error"
+
+  CorsConfiguration:
+    CorsRules:
+      - AllowedHeaders:
+          - "*"
+        AllowedMethods:
+          - HEAD
+          - GET
+          - PUT
+          - POST
+          - DELETE
+        ExposedHeaders:
+          - x-amz-server-side-encryption
+          - x-amz-request-id
+          - x-amz-id-2
+        AllowedOrigins:
+          - "*"
+        MaxAge: 3000

@@ -100,6 +100,7 @@ class PageInput extends Component<Props, State> {
       R.assoc('fragments', empty_fragments)
     )(value);
 
+    // @ts-ignore
     this.props.onChange(new_value);
   }
 
@@ -152,12 +153,17 @@ class PageInput extends Component<Props, State> {
 
 function toLabelValue(fragments = {}, type) {
   return R.pipe(
+    // @ts-ignore
     R.values(),
+    // @ts-ignore
     R.filter(fg => fg.type === type),
+    // @ts-ignore
     R.groupBy(item => item.type),
     R.mapObjIndexed(
       R.map(obj => ({
+        // @ts-ignore
         label: obj.name,
+        // @ts-ignore
         value: obj.id
       })),
     ),

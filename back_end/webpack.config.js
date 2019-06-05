@@ -13,19 +13,27 @@ module.exports = {
   target: 'node',
   mode: 'development',
   module: {
-    rules: [{
-      test: /\.js$/,
-      loader: 'babel-loader',
-      include: __dirname,
-      exclude: /node_modules/,
-      options: {
-        presets: [
-          // 'react',
-          // 'stage-0',
-          ['env', { targets: { node: '8.10' } }]
-        ]
+    rules: [
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        include: __dirname,
+        exclude: /node_modules/,
+        options: {
+          presets: [
+            // 'react',
+            // 'stage-0',
+            ['env', { targets: { node: '8.10' } }]
+          ]
+        }
+      },
+      {
+        test: /\.ts$/,
+        loader: 'ts-loader',
+        include: __dirname,
+        exclude: /node_modules/
       }
-    }],
+    ],
   },
   output: {
     libraryTarget: 'commonjs',

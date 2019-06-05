@@ -25,12 +25,12 @@ Outputs:
   GraphQLApiId:
     Value:
       Fn::GetAtt: ["graphQLApi", "ApiId"]
-  GraphQLApiKey:
-    Value:
-      Fn::GetAtt: ["graphQLKey", "ApiKey"]
   BucketName:
-    Value: ${file(../slscms-config.yml):bucket_name}
-  WebsiteURL:
+    Value: ${file(../slscms-config.yml):bucket_name}-staging
+  WebsiteURLStaging:
     Value:
-      Fn::GetAtt: ["S3BucketPublicsite", "WebsiteURL"]
+      Fn::GetAtt: ["S3BucketStaging", "WebsiteURL"]
+  WebsiteURLProduction:
+    Value:
+      Fn::GetAtt: ["S3BucketProduction", "WebsiteURL"]
     

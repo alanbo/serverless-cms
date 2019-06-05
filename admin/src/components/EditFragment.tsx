@@ -100,9 +100,11 @@ function mapStateToProps(state, props) {
 
   return {
     input_data,
+    //@ts-ignore
     fragments: R.filter(fg => !fg.is_deleted, state.fragments),
     page_type_config: state.page_type_config
   };
 }
 
+//@ts-ignore
 export default connect(mapStateToProps, { putFragment, removeFragment, resizeImages })(EditFragment);
