@@ -1,6 +1,10 @@
 #!/bin/bash
 cd back_end/;
 npm install;
+
+# sharp module requires prebuilt binaries
+rm -rf node_modules/sharp
+npm install --arch=x64 --platform=linux --target=10.15.0 sharp
 npx sls deploy;
 
 SLS_DEPLOY=$?

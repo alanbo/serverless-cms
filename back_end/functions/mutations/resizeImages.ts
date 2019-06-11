@@ -1,55 +1,102 @@
-import AWS from 'aws-sdk';
-import getImage from './resize-images/getImage';
-import transformImages from './resize-images/transformImages';
-import uploadImages from './resize-images/upload-images';
 import settings from './resize-images/settings';
-import storeImageData from './resize-images/storeImageData';
 import { Handler } from 'aws-lambda';
+import sharp from 'sharp';
+import AWS from 'aws-sdk';
+import R from 'ramda';
+import stream, { pipeline } from 'stream';
+import uuid from 'uuid/v4';
 
-// eslint-disable-next-line import/prefer-default-export
-export const handler: Handler = async function (event: { paths: string[] }, context, callback) {
-  async function processImage(src_key: string) {
-    const bucket = process.env.BUCKET;
-    const filename = src_key.split('/').pop();
+const db = new AWS.DynamoDB.DocumentClient({ region: process.env.REGION });
+const s3 = new AWS.S3()
+
+
+export const handler: Handler = async function (event: { paths: string[] }) {
+  async function processImage(origin_path: string) {
+    const Bucket = process.env.BUCKET;
     const random_str = Math.round(Math.random() * 1000000000).toString(16);
-    const resized_filename_arr = filename.split('.');
-    const ext = resized_filename_arr.pop();
-    const resized_filename = resized_filename_arr.join('.');
+    const filename = R.match(/.+\/(.+?)\.\w+$/, origin_path)[1];
 
-    const create_path = (key: string) => {
-      return {
-        type: key,
-        path: `public/images/${random_str}-${resized_filename}-${key}.${ext}`
-      };
+    const create_path = (type: string, ext: 'jpg' | 'webp') => {
+      return `public/images/${random_str}-${filename}-${type}.${ext}`;
     };
 
-    const paths = Object.keys(settings).map(create_path);
+    // TO DO: Write better error handling. Missing error handling for streams. 
+    const file_stream = s3.getObject({
+      Bucket,
+      Key: origin_path
+    }).createReadStream();
 
-    try {
-      const s3_image = (await getImage(bucket, src_key));
+    const all = Object.keys(settings).map(type => {
+      const { height, width } = settings[type];
+      const pass_jpg = new stream.PassThrough();
+      const pass_webp = new stream.PassThrough();
 
-      const buffer = s3_image.Body;
-      const metadata = s3_image.Metadata;
-      const content_type = s3_image.ContentType;
-      const images = await transformImages(buffer as Buffer);
-      const image_name = metadata.name || `${metadata.gallery || 'general'}/${filename}`;
+      file_stream.pipe(pass_jpg);
+      file_stream.pipe(pass_webp);
 
-      await uploadImages({ images, paths, metadata, bucket, filename, content_type });
+      // TO DO: Write better error handling. Missing error handling for streams. 
+      const webp_transform = sharp()
+        .resize(width, height, { fit: 'contain' })
+        .toFormat('webp');
 
-      return storeImageData(image_name, filename, paths)
-        .then(result => {
-          return result;
-        })
-        .catch(callback);
-    } catch (err) {
-      callback(err);
+      // TO DO: Write better error handling. Missing error handling for streams. 
+      const jpg_transform = sharp()
+        .resize(width, height, { fit: 'contain' })
+        .toFormat('webp');
+
+      const webp_key = create_path(type, 'webp');
+      const jpg_key = create_path(type, 'jpg');
+
+      const webp_upload = s3.upload({
+        Bucket,
+        Key: webp_key,
+        Body: pass_webp.pipe(webp_transform),
+        ContentType: 'image/webp'
+      }).promise().then(() => ({
+        type,
+        path: webp_key
+      }));
+
+      const jpg_upload = s3.upload({
+        Bucket,
+        Key: jpg_key,
+        Body: pass_jpg.pipe(jpg_transform),
+        ContentType: 'image/jpeg'
+      }).promise().then(() => ({
+        type,
+        path: jpg_key
+      }));
+
+      return Promise.all([webp_upload, jpg_upload]);
+    });
+
+    const paths = await Promise.all(all).then(R.flatten);
+
+    return {
+      id: uuid(),
+      filename,
+      name: filename,
+      lastModified: +(new Date()),
+      is_deleted: false,
+      paths
     }
   }
 
   try {
-    const results = await Promise.all(event.paths.map(processImage));
-    callback(null, results);
-  } catch (err) {
-    callback(err);
+    const images = await Promise.all(event.paths.map(processImage));
+
+    const requests = images.map(Item => ({ PutRequest: { Item } }));
+
+    var params: AWS.DynamoDB.DocumentClient.BatchWriteItemInput = {
+      RequestItems: {
+        [process.env.FRAGMENTS_TABLE]: requests
+      }
+    };
+
+    await db.batchWrite(params).promise();
+
+    return images;
+  } catch (e) {
+    return e;
   }
 };
