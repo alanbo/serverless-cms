@@ -76,7 +76,7 @@ export const handler: Handler = async function (event: { paths: string[] }) {
       id: uuid(),
       filename,
       name: filename,
-      lastModified: +(new Date()),
+      lastModified: Math.round(+(new Date()) / 1000),
       is_deleted: false,
       paths
     }
