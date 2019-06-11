@@ -6,6 +6,7 @@ import * as R from 'ramda';
 
 import BackupsTable from './BackupsTable';
 import StatefulButton from '../shared/StatefulButton';
+import Loading from '../shared/Loading';
 
 
 import {
@@ -39,7 +40,7 @@ function Backups(props: Props) {
   const classes = useStyles();
 
   if (loading) {
-    return <div>Loading</div>;
+    return <Loading />;
   }
 
   const table_data = backups
