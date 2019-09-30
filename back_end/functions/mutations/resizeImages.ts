@@ -36,12 +36,12 @@ export const handler: Handler = async function (event: { paths: string[] }) {
 
       // TO DO: Write better error handling. Missing error handling for streams. 
       const webp_transform = sharp()
-        .resize(width, height, { fit: 'contain' })
+        .resize(width, undefined, { fit: 'contain' })
         .toFormat('webp');
 
       // TO DO: Write better error handling. Missing error handling for streams. 
       const jpg_transform = sharp()
-        .resize(width, height, { fit: 'contain' })
+        .resize(width, undefined, { fit: 'contain' })
         .toFormat('webp');
 
       const webp_key = create_path(type, 'webp');
@@ -78,7 +78,8 @@ export const handler: Handler = async function (event: { paths: string[] }) {
       name: filename,
       lastModified: Math.round(+(new Date()) / 1000),
       is_deleted: false,
-      paths
+      paths,
+      type: 'Image'
     }
   }
 
