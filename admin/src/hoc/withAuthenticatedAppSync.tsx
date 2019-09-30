@@ -51,7 +51,7 @@ const client = new AWSAppSyncClient(
     disableOffline: true
   },
   {
-    cache,
+    // cache,
     link: ApolloLink.from([
       stateLink,
       createAppSyncLink({
