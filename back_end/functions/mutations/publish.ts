@@ -69,16 +69,22 @@ export const handler: Handler<void, boolean> = async () => {
   }
 
   // stream relevant files from staging to production
-  const uploads = filtered.map(file => {
+  const uploads = filtered.map(async file => {
+    const file_data = await s3.headObject({ Bucket, Key: file.Key }).promise();
+
+    const { Metadata, ContentType } = file_data;
+
     const stream = s3.getObject({
       Bucket,
       Key: file.Key
     }).createReadStream();
 
-    return s3.upload({
+    return await s3.upload({
       Key: file.Key,
       Bucket: BucketProd,
-      Body: stream
+      Body: stream,
+      ContentType,
+      Metadata
     }).promise();
   });
 
